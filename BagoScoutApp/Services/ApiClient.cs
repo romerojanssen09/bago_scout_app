@@ -34,7 +34,7 @@ namespace BagoScoutApp.Services
             return "http://192.168.1.10:5180";
 #else
             // Use HTTPS on port 7030 as backend has HTTPS redirection enabled
-            return ConfigurationService.Instance.GetValue("ApiBaseUrl") ?? "http://192.168.1.10:5180";
+            return ConfigurationService.Instance.ApiBaseUrl ?? "http://192.168.1.10:5180";
 
 #endif
         }

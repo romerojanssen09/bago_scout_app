@@ -40,6 +40,10 @@
 		<AndroidSdkDirectory>C:\Users\User\AppData\Local\Android\Sdk</AndroidSdkDirectory>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)' == 'Release' AND '$(TargetFramework)' == 'net8.0-android'">
+		<AndroidKeyStore>False</AndroidKeyStore>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<GoogleServicesJson Include="Platforms\Android\google-services.json" />
 	</ItemGroup>
