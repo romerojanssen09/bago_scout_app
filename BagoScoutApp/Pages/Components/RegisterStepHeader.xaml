@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BagoScoutApp.Pages.Components.RegisterStepHeader">
+    
+    <Grid Padding="20,16" BackgroundColor="White" RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Top Row: Back Arrow and Step Counter -->
+        <Grid Grid.Row="0" ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Back Button -->
+            <Border Grid.Column="0" 
+                    Stroke="#E5E7EB" 
+                    StrokeThickness="1"
+                    BackgroundColor="White"
+                    StrokeShape="RoundRectangle 8"
+                    Padding="8"
+                    WidthRequest="40"
+                    HeightRequest="40">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackTapped"/>
+                </Border.GestureRecognizers>
+                <Label Text="&#xf060;" 
+                       FontFamily="FASolid" 
+                       FontSize="16" 
+                       TextColor="#1C2B53"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            </Border>
+            
+            <!-- Step Counter -->
+            <Label Grid.Column="2" 
+                   x:Name="StepCounter"
+                   Text="1/4" 
+                   FontSize="16" 
+                   FontAttributes="Bold"
+                   TextColor="#8D94A8"
+                   VerticalOptions="Center"/>
+        </Grid>
+        
+        <!-- Bottom Row: Step Title -->
+        <Label Grid.Row="1" 
+               x:Name="StepTitle"
+               Text="Who am I" 
+               FontSize="24" 
+               FontAttributes="Bold"
+               TextColor="#1C2B53"/>
+    </Grid>
+</ContentView>

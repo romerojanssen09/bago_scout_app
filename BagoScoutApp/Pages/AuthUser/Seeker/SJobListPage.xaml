@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:BagoScoutApp.Pages.Components"
+             xmlns:components="clr-namespace:BagoScoutApp.Pages.AuthUser.Seeker.Components"
+             x:Class="BagoScoutApp.Pages.AuthUser.Seeker.SJobListPage"
+             Title="Job Opportunities"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Secondary}">
+    
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Top Bar with Back Button -->
+        <Grid Grid.Row="0" BackgroundColor="{StaticResource PrimaryDark}" Padding="16">
+            <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="12">
+                <Button Grid.Column="0"
+                        Text="&#xf053;"
+                        FontFamily="FASolid"
+                        FontSize="18"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        Clicked="OnBackClicked"/>
+                <Label Grid.Column="1"
+                       Text="Job Opportunities"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       VerticalOptions="Center"/>
+                <Button Grid.Column="2"
+                        Text="&#xf279;"
+                        FontFamily="FASolid"
+                        FontSize="18"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        Clicked="OnMapViewClicked"/>
+            </Grid>
+        </Grid>
+ 
+        <!-- Job Listings Content -->
+        <Grid Grid.Row="1" Padding="16">
+            <Grid RowDefinitions="Auto, Auto, *" RowSpacing="12">
+                <!-- Search Entry -->
+                <Border Grid.Row="0"
+                        StrokeShape="RoundRectangle 12"
+                        StrokeThickness="1"
+                        Stroke="{StaticResource Gray200}"
+                        BackgroundColor="White"
+                        Padding="12,0"
+                        HeightRequest="48">
+                    <Grid ColumnDefinitions="Auto, *">
+                        <Label Grid.Column="0" Text="&#xf002;" FontFamily="FASolid" FontSize="14" TextColor="{StaticResource Gray500}" VerticalOptions="Center" Margin="0,0,8,0"/>
+                        <Entry Grid.Column="1" 
+                               x:Name="SearchEntry" 
+                               Placeholder="Search jobs..." 
+                               PlaceholderColor="{StaticResource Gray400}"
+                               FontSize="13"
+                               TextColor="{StaticResource PrimaryDark}"
+                               VerticalOptions="Center"
+                               TextChanged="OnSearchTextChanged"/>
+                    </Grid>
+                </Border>
+ 
+                <!-- Filter Scroll -->
+                <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout Spacing="6" Padding="0,4">
+                        <Button x:Name="AllFilterBtn" Text="All" Clicked="OnFilterClicked" CommandParameter="" BackgroundColor="{StaticResource Primary}" TextColor="White" CornerRadius="12" HeightRequest="36" Padding="16,0" FontSize="11" FontAttributes="Bold"/>
+                        <Button x:Name="FtFilterBtn" Text="Full-Time" Clicked="OnFilterClicked" CommandParameter="Full-Time" BackgroundColor="White" TextColor="{StaticResource PrimaryDark}" BorderColor="{StaticResource Gray200}" BorderWidth="1" CornerRadius="12" HeightRequest="36" Padding="16,0" FontSize="11" FontAttributes="Bold"/>
+                        <Button x:Name="PtFilterBtn" Text="Part-Time" Clicked="OnFilterClicked" CommandParameter="Part-Time" BackgroundColor="White" TextColor="{StaticResource PrimaryDark}" BorderColor="{StaticResource Gray200}" BorderWidth="1" CornerRadius="12" HeightRequest="36" Padding="16,0" FontSize="11" FontAttributes="Bold"/>
+                        <Button x:Name="ContractFilterBtn" Text="Contract" Clicked="OnFilterClicked" CommandParameter="Contract" BackgroundColor="White" TextColor="{StaticResource PrimaryDark}" BorderColor="{StaticResource Gray200}" BorderWidth="1" CornerRadius="12" HeightRequest="36" Padding="16,0" FontSize="11" FontAttributes="Bold"/>
+                        <Button x:Name="InternFilterBtn" Text="Internship" Clicked="OnFilterClicked" CommandParameter="Internship" BackgroundColor="White" TextColor="{StaticResource PrimaryDark}" BorderColor="{StaticResource Gray200}" BorderWidth="1" CornerRadius="12" HeightRequest="36" Padding="16,0" FontSize="11" FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </ScrollView>
+ 
+                <!-- Jobs List -->
+                <CollectionView Grid.Row="2" x:Name="JobsCollectionView" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="20" Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="&#xf002;" FontFamily="FASolid" FontSize="36" HorizontalTextAlignment="Center" TextColor="{StaticResource Gray500}"/>
+                            <Label Text="No jobs found" 
+                                   FontSize="13" 
+                                   FontAttributes="Bold" 
+                                   TextColor="{StaticResource PrimaryDark}" 
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeShape="RoundRectangle 16"
+                                    StrokeThickness="1"
+                                    Stroke="{StaticResource Gray200}"
+                                    BackgroundColor="White"
+                                    Margin="0,0,0,16"
+                                    Padding="16">
+                                <Border.Shadow>
+                                    <Shadow Offset="0,4" Radius="10" Brush="#0F172A" Opacity="0.05"/>
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnJobItemTapped" CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+                                <Grid RowDefinitions="Auto, Auto, Auto" RowSpacing="8">
+                                    <Grid ColumnDefinitions="*, Auto" ColumnSpacing="4">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                            <Label Text="{Binding title}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" MaxLines="1" LineBreakMode="TailTruncation"/>
+                                            <Label Text="{Binding company}" FontSize="12" TextColor="{StaticResource Primary}" FontAttributes="Bold" MaxLines="1" LineBreakMode="TailTruncation"/>
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="1" Text="&#xf061;" FontFamily="FASolid" FontSize="14" TextColor="{StaticResource Primary}" VerticalOptions="Center"/>
+                                    </Grid>
+ 
+                                    <Label Grid.Row="1" Text="{Binding address}" FontSize="11" TextColor="{StaticResource Gray500}" MaxLines="1" LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="&#xf3c5; " FontFamily="FASolid"/>
+                                                <Span Text="{Binding address}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+ 
+                                    <FlexLayout Grid.Row="2" Wrap="Wrap" Direction="Row" AlignItems="Center">
+                                        <Border Padding="10,4" BackgroundColor="#E0E7FF" StrokeThickness="0" StrokeShape="RoundRectangle 20" Margin="0,0,8,0">
+                                            <Label Text="{Binding jobType}" FontSize="10" TextColor="#3730A3" FontAttributes="Bold"/>
+                                        </Border>
+                                        <Border Padding="10,4" BackgroundColor="#D1FAE5" StrokeThickness="0" StrokeShape="RoundRectangle 20" Margin="0,0,8,0">
+                                            <Label Text="{Binding salaryRange}" FontSize="10" TextColor="#065F46" FontAttributes="Bold"/>
+                                        </Border>
+                                        <Border Padding="10,4" BackgroundColor="#E0F2FE" StrokeThickness="0" StrokeShape="RoundRectangle 20" Margin="0,0,8,0" IsVisible="{Binding hasDistance}">
+                                            <Label FontSize="10" TextColor="#0369A1" FontAttributes="Bold">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="&#xf4d7; " FontFamily="FASolid"/>
+                                                        <Span Text="{Binding distanceDisplay}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                        </Border>
+                                    </FlexLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+ 
+                <!-- Loading Spinner -->
+                <ActivityIndicator x:Name="LoadingIndicator" 
+                                   Grid.Row="2"
+                                   IsRunning="False" 
+                                   IsVisible="False"
+                                   Color="{StaticResource Primary}" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"
+                                   HeightRequest="50"/>
+            </Grid>
+        </Grid>
+        
+        <!-- Bottom Navigation -->
+        <components:BottomNav Grid.Row="2" x:Name="BottomNavigation" ActivePage="jobs"/>
+    </Grid>
+</base:BasePage>

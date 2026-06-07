@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:BagoScoutApp.Pages.Components"
+             xmlns:components="clr-namespace:BagoScoutApp.Pages.AuthUser.Seeker.Components"
+             x:Class="BagoScoutApp.Pages.AuthUser.Seeker.SApplicationsPage"
+             Title="Applications"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Secondary}">
+    
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Main Content -->
+        <Grid Grid.Row="0">
+            <Grid RowDefinitions="Auto, Auto, *" Padding="20" RowSpacing="20">
+            <Label Grid.Row="0"
+                   Text="My Applications" 
+                   FontSize="22" 
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource PrimaryDark}"
+                   Margin="0,5,0,0"/>
+ 
+            <!-- Loading Spinner -->
+            <ActivityIndicator Grid.Row="1"
+                               x:Name="LoadingIndicator" 
+                               IsRunning="True" 
+                               Color="{StaticResource Primary}" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"
+                               HeightRequest="50"/>
+ 
+            <!-- Applications CollectionView -->
+            <CollectionView Grid.Row="2" x:Name="AppsCollectionView" SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Padding="40" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="&#xf15c;" FontFamily="FASolid" FontSize="40" TextColor="{StaticResource Gray500}" HorizontalTextAlignment="Center"/>
+                        <Label Text="No applications submitted yet" 
+                               FontSize="15" 
+                               FontAttributes="Bold" 
+                               TextColor="{StaticResource PrimaryDark}" 
+                               HorizontalTextAlignment="Center"/>
+                        <Label Text="Browse jobs to start applying!" 
+                               FontSize="13" 
+                               TextColor="{StaticResource Gray500}" 
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeShape="RoundRectangle 16"
+                                StrokeThickness="1"
+                                Stroke="{StaticResource Gray200}"
+                                BackgroundColor="White"
+                                Margin="0,0,0,16"
+                                Padding="16">
+                            <Border.Shadow>
+                                <Shadow Offset="0,4" Radius="10" Brush="#0F172A" Opacity="0.05"/>
+                            </Border.Shadow>
+                            <VerticalStackLayout Spacing="12">
+                                <!-- Top Row (Info & Status Badge) -->
+                                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="12">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                        <Label Text="{Binding jobTitle}" 
+                                               FontSize="16" 
+                                               FontAttributes="Bold" 
+                                               TextColor="{StaticResource PrimaryDark}"/>
+                                        <Label Text="{Binding company}" 
+                                               FontSize="13" 
+                                               TextColor="{StaticResource Primary}"
+                                               FontAttributes="Bold"/>
+                                        <Label Text="{Binding jobLocation}" 
+                                               FontSize="12" 
+                                               TextColor="{StaticResource Gray500}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="&#xf3c5; " FontFamily="FASolid"/>
+                                                    <Span Text="{Binding jobLocation}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Text="{Binding appliedAt, StringFormat='Applied: {0:MMM dd, yyyy}'}" 
+                                               FontSize="11" 
+                                               TextColor="{StaticResource Gray500}"/>
+                                    </VerticalStackLayout>
+                                    
+                                    <!-- Badges Stack on Right -->
+                                    <VerticalStackLayout Grid.Column="1" Spacing="6" VerticalOptions="Start">
+                                        <!-- Status Badge -->
+                                        <Border Padding="12,6" 
+                                                StrokeShape="RoundRectangle 12" 
+                                                StrokeThickness="0"
+                                                BackgroundColor="#FEF3C7">
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Pending">
+                                                    <Setter Property="BackgroundColor" Value="#FEF3C7"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Accepted">
+                                                    <Setter Property="BackgroundColor" Value="#D1FAE5"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Rejected">
+                                                    <Setter Property="BackgroundColor" Value="#FEE2E2"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Reviewed">
+                                                    <Setter Property="BackgroundColor" Value="#E0E7FF"/>
+                                                </DataTrigger>
+                                            </Border.Triggers>
+                                            
+                                            <Label Text="{Binding status}" 
+                                                    FontSize="11" 
+                                                    FontAttributes="Bold" 
+                                                    TextColor="#92400E">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Pending">
+                                                        <Setter Property="TextColor" Value="#92400E"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Accepted">
+                                                        <Setter Property="TextColor" Value="#065F46"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Rejected">
+                                                        <Setter Property="TextColor" Value="#991B1B"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Reviewed">
+                                                        <Setter Property="TextColor" Value="#3730A3"/>
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </Border>
+ 
+                                        <!-- Emailed Badge/Button -->
+                                        <Border Padding="10,5" 
+                                                StrokeShape="RoundRectangle 12" 
+                                                StrokeThickness="0"
+                                                BackgroundColor="{StaticResource Secondary}"
+                                                IsVisible="{Binding hasEmails}">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnViewEmailsTapped" CommandParameter="{Binding .}"/>
+                                            </Border.GestureRecognizers>
+                                            <HorizontalStackLayout Spacing="4" HorizontalOptions="Center" VerticalOptions="Center">
+                                                <Label Text="&#xf0e0;" FontFamily="FASolid" FontSize="10" TextColor="{StaticResource Primary}" VerticalOptions="Center"/>
+                                                <Label Text="Emailed" FontSize="10" FontAttributes="Bold" TextColor="{StaticResource Primary}" VerticalOptions="Center"/>
+                                            </HorizontalStackLayout>
+                                        </Border>
+                                    </VerticalStackLayout>
+                                </Grid>
+ 
+                                <!-- Divider -->
+                                <BoxView HeightRequest="1" Color="{StaticResource Gray200}" Margin="0,4"/>
+ 
+                                <!-- Action Buttons Row -->
+                                <FlexLayout Wrap="Wrap" Direction="Row" AlignItems="Center" JustifyContent="Start">
+                                    <!-- View Job Button -->
+                                    <Button Text="View Job" 
+                                            Clicked="OnViewJobClicked" 
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="{StaticResource PrimaryDark}" 
+                                            TextColor="White" 
+                                            HeightRequest="40" 
+                                            Padding="16,0" 
+                                            CornerRadius="12" 
+                                            FontSize="12" 
+                                            FontAttributes="Bold" 
+                                            Margin="0,0,8,6"/>
+ 
+                                    <!-- View Company Button -->
+                                    <Button Text="View Company" 
+                                            Clicked="OnViewCompanyClicked" 
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="{StaticResource Secondary}" 
+                                            TextColor="{StaticResource Primary}" 
+                                            HeightRequest="40" 
+                                            Padding="16,0" 
+                                            CornerRadius="12" 
+                                            FontSize="12" 
+                                            FontAttributes="Bold" 
+                                            Margin="0,0,8,6"/>
+ 
+                                    <!-- Withdraw Button (Visible only if status is Pending) -->
+                                    <Button Text="Withdraw" 
+                                            Clicked="OnWithdrawClicked" 
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#EF4444" 
+                                            TextColor="White" 
+                                            HeightRequest="40" 
+                                            Padding="16,0" 
+                                            CornerRadius="12" 
+                                            FontSize="12" 
+                                            FontAttributes="Bold" 
+                                            Margin="0,0,8,6">
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Pending">
+                                                <Setter Property="IsVisible" Value="True"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Accepted">
+                                                <Setter Property="IsVisible" Value="False"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Rejected">
+                                                <Setter Property="IsVisible" Value="False"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Reviewed">
+                                                <Setter Property="IsVisible" Value="False"/>
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                </FlexLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+ 
+        <!-- Profile Details Overlay (Company Profile) -->
+        <Grid x:Name="ProfileDetailsOverlay" ZIndex="30" BackgroundColor="#80000000" IsVisible="False">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseProfileOverlayClicked"/>
+            </Grid.GestureRecognizers>
+            
+            <Border VerticalOptions="End"
+                    HeightRequest="560"
+                    StrokeShape="RoundRectangle 24,24,0,0"
+                    StrokeThickness="0"
+                    BackgroundColor="White"
+                    Padding="24">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer /> <!-- Intercept taps -->
+                </Border.GestureRecognizers>
+                
+                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="16">
+                    <!-- Title Row -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+                        <Label x:Name="OverlayTitleLabel" Text="Company Profile" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                        <Button Grid.Column="1" Text="&#xf00d;" FontFamily="FASolid" Clicked="OnCloseProfileOverlayClicked" BackgroundColor="Transparent" TextColor="{StaticResource Gray500}" FontSize="16" FontAttributes="Bold" WidthRequest="40" HeightRequest="40"/>
+                    </Grid>
+ 
+                    <!-- Scrollable Content -->
+                    <ScrollView Grid.Row="1">
+                        <VerticalStackLayout Spacing="16">
+                            <!-- Company Logo and Name -->
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,10">
+                                <Border WidthRequest="90" HeightRequest="90" StrokeShape="RoundRectangle 16" StrokeThickness="2" Stroke="{StaticResource Primary}" BackgroundColor="{StaticResource Secondary}" HorizontalOptions="Center">
+                                    <Grid>
+                                        <Label Text="&#xf1ad;" FontFamily="FASolid" FontSize="36" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Image x:Name="OverlayLogoImage" Aspect="AspectFill" BackgroundColor="Transparent"/>
+                                    </Grid>
+                                </Border>
+                                <Label x:Name="OverlayCompanyNameLabel" Text="-" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" HorizontalOptions="Center"/>
+                                <Label x:Name="OverlayIndustryLabel" Text="-" FontSize="13" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+ 
+                            <!-- About Company -->
+                            <Label Text="About the Company" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Label x:Name="OverlayDescriptionLabel" Text="No description available." FontSize="13" TextColor="{StaticResource Gray600}" LineHeight="1.4"/>
+ 
+                            <!-- Details Block -->
+                            <Border StrokeShape="RoundRectangle 12" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" Padding="14">
+                                <VerticalStackLayout Spacing="8">
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="8">
+                                        <Label Grid.Column="0" Text="&#xf3c5;" FontFamily="FASolid" FontSize="12" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" x:Name="OverlayAddressLabel" Text="Address: -" FontSize="12" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                    </Grid>
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="8">
+                                        <Label Grid.Column="0" Text="&#xf0c0;" FontFamily="FASolid" FontSize="12" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" x:Name="OverlaySizeLabel" Text="Size: -" FontSize="12" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                    </Grid>
+                                    <Grid ColumnDefinitions="Auto, *" ColumnSpacing="8">
+                                        <Label Grid.Column="0" Text="&#xf0ac;" FontFamily="FASolid" FontSize="12" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" x:Name="OverlayWebsiteLabel" Text="Website: -" FontSize="12" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+ 
+                            <!-- Contact Representative -->
+                            <Label Text="Company Representative" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" Margin="0,10,0,0"/>
+                            <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="14">
+                                <VerticalStackLayout Spacing="8">
+                                    <Label x:Name="OverlayRepNameLabel" Text="Name: -" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                                    <Label x:Name="OverlayRepEmailLabel" Text="✉ -" FontSize="12" TextColor="{StaticResource Gray600}"/>
+                                    <Label x:Name="OverlayRepPhoneLabel" Text="☏ -" FontSize="12" TextColor="{StaticResource Gray600}"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                    
+                    <Button Grid.Row="2" Text="Close Profile" Clicked="OnCloseProfileOverlayClicked" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource PrimaryDark}" HeightRequest="56" CornerRadius="12" FontAttributes="Bold"/>
+                </Grid>
+            </Border>
+        </Grid>
+ 
+        <!-- Email History Modal Overlay -->
+        <Grid x:Name="EmailOverlay" ZIndex="30" BackgroundColor="#80000000" IsVisible="False">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseEmailOverlayClicked"/>
+            </Grid.GestureRecognizers>
+            
+            <Border VerticalOptions="End"
+                    HeightRequest="480"
+                    StrokeShape="RoundRectangle 24,24,0,0"
+                    StrokeThickness="0"
+                    BackgroundColor="White"
+                    Padding="24">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer /> <!-- Intercept taps -->
+                </Border.GestureRecognizers>
+                
+                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="16">
+                    <!-- Title Row -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+                        <Label Text="Employer Messages" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                        <Button Grid.Column="1" Text="&#xf00d;" FontFamily="FASolid" Clicked="OnCloseEmailOverlayClicked" BackgroundColor="Transparent" TextColor="{StaticResource Gray500}" FontSize="16" FontAttributes="Bold" WidthRequest="40" HeightRequest="40"/>
+                    </Grid>
+ 
+                    <!-- Content -->
+                    <ScrollView Grid.Row="1">
+                        <VerticalStackLayout x:Name="EmailHistoryLayout" Spacing="12"/>
+                    </ScrollView>
+ 
+                    <!-- Buttons -->
+                    <Button Grid.Row="2" Text="Close" Clicked="OnCloseEmailOverlayClicked" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource PrimaryDark}" HeightRequest="56" CornerRadius="12" FontAttributes="Bold"/>
+                </Grid>
+            </Border>
+        </Grid>
+ 
+        <!-- Job Details Overlay -->
+        <Grid x:Name="JobDetailsOverlay" ZIndex="30" BackgroundColor="#80000000" IsVisible="False">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseJobDetailsClicked"/>
+            </Grid.GestureRecognizers>
+            
+            <Border VerticalOptions="End"
+                    HeightRequest="520"
+                    StrokeShape="RoundRectangle 24,24,0,0"
+                    StrokeThickness="0"
+                    BackgroundColor="White"
+                    Padding="24">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer /> <!-- Intercept taps -->
+                </Border.GestureRecognizers>
+                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="16">
+                    <!-- Top Title -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label x:Name="JobDetailTitleLabel" Text="Job Title" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Label x:Name="JobDetailCompanyLabel" Text="Company" FontSize="14" TextColor="{StaticResource Primary}" FontAttributes="Bold"/>
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1" 
+                                Text="&#xf00d;" 
+                                FontFamily="FASolid"
+                                FontSize="16" 
+                                TextColor="{StaticResource Gray500}" 
+                                BackgroundColor="Transparent" 
+                                Clicked="OnCloseJobDetailsClicked"
+                                WidthRequest="40"
+                                HeightRequest="40"/>
+                    </Grid>
+ 
+                    <!-- Scrollable details -->
+                    <ScrollView Grid.Row="1">
+                        <VerticalStackLayout Spacing="16">
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="8">
+                                <Border Grid.Column="0" BackgroundColor="{StaticResource Secondary}" Padding="12" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="Salary" FontSize="11" TextColor="{StaticResource Gray500}" FontAttributes="Bold"/>
+                                        <Label x:Name="JobDetailSalaryLabel" Text="-" FontSize="13" TextColor="{StaticResource PrimaryDark}" FontAttributes="Bold"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                                <Border Grid.Column="1" BackgroundColor="{StaticResource Secondary}" Padding="12" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="Job Type" FontSize="11" TextColor="{StaticResource Gray500}" FontAttributes="Bold"/>
+                                        <Label x:Name="JobDetailTypeLabel" Text="-" FontSize="13" TextColor="{StaticResource Primary}" FontAttributes="Bold"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </Grid>
+ 
+                            <Label x:Name="JobDetailAddressLabel" Text="Location" FontSize="13" TextColor="{StaticResource Gray500}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="&#xf3c5; " FontFamily="FASolid"/>
+                                        <Span Text="-"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+ 
+                            <Label Text="Job Description" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Label x:Name="JobDetailDescLabel" Text="Description content" FontSize="13" TextColor="{StaticResource Gray600}"/>
+ 
+                            <Label Text="Requirements" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Label x:Name="JobDetailReqLabel" Text="Requirements content" FontSize="13" TextColor="{StaticResource Gray600}"/>
+                        </VerticalStackLayout>
+                    </ScrollView>
+ 
+                    <!-- Close Button -->
+                    <Button Grid.Row="2" 
+                            Text="Close Details" 
+                            BackgroundColor="{StaticResource Primary}" 
+                            TextColor="White" 
+                            CornerRadius="12" 
+                            HeightRequest="56" 
+                            FontAttributes="Bold"
+                            Clicked="OnCloseJobDetailsClicked"/>
+                </Grid>
+            </Border>
+        </Grid>
+        </Grid>
+        
+        <!-- Bottom Navigation -->
+        <components:BottomNav Grid.Row="1" x:Name="BottomNavigation" ActivePage="applications"/>
+    </Grid>
+</base:BasePage>

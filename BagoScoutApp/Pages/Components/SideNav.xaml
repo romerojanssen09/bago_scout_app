@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:BagoScoutApp.Pages.Components"
+             x:Class="BagoScoutApp.Pages.Components.SideNav"
+             x:Name="NavComponent">
+    
+    <!-- Burger Menu Overlay -->
+    <Grid x:Name="MenuOverlay" 
+          IsVisible="False"
+          BackgroundColor="#80000000"
+          InputTransparent="False">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnOverlayTapped"/>
+        </Grid.GestureRecognizers>
+        
+        <Grid BackgroundColor="White" 
+              HorizontalOptions="Start" 
+              WidthRequest="280"
+              InputTransparent="False">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnMenuContentTapped"/>
+            </Grid.GestureRecognizers>
+            
+            <VerticalStackLayout Spacing="0">
+                <!-- Menu Header -->
+                <Grid Padding="20,-20" BackgroundColor="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Image Grid.Column="0" 
+                           Source="logo.png" 
+                           HeightRequest="100" 
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"
+                           Aspect="AspectFit"/>
+                    
+                    <Button Grid.Column="1"
+                            Text="&#xf00d;"
+                            FontFamily="FASolid"
+                            FontSize="24"
+                            TextColor="#1C2B53"
+                            BackgroundColor="Transparent"
+                            WidthRequest="48"
+                            HeightRequest="48"
+                            CornerRadius="0"
+                            Clicked="OnCloseMenuClicked"/>
+                    
+                    <BoxView Grid.ColumnSpan="2"
+                             Color="#E5E7EB"
+                             HeightRequest="1"
+                             Margin="0,0,0,20"
+                             VerticalOptions="End"/>
+                </Grid>
+                
+                <!-- Menu Items -->
+                <VerticalStackLayout Padding="20,24" Spacing="32">
+                    <Label Text="Home" 
+                           FontSize="20" 
+                           FontAttributes="Bold" 
+                           TextColor="#1C2B53">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnHomeMenuTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    
+                    <Label Text="About" 
+                           FontSize="20" 
+                           FontAttributes="Bold" 
+                           TextColor="#1C2B53">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnAboutMenuTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    
+                    <Label Text="Contact" 
+                           FontSize="20" 
+                           FontAttributes="Bold" 
+                           TextColor="#1C2B53">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnContactMenuTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    
+                    <BoxView Color="#E5E7EB" HeightRequest="1" Margin="0,8"/>
+                    
+                    <Button Text="Log in" 
+                            BackgroundColor="#1C2B53" 
+                            TextColor="White" 
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="12" 
+                            HeightRequest="52"
+                            Clicked="OnLoginClicked"/>
+                    
+                    <Button Text="Create an account" 
+                            BackgroundColor="Transparent" 
+                            TextColor="#1C2B53" 
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            BorderColor="#1C2B53"
+                            BorderWidth="2"
+                            CornerRadius="12" 
+                            HeightRequest="52"
+                            Clicked="OnRegisterClicked"/>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentView>

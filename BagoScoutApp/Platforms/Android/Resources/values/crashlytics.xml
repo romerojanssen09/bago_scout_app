@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dummy Crashlytics build ID to prevent crash on startup.
+         Plugin.Firebase bundles Crashlytics which requires this resource,
+         but we only use Firebase Cloud Messaging. -->
+    <string name="com.crashlytics.android.build_id" translatable="false">00000000-0000-0000-0000-000000000000</string>
+    <string name="com.google.firebase.crashlytics.mapping_file_id" translatable="false">none</string>
+</resources>

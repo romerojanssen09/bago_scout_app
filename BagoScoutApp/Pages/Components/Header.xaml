@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BagoScoutApp.Pages.Components.Header">
+
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Sticky Header -->
+        <Grid Grid.Row="0" 
+          Padding="20,-20" 
+          BackgroundColor="White" 
+          ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Column="0" 
+               Source="logo.png" 
+               HeightRequest="100" 
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               Aspect="AspectFit"/>
+
+            <Button Grid.Column="1"
+                Text="&#xf0c9;"
+                FontFamily="FASolid"
+                FontSize="24"
+                TextColor="#1C2B53"
+                BackgroundColor="Transparent"
+                WidthRequest="48"
+                HeightRequest="48"
+                CornerRadius="0"
+                Clicked="OnMenuClicked"/>
+
+            <!-- Bottom Border -->
+            <BoxView Grid.ColumnSpan="2"
+                 Color="#E5E7EB"
+                 Margin="0,0,0,20"
+                 HeightRequest="1"
+                 VerticalOptions="End"/>
+        </Grid>
+    </Grid>
+</ContentView>

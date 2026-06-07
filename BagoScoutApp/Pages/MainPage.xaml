@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:BagoScoutApp.Pages.Components"
+             x:Class="BagoScoutApp.Pages.MainPage"
+             BackgroundColor="White"
+             Shell.NavBarIsVisible="False"
+             Shell.PresentationMode="NotAnimated"
+             Title="BagoScout">
+    
+    <Grid>
+        <!-- Main Content -->
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Header -->
+            <components:Header Grid.Row="0" />
+
+            <!-- Scrollable Content -->
+            <ScrollView x:Name="MainScrollView" Grid.Row="1">
+                <VerticalStackLayout Spacing="0">
+                    <!-- Hero Section -->
+                    <Grid Padding="20,24,20,40" RowSpacing="24">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                    
+                    <!-- Hero Content -->
+                    <VerticalStackLayout Grid.Row="0" Spacing="16">
+                        <Label FontSize="32" LineHeight="1.3">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                        <Span Text="A " FontAttributes="Bold" TextColor="#1C2B53"/>
+                                        <Span Text="Job Portal" TextColor="#6C63FF" FontAttributes="Bold"/>
+                                        <Span Text=" for Employers and Job Seekers." FontAttributes="Bold" TextColor="#1C2B53"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label Text="Bago Scout is a platform tailored to optimize your job seeking &amp; hiring experience with the use of Geospatial Feature, Smart Recommendations, and more." 
+                               FontSize="15" 
+                               TextColor="#8D94A8" 
+                               LineHeight="1.5"/>
+                    </VerticalStackLayout>
+                
+                <!-- Action Buttons -->
+                <VerticalStackLayout Grid.Row="1" Spacing="16">
+                    <Button Text="Get Started" 
+                            BackgroundColor="{StaticResource Primary}" 
+                            TextColor="White" 
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="12" 
+                            HeightRequest="56"
+                            Clicked="OnRegisterClicked"/>
+                    
+                    <!-- Search Box -->
+                    <Border Stroke="{StaticResource Gray200}" 
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12"
+                            BackgroundColor="White"
+                            Padding="0">
+                        <Border.Shadow>
+                            <Shadow />
+                        </Border.Shadow>
+                        <Grid RowSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="52"/>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="52"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Grid Grid.Row="0" Padding="16,0" ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="&#xf002;" 
+                                       FontFamily="FASolid" 
+                                       FontSize="16" 
+                                       TextColor="{StaticResource Gray500}" 
+                                       VerticalOptions="Center"/>
+                                <Entry Grid.Column="1" 
+                                       Placeholder="Job name" 
+                                       PlaceholderColor="{StaticResource Gray500}"
+                                       TextColor="{StaticResource PrimaryDark}"
+                                       FontSize="15"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                            
+                            <BoxView Grid.Row="1" Color="{StaticResource Gray200}" HeightRequest="1"/>
+                            
+                            <Grid Grid.Row="2" Padding="16,0" ColumnSpacing="12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="&#xf3c5;" 
+                                       FontFamily="FASolid" 
+                                       FontSize="16" 
+                                       TextColor="{StaticResource PrimaryDark}" 
+                                       VerticalOptions="Center"/>
+                                <Entry Grid.Column="1" 
+                                       Placeholder="Location" 
+                                       PlaceholderColor="{StaticResource Gray500}"
+                                       TextColor="{StaticResource PrimaryDark}"
+                                       FontSize="15"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+                    
+                    <!-- Hero Features -->
+                    <VerticalStackLayout Grid.Row="2" Spacing="24" Margin="0,8,0,0">
+                        <HorizontalStackLayout Spacing="16">
+                            <Border Stroke="Transparent" 
+                                    StrokeThickness="0"
+                                    BackgroundColor="{StaticResource Secondary}"
+                                    StrokeShape="RoundRectangle 12"
+                                    WidthRequest="48"
+                                    HeightRequest="48"
+                                    VerticalOptions="Start">
+                                <Label Text="&#xf002;" 
+                                       FontFamily="FASolid" 
+                                       FontSize="20" 
+                                       TextColor="{StaticResource Primary}"
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout Spacing="4" VerticalOptions="Center" MaximumWidthRequest="280">
+                                <Label Text="Find Quick Job Offers" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold" 
+                                       TextColor="{StaticResource PrimaryDark}"/>
+                                <Label Text="Search for available jobs in your local area." 
+                                       FontSize="14" 
+                                       TextColor="{StaticResource Gray500}"
+                                       LineHeight="1.4"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                        
+                        <HorizontalStackLayout Spacing="16">
+                            <Border Stroke="Transparent" 
+                                    StrokeThickness="0"
+                                    BackgroundColor="{StaticResource Secondary}"
+                                    StrokeShape="RoundRectangle 12"
+                                    WidthRequest="48"
+                                    HeightRequest="48"
+                                    VerticalOptions="Start">
+                                <Label Text="&#xf3c5;" 
+                                       FontFamily="FASolid" 
+                                       FontSize="20" 
+                                       TextColor="{StaticResource Primary}"
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            <VerticalStackLayout Spacing="4" VerticalOptions="Center" MaximumWidthRequest="280">
+                                <Label Text="A Job Portal for Locals" 
+                                       FontSize="16" 
+                                       FontAttributes="Bold" 
+                                       TextColor="{StaticResource PrimaryDark}"/>
+                                <Label Text="Tailored for the residents of Bago City." 
+                                       FontSize="14" 
+                                       TextColor="{StaticResource Gray500}"
+                                       LineHeight="1.4"/>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Grid>
+            
+            <!-- Hero Image -->
+            <Image Source="landing_img.png" 
+                   Aspect="AspectFit" 
+                   HeightRequest="280"
+                   Margin="20,0,20,32"/>
+            
+            <!-- Features Section -->
+            <VerticalStackLayout Padding="20,40" Spacing="28" BackgroundColor="White">
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Label Text="FEATURES" 
+                           FontSize="11" 
+                           TextColor="{StaticResource Gray500}" 
+                           HorizontalOptions="Center"/>
+                    <Label Text="Why Choose Us?" 
+                           FontSize="28" 
+                           FontAttributes="Bold" 
+                           TextColor="{StaticResource PrimaryDark}" 
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout Spacing="16">
+                    <Border Stroke="{StaticResource Gray200}" 
+                            StrokeThickness="1"
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="20">
+                        <Border.Shadow>
+                            <Shadow />
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                            <Image Source="vast_job_listings.png" 
+                                   HeightRequest="140" 
+                                   Aspect="AspectFit"/>
+                            <Label Text="Vast Job Listings" 
+                                   FontSize="17" 
+                                   FontAttributes="Bold" 
+                                   TextColor="{StaticResource PrimaryDark}"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="Our platform hosts a wide range of job opportunities with a strong focus on local jobs." 
+                                   FontSize="14" 
+                                   TextColor="{StaticResource Gray500}"
+                                   HorizontalTextAlignment="Center"
+                                   LineHeight="1.5"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <Border Stroke="{StaticResource Gray200}" 
+                            StrokeThickness="1"
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="20">
+                        <Border.Shadow>
+                            <Shadow />
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                            <Image Source="chatting.png" 
+                                   HeightRequest="140" 
+                                   Aspect="AspectFit"/>
+                            <Label Text="Chat Features" 
+                                   FontSize="17" 
+                                   FontAttributes="Bold" 
+                                   TextColor="{StaticResource PrimaryDark}"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="Direct messaging between job seekers and recruiters/employers to discuss roles, expectations, interviews, and more." 
+                                   FontSize="14" 
+                                   TextColor="{StaticResource Gray500}"
+                                   HorizontalTextAlignment="Center"
+                                   LineHeight="1.5"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <Border Stroke="{StaticResource Gray200}" 
+                            StrokeThickness="1"
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="20">
+                        <Border.Shadow>
+                            <Shadow />
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                            <Image Source="map.png" 
+                                   HeightRequest="140" 
+                                   Aspect="AspectFit"/>
+                            <Label Text="Map Integration" 
+                                   FontSize="17" 
+                                   FontAttributes="Bold" 
+                                   TextColor="{StaticResource PrimaryDark}"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="Interactive maps display nearby job opportunities, helping users visualize their commute times or proximity to various roles." 
+                                   FontSize="14" 
+                                   TextColor="{StaticResource Gray500}"
+                                   HorizontalTextAlignment="Center"
+                                   LineHeight="1.5"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+            
+            <!-- Mission & Vision Section -->
+            <VerticalStackLayout x:Name="AboutSection" Padding="20,40" Spacing="40" BackgroundColor="White">
+                <Grid RowSpacing="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Label Grid.Row="0" 
+                            Text="Our Mission" 
+                            FontSize="28" 
+                            FontAttributes="Bold" 
+                            TextColor="{StaticResource PrimaryDark}"/>
+                    <Grid Grid.Row="1">
+                        <BoxView Color="{StaticResource Primary}" 
+                                 WidthRequest="3" 
+                                 HorizontalOptions="Start"/>
+                        <Label Text="Our mission is to empower job seekers by providing a user-friendly platform where they can explore exciting career opportunities, create professional profiles, and connect directly with employers. We believe that the right job can transform lives, and we are committed to helping individuals and companies find their perfect match." 
+                               FontSize="15" 
+                               TextColor="{StaticResource Gray500}"
+                               LineHeight="1.5"
+                               Margin="16,0,0,0"/>
+                    </Grid>
+                </Grid>
+                
+                <Grid RowSpacing="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Label Grid.Row="0" 
+                            Text="Our Vision" 
+                            FontSize="28" 
+                            FontAttributes="Bold" 
+                            TextColor="{StaticResource PrimaryDark}"/>
+                    <Grid Grid.Row="1">
+                        <BoxView Color="{StaticResource Primary}" 
+                                 WidthRequest="3" 
+                                 HorizontalOptions="Start"/>
+                        <Label Text="We envision a world where finding meaningful work is easier than ever. By leveraging technology, we strive to make the recruitment process more transparent, inclusive, and accessible to job seekers from all backgrounds." 
+                               FontSize="15" 
+                               TextColor="{StaticResource Gray500}"
+                               LineHeight="1.5"
+                               Margin="16,0,0,0"/>
+                    </Grid>
+                </Grid>
+            </VerticalStackLayout>
+            
+            <!-- Contact Section -->
+            <VerticalStackLayout x:Name="ContactSection" Padding="20,40" Spacing="28" BackgroundColor="White">
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Label Text="CONTACTS" 
+                           FontSize="11" 
+                           TextColor="{StaticResource Gray500}" 
+                           HorizontalOptions="Center"/>
+                    <Label Text="Let's Stay Connected" 
+                           FontSize="28" 
+                           FontAttributes="Bold" 
+                           TextColor="{StaticResource PrimaryDark}" 
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout Spacing="16">
+                    <!-- Email Card -->
+                    <Border Stroke="{StaticResource Gray200}" 
+                            StrokeThickness="1"
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="24">
+                        <Border.Shadow>
+                            <Shadow />
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnEmailContactTapped" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                            <Border Stroke="Transparent" 
+                                    StrokeThickness="0"
+                                    BackgroundColor="{StaticResource Secondary}"
+                                    StrokeShape="RoundRectangle 16"
+                                    WidthRequest="72"
+                                    HeightRequest="72">
+                                <Label Text="&#xf0e0;" 
+                                       FontFamily="FASolid"
+                                       FontSize="28" 
+                                       TextColor="{StaticResource Primary}"
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Send a mail" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold" 
+                                   TextColor="{StaticResource PrimaryDark}"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="BagoScout@gmail.com" 
+                                   FontSize="15" 
+                                   TextColor="{StaticResource Primary}"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="Tap to compose" 
+                                   FontSize="12" 
+                                   TextColor="{StaticResource Gray500}"
+                                   HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- Phone Card -->
+                    <Border Stroke="{StaticResource Gray200}" 
+                            StrokeThickness="1"
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="24">
+                        <Border.Shadow>
+                            <Shadow />
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnPhoneContactTapped" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                            <Border Stroke="Transparent" 
+                                    StrokeThickness="0"
+                                    BackgroundColor="{StaticResource Secondary}"
+                                    StrokeShape="RoundRectangle 16"
+                                    WidthRequest="72"
+                                    HeightRequest="72">
+                                <Label Text="&#xf095;" 
+                                       FontFamily="FASolid"
+                                       FontSize="28" 
+                                       TextColor="{StaticResource Primary}"
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="Call us" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold" 
+                                   TextColor="{StaticResource PrimaryDark}"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="09564186361" 
+                                   FontSize="15" 
+                                   TextColor="{StaticResource Primary}"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="Tap to call" 
+                                   FontSize="12" 
+                                   TextColor="{StaticResource Gray500}"
+                                   HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    
+                    <!-- LinkedIn Card -->
+                    <Border Stroke="{StaticResource Gray200}" 
+                            StrokeThickness="1"
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 16"
+                            Padding="24">
+                        <Border.Shadow>
+                            <Shadow />
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnLinkedInContactTapped" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                            <Border Stroke="Transparent" 
+                                    StrokeThickness="0"
+                                    BackgroundColor="{StaticResource Secondary}"
+                                    StrokeShape="RoundRectangle 16"
+                                    WidthRequest="72"
+                                    HeightRequest="72">
+                                <Label Text="&#xf08c;" 
+                                       FontFamily="FABrands"
+                                       FontSize="28" 
+                                       TextColor="{StaticResource Primary}"
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                            </Border>
+                            <Label Text="LinkedIn" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold" 
+                                   TextColor="{StaticResource PrimaryDark}"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="BagoScout" 
+                                   FontSize="15" 
+                                   TextColor="{StaticResource Primary}"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="Tap to connect" 
+                                   FontSize="12" 
+                                   TextColor="{StaticResource Gray500}"
+                                   HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+            
+            <!-- Message Form Section -->
+            <VerticalStackLayout Padding="20,40,20,60" Spacing="28" BackgroundColor="White">
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Label Text="MESSAGE US" 
+                           FontSize="11" 
+                           TextColor="{StaticResource Gray500}" 
+                           HorizontalOptions="Center"/>
+                    <Label Text="We'll Get to You First" 
+                           FontSize="28" 
+                           FontAttributes="Bold" 
+                           TextColor="{StaticResource PrimaryDark}" 
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout Spacing="20">
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <VerticalStackLayout Grid.Column="0" Spacing="8">
+                            <Label Text="First name" 
+                                    FontSize="14" 
+                                    TextColor="{StaticResource Gray500}"/>
+                            <Border Stroke="{StaticResource Gray200}" 
+                                    StrokeThickness="1"
+                                    BackgroundColor="White"
+                                    Padding="12,0"
+                                    StrokeShape="RoundRectangle 12">
+                                <Entry Placeholder="first name" 
+                                       PlaceholderColor="{StaticResource Gray400}"
+                                       TextColor="{StaticResource PrimaryDark}"
+                                       HeightRequest="48"
+                                       BackgroundColor="Transparent"/>
+                            </Border>
+                        </VerticalStackLayout>
+                        
+                        <VerticalStackLayout Grid.Column="1" Spacing="8">
+                            <Label Text="Last name" 
+                                    FontSize="14" 
+                                    TextColor="{StaticResource Gray500}"/>
+                            <Border Stroke="{StaticResource Gray200}" 
+                                    StrokeThickness="1"
+                                    BackgroundColor="White"
+                                    Padding="12,0"
+                                    StrokeShape="RoundRectangle 12">
+                                <Entry Placeholder="last name" 
+                                       PlaceholderColor="{StaticResource Gray400}"
+                                       TextColor="{StaticResource PrimaryDark}"
+                                       HeightRequest="48"
+                                       BackgroundColor="Transparent"/>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+                    
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Email" 
+                               FontSize="14" 
+                               TextColor="{StaticResource Gray500}"/>
+                        <Border Stroke="{StaticResource Gray200}" 
+                                StrokeThickness="1"
+                                BackgroundColor="White"
+                                Padding="12,0"
+                                StrokeShape="RoundRectangle 12">
+                            <Entry Placeholder="Your email" 
+                                   Keyboard="Email"
+                                   PlaceholderColor="{StaticResource Gray400}"
+                                   TextColor="{StaticResource PrimaryDark}"
+                                   HeightRequest="48"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Phone number" 
+                               FontSize="14" 
+                               TextColor="{StaticResource Gray500}"/>
+                        <Border Stroke="{StaticResource Gray200}" 
+                                StrokeThickness="1"
+                                BackgroundColor="White"
+                                Padding="12,0"
+                                StrokeShape="RoundRectangle 12">
+                            <Entry Placeholder="+63" 
+                                   Keyboard="Telephone"
+                                   PlaceholderColor="{StaticResource Gray400}"
+                                   TextColor="{StaticResource PrimaryDark}"
+                                   HeightRequest="48"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Message" 
+                               FontSize="14" 
+                               TextColor="{StaticResource Gray500}"/>
+                        <Border Stroke="{StaticResource Gray200}" 
+                                StrokeThickness="1"
+                                BackgroundColor="White"
+                                Padding="12,8"
+                                StrokeShape="RoundRectangle 12">
+                            <Editor Placeholder="Write a message" 
+                                    AutoSize="TextChanges" 
+                                    MinimumHeightRequest="150"
+                                    PlaceholderColor="{StaticResource Gray400}"
+                                    TextColor="{StaticResource PrimaryDark}"
+                                    BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
+                    
+                    <Button Text="Send message" 
+                            BackgroundColor="{StaticResource Primary}" 
+                            TextColor="White" 
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="12" 
+                            HeightRequest="56"
+                            Margin="0,12,0,0"
+                            Clicked="OnSendMessageClicked"/>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+            
+            <!-- Footer -->
+            <Grid Padding="20,32" BackgroundColor="{StaticResource PrimaryDark}" RowSpacing="24">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Footer Links -->
+                <Grid Grid.Row="0" ColumnSpacing="20" RowSpacing="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <VerticalStackLayout Grid.Column="0" Spacing="12">
+                        <Label Text="Company" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               TextColor="White"/>
+                        <Label Text="About Us" FontSize="14" TextColor="{StaticResource Gray500}"/>
+                        <Label Text="Our Services" FontSize="14" TextColor="{StaticResource Gray500}"/>
+                        <Label Text="Privacy Policy" FontSize="14" TextColor="{StaticResource Gray500}"/>
+                    </VerticalStackLayout>
+                    
+                    <VerticalStackLayout Grid.Column="1" Spacing="12">
+                        <Label Text="Get Help" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               TextColor="White"/>
+                        <Label Text="FAQ" FontSize="14" TextColor="{StaticResource Gray500}"/>
+                        <Label Text="Applying" FontSize="14" TextColor="{StaticResource Gray500}"/>
+                        <Label Text="Job Status" FontSize="14" TextColor="{StaticResource Gray500}"/>
+                    </VerticalStackLayout>
+                </Grid>
+                
+                <!-- Copyright -->
+                <Label Grid.Row="1" 
+                       Text="© Copyright 2024 BagoScout. All Rights Reserved." 
+                       FontSize="12" 
+                       TextColor="{StaticResource Gray500}"
+                       HorizontalOptions="Center"
+                       Margin="0,12,0,0"/>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+    </Grid>
+    
+    <!-- Navigation Menu -->
+    <components:SideNav />
+    </Grid>
+</ContentPage>

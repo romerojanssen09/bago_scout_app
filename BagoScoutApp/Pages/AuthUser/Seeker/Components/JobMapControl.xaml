@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BagoScoutApp.Pages.AuthUser.Seeker.Components.JobMapControl">
+
+    <Grid>
+        <!-- Map Container -->
+        <Grid x:Name="MapContainer" HorizontalOptions="Fill" VerticalOptions="Fill" />
+
+        <!-- Selected Job Popup Card Overlay -->
+        <Border x:Name="PopupCard"
+                VerticalOptions="End"
+                HorizontalOptions="Fill"
+                Margin="12,12,12,88"
+                Padding="16"
+                BackgroundColor="White"
+                StrokeShape="RoundRectangle 20"
+                StrokeThickness="1"
+                Stroke="#E5E7EB"
+                IsVisible="False">
+            <Border.Shadow>
+                <Shadow Offset="0,6" Radius="20" Brush="Black" Opacity="0.12"/>
+            </Border.Shadow>
+
+            <Grid RowDefinitions="Auto, Auto, Auto" RowSpacing="12">
+
+                <!-- Row 0: Title + Company + Close -->
+                <Grid Grid.Row="0" ColumnDefinitions="*, Auto" ColumnSpacing="8">
+                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                        <Label x:Name="PopupTitleLabel"
+                               Text="Job Title"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               TextColor="#1C2B53"
+                               MaxLines="1"
+                               LineBreakMode="TailTruncation"/>
+                        <Label x:Name="PopupCompanyLabel"
+                               Text="Company Name"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               TextColor="#6C63FF"
+                               MaxLines="1"
+                               LineBreakMode="TailTruncation"/>
+                    </VerticalStackLayout>
+
+                    <!-- Close Button -->
+                    <Button Grid.Column="1"
+                            Text="&#xf00d;"
+                            FontFamily="FASolid"
+                            FontSize="13"
+                            TextColor="#9CA3AF"
+                            BackgroundColor="Transparent"
+                            Padding="0"
+                            WidthRequest="30"
+                            HeightRequest="30"
+                            VerticalOptions="Start"
+                            HorizontalOptions="End"
+                            Clicked="OnClosePopupClicked"/>
+                </Grid>
+
+                <!-- Row 1: Address + Salary + JobType badges -->
+                <VerticalStackLayout Grid.Row="1" Spacing="8">
+
+                    <!-- Address -->
+                    <Label x:Name="PopupAddressLabel"
+                           FontSize="11"
+                           TextColor="#6B7280"
+                           MaxLines="1"
+                           LineBreakMode="TailTruncation">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="&#xf3c5;  " FontFamily="FASolid" TextColor="#9CA3AF" FontSize="11"/>
+                                <Span x:Name="PopupAddressSpan" Text="Address"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <!-- Salary + Job Type pills -->
+                    <FlexLayout Direction="Row" Wrap="Wrap" AlignItems="Center">
+                        <!-- Salary pill -->
+                        <Border Padding="8,3"
+                                BackgroundColor="#D1FAE5"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10"
+                                Margin="0,0,6,0">
+                            <Label x:Name="PopupSalaryLabel"
+                                   Text="Salary"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="#065F46"/>
+                        </Border>
+
+                        <!-- Job Type pill -->
+                        <Border Padding="8,3"
+                                BackgroundColor="#E0E7FF"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 10"
+                                Margin="0,0,6,0">
+                            <Label x:Name="PopupJobTypeLabel"
+                                   Text="Type"
+                                   FontSize="10"
+                                   FontAttributes="Bold"
+                                   TextColor="#3730A3"/>
+                        </Border>
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <!-- Row 2: View Details Button -->
+                <Button Grid.Row="2"
+                        Text="View Full Details  &#xf061;"
+                        FontFamily="FASolid"
+                        BackgroundColor="#1C2B53"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="44"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        Padding="0"
+                        Clicked="OnViewDetailsClicked"/>
+            </Grid>
+        </Border>
+
+        <!-- Offline Banner Overlay -->
+        <Border x:Name="OfflineBanner"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                Margin="16"
+                Padding="12,8"
+                BackgroundColor="#FEE2E2"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="0"
+                IsVisible="False">
+            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                <Label Text="&#xf071;" FontFamily="FASolid" TextColor="#DC2626" FontSize="14" VerticalOptions="Center"/>
+                <Label Text="Offline Mode - Displaying cached map tiles"
+                       TextColor="#991B1B"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+        </Border>
+    </Grid>
+</ContentView>

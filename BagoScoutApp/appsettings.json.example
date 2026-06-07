@@ -1,0 +1,8 @@
+{
+  "Mapbox": {
+    "AccessToken": "YOUR_MAPBOX_ACCESS_TOKEN_HERE"
+  },
+  "Api": {
+    "BaseUrl": "YOUR_API_BASE_URL_HERE"
+  }
+}

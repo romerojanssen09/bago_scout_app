@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<components:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:BagoScoutApp.Pages.Components"
+             x:Class="BagoScoutApp.Pages.LoginPage"
+             Title="Log in"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White">
+    
+    <Grid>
+        <!-- Main Content -->
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Page Header -->
+            <components:PageHeader Grid.Row="0" 
+                                   Title="Welcome" 
+                                   Description="Log in to your account or create an account."/>
+            
+            <!-- Content -->
+            <ScrollView Grid.Row="1">
+                <VerticalStackLayout Padding="20,32" Spacing="32">
+                    <!-- Illustration -->
+                    <Image Source="programming.png" 
+                           HeightRequest="200" 
+                           Aspect="AspectFit"
+                           HorizontalOptions="Center"/>
+                    
+                    <!-- Login Form -->
+                    <VerticalStackLayout Spacing="20">
+                        <!-- Username -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Username" 
+                                    FontSize="15" 
+                                    FontAttributes="Bold"
+                                    TextColor="{StaticResource PrimaryDark}"/>
+                            <Border Stroke="{StaticResource Gray200}" 
+                                    StrokeThickness="1"
+                                    BackgroundColor="White"
+                                    StrokeShape="RoundRectangle 12">
+                                <Grid Padding="16,0" ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="&#xf007;" 
+                                           FontFamily="FASolid" 
+                                           FontSize="16" 
+                                           TextColor="{StaticResource Gray500}" 
+                                           VerticalOptions="Center"/>
+                                    <Entry Grid.Column="1" 
+                                           x:Name="LoginEmail"
+                                           Placeholder="username" 
+                                           PlaceholderColor="{StaticResource Gray400}"
+                                           TextColor="{StaticResource PrimaryDark}"
+                                           HeightRequest="48"
+                                           BackgroundColor="Transparent"/>
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                        
+                        <!-- Password -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Password" 
+                                    FontSize="15" 
+                                    FontAttributes="Bold"
+                                    TextColor="{StaticResource PrimaryDark}"/>
+                            <Border Stroke="{StaticResource Gray200}" 
+                                    StrokeThickness="1"
+                                    BackgroundColor="White"
+                                    StrokeShape="RoundRectangle 12">
+                                <Grid Padding="16,0" ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="&#xf023;" 
+                                           FontFamily="FASolid" 
+                                           FontSize="16" 
+                                           TextColor="{StaticResource Gray500}" 
+                                           VerticalOptions="Center"/>
+                                    <Entry Grid.Column="1" 
+                                           x:Name="LoginPassword"
+                                           IsPassword="True"
+                                           Placeholder="password" 
+                                           PlaceholderColor="{StaticResource Gray400}"
+                                           TextColor="{StaticResource PrimaryDark}"
+                                           HeightRequest="48"
+                                           BackgroundColor="Transparent"/>
+                                    <Label x:Name="eyeIcon"
+                                           Grid.Column="2"
+                                           FontFamily="FARegular"
+                                           Text="&#xf06e;"
+                                           FontSize="18"
+                                           VerticalOptions="Center"
+                                           TextColor="{StaticResource Gray400}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnEyeIconTapped" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                        
+                        <!-- Remember Me & Forgot Password -->
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                <CheckBox x:Name="RememberCheckBox" Color="{StaticResource Primary}"/>
+                                <Label Text="keep me logged in" 
+                                       FontSize="14" 
+                                       TextColor="{StaticResource Gray500}"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            
+                            <Label Grid.Column="1" 
+                                   Text="forgot password?" 
+                                   FontSize="14" 
+                                   TextColor="{StaticResource Primary}"
+                                   VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnForgotPasswordTapped"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                        
+                        <!-- Log in Button -->
+                        <Button Text="Log in" 
+                                BackgroundColor="{StaticResource Primary}" 
+                                TextColor="White" 
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                CornerRadius="12" 
+                                HeightRequest="56"
+                                Margin="0,12,0,0"
+                                Clicked="OnLoginClicked"/>
+                        
+                        <!-- Divider -->
+                        <Grid ColumnSpacing="12" Margin="0,8,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <BoxView Grid.Column="0" Color="{StaticResource Gray200}" HeightRequest="1" VerticalOptions="Center"/>
+                            <Label Grid.Column="1" Text="or" FontSize="14" TextColor="{StaticResource Gray500}" VerticalOptions="Center"/>
+                            <BoxView Grid.Column="2" Color="{StaticResource Gray200}" HeightRequest="1" VerticalOptions="Center"/>
+                        </Grid>
+                        
+                        <!-- Create Account Button -->
+                        <Button Text="Create an account" 
+                                BackgroundColor="Transparent" 
+                                TextColor="{StaticResource PrimaryDark}" 
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                BorderColor="{StaticResource PrimaryDark}"
+                                BorderWidth="2"
+                                CornerRadius="12" 
+                                HeightRequest="56"
+                                Clicked="OnCreateAccountTapped"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+        
+        <!-- Loading Overlay -->
+        <Grid x:Name="Overlay" BackgroundColor="#80000000" IsVisible="False">
+            <Border BackgroundColor="White" 
+                    Stroke="{StaticResource Gray200}" 
+                    StrokeShape="RoundRectangle 12" 
+                    Padding="24" 
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center">
+                <Border.Shadow>
+                    <Shadow />
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="16" HorizontalOptions="Center">
+                    <ActivityIndicator IsRunning="True" Color="{StaticResource Primary}"/>
+                    <Label Text="Signing in..." TextColor="{StaticResource PrimaryDark}" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</components:BasePage>

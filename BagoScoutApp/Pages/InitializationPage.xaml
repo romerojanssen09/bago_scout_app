@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BagoScoutApp.Pages.InitializationPage"
+             BackgroundColor="{StaticResource PrimaryDark}"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"
+             Shell.PresentationMode="NotAnimated">
+
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="24">
+            <!-- Icon/Logo -->
+            <Border StrokeThickness="0" BackgroundColor="White" WidthRequest="90" HeightRequest="90" StrokeShape="RoundRectangle 24" HorizontalOptions="Center">
+                <Label Text="&#xf002;" FontFamily="FASolid" FontSize="36" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Border>
+
+            <!-- App Title -->
+            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                <Label Text="BagoScout" FontSize="32" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
+                <Label Text="Scout opportunities, build your future" FontSize="14" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Loader -->
+            <ActivityIndicator IsRunning="True" Color="{StaticResource Primary}" HeightRequest="40" WidthRequest="40" HorizontalOptions="Center"/>
+            
+            <Label x:Name="StatusLabel" Text="Initializing application..." FontSize="13" TextColor="{StaticResource Secondary}" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

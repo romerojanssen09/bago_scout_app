@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="BagoScoutApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:BagoScoutApp.Pages"
+    xmlns:register="clr-namespace:BagoScoutApp.Pages.Register"
+    xmlns:employer="clr-namespace:BagoScoutApp.Pages.AuthUser.Employer"
+    xmlns:seeker="clr-namespace:BagoScoutApp.Pages.AuthUser.Seeker"
+    Shell.FlyoutBehavior="Disabled"
+    Title="BagoScoutApp">
+
+    <ShellContent
+        Title="Initializing"
+        ContentTemplate="{DataTemplate local:InitializationPage}"
+        Route="InitializationPage" />
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate local:LoginPage}"
+        Route="LoginPage" />
+
+    <!-- Seeker Pages -->
+    <ShellContent
+        Title="Seeker Dashboard"
+        ContentTemplate="{DataTemplate seeker:SDashboardPage}"
+        Route="SDashboardPage" />
+        
+    <ShellContent
+        Title="Jobs"
+        ContentTemplate="{DataTemplate seeker:SJobsPage}"
+        Route="SJobsPage" />
+        
+    <ShellContent
+        Title="Job List"
+        ContentTemplate="{DataTemplate seeker:SJobListPage}"
+        Route="SJobListPage" />
+        
+    <ShellContent
+        Title="Applications"
+        ContentTemplate="{DataTemplate seeker:SApplicationsPage}"
+        Route="SApplicationsPage" />
+        
+    <ShellContent
+        Title="Messages"
+        ContentTemplate="{DataTemplate seeker:SMessagesPage}"
+        Route="SMessagesPage" />
+        
+    <ShellContent
+        Title="Profile"
+        ContentTemplate="{DataTemplate seeker:SProfilePage}"
+        Route="SProfilePage" />
+
+    <!-- Employer Pages -->
+    <ShellContent
+        Title="Employer Dashboard"
+        ContentTemplate="{DataTemplate employer:EDashboardPage}"
+        Route="EDashboardPage" />
+        
+    <ShellContent
+        Title="Postings"
+        ContentTemplate="{DataTemplate employer:EPostingsPage}"
+        Route="EPostingsPage" />
+        
+    <ShellContent
+        Title="Candidates"
+        ContentTemplate="{DataTemplate employer:ECandidatesPage}"
+        Route="ECandidatesPage" />
+        
+    <ShellContent
+        Title="Messages"
+        ContentTemplate="{DataTemplate employer:EMessagesPage}"
+        Route="EMessagesPage" />
+        
+    <ShellContent
+        Title="Profile"
+        ContentTemplate="{DataTemplate employer:EProfilePage}"
+        Route="EProfilePage" />
+
+</Shell>

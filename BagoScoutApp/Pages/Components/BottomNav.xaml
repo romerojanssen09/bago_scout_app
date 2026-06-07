@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BagoScoutApp.Pages.Components.BottomNav"
+             x:Name="ThisBottomNav">
+    
+    <Border BackgroundColor="#1C2B53" 
+            StrokeThickness="0"
+            Padding="0">
+        <Border.Shadow>
+            <Shadow Brush="Black" Opacity="0.1" Radius="10" Offset="0,-2"/>
+        </Border.Shadow>
+        
+        <!-- Seeker Navigation -->
+        <Grid x:Name="SeekerNav" IsVisible="False" Padding="10,8" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Dashboard -->
+            <VerticalStackLayout Grid.Column="0" Spacing="4" HorizontalOptions="Center">
+                <Border x:Name="SeekerDashboardBorder"
+                        BackgroundColor="#6C63FF"
+                        StrokeThickness="0"
+                        Padding="20,8"
+                        StrokeShape="RoundRectangle 20"
+                        HorizontalOptions="Center">
+                    <Label Text="&#xf015;" 
+                           FontFamily="FASolid" 
+                           FontSize="20" 
+                           TextColor="White"
+                           HorizontalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSeekerDashboardTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Label x:Name="SeekerDashboardLabel"
+                       Text="Dashboard" 
+                       FontSize="11" 
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            
+            <!-- Find Jobs -->
+            <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="Center">
+                <Border x:Name="SeekerJobsBorder"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="0"
+                        Padding="20,8"
+                        HorizontalOptions="Center">
+                    <Label Text="&#xf002;" 
+                           FontFamily="FASolid" 
+                           FontSize="20" 
+                           TextColor="#8D94A8"
+                           HorizontalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSeekerJobsTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Label x:Name="SeekerJobsLabel"
+                       Text="Find Jobs" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            
+            <!-- Applications -->
+            <VerticalStackLayout Grid.Column="2" Spacing="4" HorizontalOptions="Center">
+                <Border x:Name="SeekerApplicationsBorder"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="0"
+                        Padding="20,8"
+                        HorizontalOptions="Center">
+                    <Label Text="&#xf15c;" 
+                           FontFamily="FASolid" 
+                           FontSize="20" 
+                           TextColor="#8D94A8"
+                           HorizontalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSeekerApplicationsTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Label x:Name="SeekerApplicationsLabel"
+                       Text="Applications" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            
+            <!-- Messages -->
+            <VerticalStackLayout Grid.Column="3" Spacing="4" HorizontalOptions="Center">
+                <Border x:Name="SeekerMessagesBorder"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="0"
+                        Padding="20,8"
+                        HorizontalOptions="Center">
+                    <Label Text="&#xf4ad;" 
+                           FontFamily="FASolid" 
+                           FontSize="20" 
+                           TextColor="#8D94A8"
+                           HorizontalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSeekerMessagesTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Label x:Name="SeekerMessagesLabel"
+                       Text="Messages" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            
+            <!-- Profile -->
+            <VerticalStackLayout Grid.Column="4" Spacing="4" HorizontalOptions="Center">
+                <Border x:Name="SeekerProfileBorder"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="0"
+                        Padding="20,8"
+                        HorizontalOptions="Center">
+                    <Label Text="&#xf007;" 
+                           FontFamily="FASolid" 
+                           FontSize="20" 
+                           TextColor="#8D94A8"
+                           HorizontalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSeekerProfileTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Label x:Name="SeekerProfileLabel"
+                       Text="Profile" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+        
+        <!-- Employer Navigation -->
+        <Grid x:Name="EmployerNav" IsVisible="False" Padding="10,8" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Dashboard -->
+            <VerticalStackLayout Grid.Column="0" Spacing="4" HorizontalOptions="Center">
+                <Border x:Name="EmployerDashboardBorder"
+                        BackgroundColor="#6C63FF"
+                        StrokeThickness="0"
+                        Padding="20,8"
+                        StrokeShape="RoundRectangle 20"
+                        HorizontalOptions="Center">
+                    <Label Text="&#xf015;" 
+                           FontFamily="FASolid" 
+                           FontSize="20" 
+                           TextColor="White"
+                           HorizontalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEmployerDashboardTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Label x:Name="EmployerDashboardLabel"
+                       Text="Dashboard" 
+                       FontSize="11" 
+                       TextColor="White"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            
+            <!-- Job Postings -->
+            <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="Center">
+                <Border x:Name="EmployerPostingsBorder"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="0"
+                        Padding="20,8"
+                        HorizontalOptions="Center">
+                    <Label Text="&#xf0b1;" 
+                           FontFamily="FASolid" 
+                           FontSize="20" 
+                           TextColor="#8D94A8"
+                           HorizontalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEmployerPostingsTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Label x:Name="EmployerPostingsLabel"
+                       Text="Postings" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            
+            <!-- Candidates -->
+            <VerticalStackLayout Grid.Column="2" Spacing="4" HorizontalOptions="Center">
+                <Border x:Name="EmployerCandidatesBorder"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="0"
+                        Padding="20,8"
+                        HorizontalOptions="Center">
+                    <Label Text="&#xf0c0;" 
+                           FontFamily="FASolid" 
+                           FontSize="20" 
+                           TextColor="#8D94A8"
+                           HorizontalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEmployerCandidatesTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Label x:Name="EmployerCandidatesLabel"
+                       Text="Candidates" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            
+            <!-- Messages -->
+            <VerticalStackLayout Grid.Column="3" Spacing="4" HorizontalOptions="Center">
+                <Border x:Name="EmployerMessagesBorder"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="0"
+                        Padding="20,8"
+                        HorizontalOptions="Center">
+                    <Label Text="&#xf4ad;" 
+                           FontFamily="FASolid" 
+                           FontSize="20" 
+                           TextColor="#8D94A8"
+                           HorizontalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEmployerMessagesTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Label x:Name="EmployerMessagesLabel"
+                       Text="Messages" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            
+            <!-- Company Profile -->
+            <VerticalStackLayout Grid.Column="4" Spacing="4" HorizontalOptions="Center">
+                <Border x:Name="EmployerProfileBorder"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="0"
+                        Padding="20,8"
+                        HorizontalOptions="Center">
+                    <Label Text="&#xf1ad;" 
+                           FontFamily="FASolid" 
+                           FontSize="20" 
+                           TextColor="#8D94A8"
+                           HorizontalOptions="Center"/>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnEmployerProfileTapped"/>
+                    </Border.GestureRecognizers>
+                </Border>
+                <Label x:Name="EmployerProfileLabel"
+                       Text="Profile" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
+</ContentView>

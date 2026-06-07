@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:BagoScoutApp.Pages.Components"
+             xmlns:components="clr-namespace:BagoScoutApp.Pages.AuthUser.Employer.Components"
+             x:Class="BagoScoutApp.Pages.AuthUser.Employer.EProfilePage"
+             Title="Company Profile"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Secondary}">
+    
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Main Scrollable Content -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="20">
+                <!-- Title Header -->
+                <Label Text="Company Profile" 
+                       FontSize="24" 
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource PrimaryDark}"
+                       Margin="0,10,0,0"/>
+ 
+                <!-- Header Branding Card -->
+                <Border StrokeShape="RoundRectangle 16" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="20">
+                    <Border.Shadow>
+                        <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <!-- Logo / Avatar -->
+                        <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                            <Border x:Name="CompanyLogoBorder"
+                                    WidthRequest="150"
+                                    HeightRequest="150"
+                                    StrokeShape="RoundRectangle 12"
+                                    StrokeThickness="3"
+                                    Stroke="{StaticResource Primary}"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="Center">
+                                <Grid>
+                                    <Image x:Name="CompanyLogoImage" Aspect="AspectFill" IsVisible="False"/>
+                                    <Label x:Name="LogoPlaceholder" Text="&#xf1ad;" FontFamily="FASolid" FontSize="64" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Grid>
+                            </Border>
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+                                <HorizontalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnChangeLogoClicked"/>
+                                </HorizontalStackLayout.GestureRecognizers>
+                                <Label Text="&#xf030;" FontFamily="FASolid" FontSize="14" TextColor="{StaticResource Primary}" VerticalOptions="Center"/>
+                                <Label Text="Change Logo" FontSize="14" TextColor="{StaticResource Primary}" FontAttributes="Bold" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                        
+                        <Label x:Name="CompanyNameLabel" Text="-" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" HorizontalOptions="Center"/>
+                        <Label x:Name="CompanyContactLabel" Text="-" FontSize="14" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+ 
+                <!-- Company Information Fields Card -->
+                <Border StrokeShape="RoundRectangle 16" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="20">
+                    <Border.Shadow>
+                        <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="Company Information" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                        
+                        <!-- Company Name -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Company Name *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
+                                <Entry x:Name="CompanyNameEntry" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                            <!-- Industry -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                <Label Text="Industry" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                                <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        <Picker Grid.Column="0" x:Name="CompanyIndustryPicker" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center">
+                                            <Picker.ItemsSource>
+                                                <x:Array Type="{x:Type x:String}">
+                                                    <x:String>Technology</x:String>
+                                                    <x:String>Healthcare</x:String>
+                                                    <x:String>Finance</x:String>
+                                                    <x:String>Education</x:String>
+                                                    <x:String>Retail</x:String>
+                                                    <x:String>Manufacturing</x:String>
+                                                    <x:String>Construction</x:String>
+                                                    <x:String>Hospitality</x:String>
+                                                    <x:String>Other</x:String>
+                                                </x:Array>
+                                            </Picker.ItemsSource>
+                                        </Picker>
+                                        <Label Grid.Column="1" Text="&#xf107;" FontFamily="FASolid" FontSize="14" TextColor="{StaticResource Gray500}" VerticalOptions="Center" InputTransparent="True"/>
+                                    </Grid>
+                                </Border>
+                            </VerticalStackLayout>
+                            
+                            <!-- Size -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                <Label Text="Company Size" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                                <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        <Picker Grid.Column="0" x:Name="CompanySizePicker" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center">
+                                            <Picker.ItemsSource>
+                                                <x:Array Type="{x:Type x:String}">
+                                                    <x:String>1-10</x:String>
+                                                    <x:String>11-50</x:String>
+                                                    <x:String>51-200</x:String>
+                                                    <x:String>201-500</x:String>
+                                                    <x:String>501-1000</x:String>
+                                                    <x:String>1000+</x:String>
+                                                </x:Array>
+                                            </Picker.ItemsSource>
+                                        </Picker>
+                                        <Label Grid.Column="1" Text="&#xf107;" FontFamily="FASolid" FontSize="14" TextColor="{StaticResource Gray500}" VerticalOptions="Center" InputTransparent="True"/>
+                                    </Grid>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+ 
+                        <!-- Website -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Website URL" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
+                                <Entry x:Name="CompanyWebsiteEntry" Keyboard="Url" Placeholder="e.g. https://acme.com" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            </Border>
+                        </VerticalStackLayout>
+                        <!-- Address -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Office Address *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
+                                <Entry x:Name="CompanyAddressEntry" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            </Border>
+                        </VerticalStackLayout>
+ 
+                        <!-- Company Location Coordinates & Mapbox Map -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Company Location (Drag Marker to Position) *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                    <Label Text="Latitude" FontSize="11" TextColor="{StaticResource Gray500}"/>
+                                    <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
+                                        <Entry x:Name="CompanyLatitudeEntry" Keyboard="Numeric" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center" IsReadOnly="True"/>
+                                    </Border>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                    <Label Text="Longitude" FontSize="11" TextColor="{StaticResource Gray500}"/>
+                                    <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
+                                        <Entry x:Name="CompanyLongitudeEntry" Keyboard="Numeric" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center" IsReadOnly="True"/>
+                                    </Border>
+                                </VerticalStackLayout>
+                            </Grid>
+                            <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" HeightRequest="250" Margin="0,8,0,0">
+                                <WebView x:Name="MapWebView" Navigating="OnMapNavigating" HeightRequest="250"/>
+                            </Border>
+                        </VerticalStackLayout>
+ 
+                        <!-- Description -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="About Company" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,4">
+                                <Editor x:Name="CompanyDescEditor" Placeholder="Introduce your organization to job seekers..." HeightRequest="100" FontSize="13" TextColor="{StaticResource PrimaryDark}"/>
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Personal Contact Info Card -->
+                <Border StrokeShape="RoundRectangle 16" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="20">
+                    <Border.Shadow>
+                        <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="Contact Representative" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                            <!-- First Name -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                <Label Text="First Name *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                                <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
+                                    <Entry x:Name="FirstNameEntry" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+                            
+                            <!-- Last Name -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="6">
+                                <Label Text="Last Name *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                                <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
+                                    <Entry x:Name="LastNameEntry" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <!-- Phone -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Contact Phone" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
+                                <Entry x:Name="ContactPhoneEntry" Keyboard="Telephone" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Email (Read-Only) -->
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Email Address (Login)" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Gray500}"/>
+                            <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="{StaticResource Secondary}" Padding="12,0" HeightRequest="44">
+                                <Entry x:Name="ContactEmailEntry" IsReadOnly="True" FontSize="13" TextColor="{StaticResource Gray500}" VerticalOptions="Center"/>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <!-- Save Button -->
+                        <Button x:Name="SaveProfileBtn"
+                                Text="Save All Changes"
+                                Clicked="OnSaveProfileClicked"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="48"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                Margin="0,10,0,0"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Logout Card -->
+                <Button Text="Logout" 
+                        Clicked="OnLogoutClicked"
+                        BackgroundColor="#FF4D4D"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="48"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Margin="0,0,0,20"/>
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <!-- Bottom Navigation -->
+        <components:BottomNav Grid.Row="1" x:Name="BottomNavigation" ActivePage="profile"/>
+    </Grid>
+</base:BasePage>

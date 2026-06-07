@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "632176102261",
+    "project_id": "bagoscout-f3c47",
+    "storage_bucket": "bagoscout-f3c47.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632176102261:android:949229bb9df2a240f9213c",
+        "android_client_info": {
+          "package_name": "com.bagocity.bagoscout"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7SEeIhYYDTTw4ET6XH3cO881pkhJrY_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

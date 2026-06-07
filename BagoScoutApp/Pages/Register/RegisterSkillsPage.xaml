@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:BagoScoutApp.Pages.Components"
+             x:Class="BagoScoutApp.Pages.Register.RegisterSkillsPage"
+             Title="Register: Skills"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Secondary}">
+    
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Content -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="24,40,24,24" Spacing="32">
+                <!-- Close Button -->
+                <Label Text="&#x2715;" 
+                       FontSize="24" 
+                       TextColor="{StaticResource Gray500}"
+                       HorizontalOptions="End"
+                       VerticalOptions="Start">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCloseTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                
+                <!-- Title Section -->
+                <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,-20,0,0">
+                    <Label Text="Create Account" 
+                           FontSize="32" 
+                           FontAttributes="Bold" 
+                           TextColor="{StaticResource PrimaryDark}"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Join BagoScout today" 
+                           FontSize="16" 
+                           TextColor="{StaticResource Gray500}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+                
+                <!-- Progress Steps -->
+                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <!-- Step 1 - Completed -->
+                        <Border WidthRequest="48" 
+                                HeightRequest="48" 
+                                StrokeShape="RoundRectangle 24"
+                                Stroke="Transparent"
+                                BackgroundColor="{StaticResource Primary}">
+                            <Label Text="&#x2713;" 
+                                   FontFamily="FASolid"
+                                   FontSize="20" 
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                        
+                        <BoxView Color="{StaticResource Primary}" 
+                                 HeightRequest="2" 
+                                 WidthRequest="40"
+                                 VerticalOptions="Center"/>
+                        
+                        <!-- Step 2 - Completed -->
+                        <Border WidthRequest="48" 
+                                HeightRequest="48" 
+                                StrokeShape="RoundRectangle 24"
+                                Stroke="Transparent"
+                                BackgroundColor="{StaticResource Primary}">
+                            <Label Text="&#x2713;" 
+                                   FontFamily="FASolid"
+                                   FontSize="20" 
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                        
+                        <BoxView Color="{StaticResource Primary}" 
+                                 HeightRequest="2" 
+                                 WidthRequest="40"
+                                 VerticalOptions="Center"/>
+                        
+                        <!-- Step 3 - Completed -->
+                        <Border WidthRequest="48" 
+                                HeightRequest="48" 
+                                StrokeShape="RoundRectangle 24"
+                                Stroke="Transparent"
+                                BackgroundColor="{StaticResource Primary}">
+                            <Label Text="&#x2713;" 
+                                   FontFamily="FASolid"
+                                   FontSize="20" 
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                        
+                        <BoxView Color="{StaticResource Primary}" 
+                                 HeightRequest="2" 
+                                 WidthRequest="40"
+                                 VerticalOptions="Center"/>
+                        
+                        <!-- Step 4 - Completed -->
+                        <Border WidthRequest="48" 
+                                HeightRequest="48" 
+                                StrokeShape="RoundRectangle 24"
+                                Stroke="Transparent"
+                                BackgroundColor="{StaticResource Primary}">
+                            <Label Text="&#x2713;" 
+                                   FontFamily="FASolid"
+                                   FontSize="20" 
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                        
+                        <BoxView Color="{StaticResource Primary}" 
+                                 HeightRequest="2" 
+                                 WidthRequest="40"
+                                 VerticalOptions="Center"/>
+                        
+                        <!-- Step 5 - Active -->
+                        <Border WidthRequest="48" 
+                                HeightRequest="48" 
+                                StrokeShape="RoundRectangle 24"
+                                Stroke="Transparent"
+                                BackgroundColor="{StaticResource Primary}">
+                            <Label Text="5" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Border>
+                    </HorizontalStackLayout>
+                    
+                    <!-- Step Labels -->
+                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
+                        <Label Text="Type" 
+                               FontSize="12" 
+                               TextColor="{StaticResource Gray500}"
+                               WidthRequest="48"
+                               HorizontalTextAlignment="Center"/>
+                        <BoxView WidthRequest="40" Opacity="0"/>
+                        <Label Text="Account" 
+                               FontSize="12" 
+                               TextColor="{StaticResource Gray500}"
+                               WidthRequest="48"
+                               HorizontalTextAlignment="Center"/>
+                        <BoxView WidthRequest="40" Opacity="0"/>
+                        <Label Text="Verify" 
+                               FontSize="12" 
+                               TextColor="{StaticResource Gray500}"
+                               WidthRequest="48"
+                               HorizontalTextAlignment="Center"/>
+                        <BoxView WidthRequest="40" Opacity="0"/>
+                        <Label Text="ID" 
+                               FontSize="12" 
+                               TextColor="{StaticResource Gray500}"
+                               WidthRequest="48"
+                               HorizontalTextAlignment="Center"/>
+                        <BoxView WidthRequest="40" Opacity="0"/>
+                        <Label Text="Skills" 
+                               FontSize="12" 
+                               TextColor="{StaticResource Primary}"
+                               FontAttributes="Bold"
+                               WidthRequest="48"
+                               HorizontalTextAlignment="Center"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+                
+                <!-- Main Container Border -->
+                <Border Stroke="{StaticResource Gray200}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="White"
+                        Padding="20">
+                    <Border.Shadow>
+                        <Shadow Offset="0,4" Radius="10" Brush="#0F172A" Opacity="0.05"/>
+                    </Border.Shadow>
+                    
+                    <VerticalStackLayout Spacing="24">
+                        <!-- Form Header -->
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Select Required Skills" 
+                                   FontSize="20" 
+                                   FontAttributes="Bold" 
+                                   TextColor="{StaticResource PrimaryDark}"
+                                   HorizontalOptions="Center"/>
+                            
+                            <Label Text="Choose skills you're looking for in candidates" 
+                                   FontSize="14" 
+                                   TextColor="{StaticResource Gray500}"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                        
+                        <!-- Predefined Skills Grid -->
+                        <Grid ColumnSpacing="12" RowSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Button Grid.Row="0" Grid.Column="0" 
+                                    Text="Web Development" 
+                                    Clicked="OnSkillTapped"
+                                    BackgroundColor="White" 
+                                    TextColor="{StaticResource PrimaryDark}" 
+                                    BorderColor="{StaticResource Gray200}"
+                                    BorderWidth="1"
+                                    FontSize="14"
+                                    CornerRadius="12" 
+                                    HeightRequest="48"/>
+                            
+                            <Button Grid.Row="0" Grid.Column="1" 
+                                    Text="Mobile Development" 
+                                    Clicked="OnSkillTapped"
+                                    BackgroundColor="White" 
+                                    TextColor="{StaticResource PrimaryDark}" 
+                                    BorderColor="{StaticResource Gray200}"
+                                    BorderWidth="1"
+                                    FontSize="14"
+                                    CornerRadius="12" 
+                                    HeightRequest="48"/>
+                            
+                            <Button Grid.Row="1" Grid.Column="0" 
+                                    Text="Graphic Design" 
+                                    Clicked="OnSkillTapped"
+                                    BackgroundColor="White" 
+                                    TextColor="{StaticResource PrimaryDark}" 
+                                    BorderColor="{StaticResource Gray200}"
+                                    BorderWidth="1"
+                                    FontSize="14"
+                                    CornerRadius="12" 
+                                    HeightRequest="48"/>
+                            
+                            <Button Grid.Row="1" Grid.Column="1" 
+                                    Text="Data Entry" 
+                                    Clicked="OnSkillTapped"
+                                    BackgroundColor="White" 
+                                    TextColor="{StaticResource PrimaryDark}" 
+                                    BorderColor="{StaticResource Gray200}"
+                                    BorderWidth="1"
+                                    FontSize="14"
+                                    CornerRadius="12" 
+                                    HeightRequest="48"/>
+                            
+                            <Button Grid.Row="2" Grid.Column="0" 
+                                    Text="Customer Service" 
+                                    Clicked="OnSkillTapped"
+                                    BackgroundColor="White" 
+                                    TextColor="{StaticResource PrimaryDark}" 
+                                    BorderColor="{StaticResource Gray200}"
+                                    BorderWidth="1"
+                                    FontSize="14"
+                                    CornerRadius="12" 
+                                    HeightRequest="48"/>
+                            
+                            <Button Grid.Row="2" Grid.Column="1" 
+                                    Text="Sales" 
+                                    Clicked="OnSkillTapped"
+                                    BackgroundColor="White" 
+                                    TextColor="{StaticResource PrimaryDark}" 
+                                    BorderColor="{StaticResource Gray200}"
+                                    BorderWidth="1"
+                                    FontSize="14"
+                                    CornerRadius="12" 
+                                    HeightRequest="48"/>
+                            
+                            <Button Grid.Row="3" Grid.Column="0" 
+                                    Text="Marketing" 
+                                    Clicked="OnSkillTapped"
+                                    BackgroundColor="White" 
+                                    TextColor="{StaticResource PrimaryDark}" 
+                                    BorderColor="{StaticResource Gray200}"
+                                    BorderWidth="1"
+                                    FontSize="14"
+                                    CornerRadius="12" 
+                                    HeightRequest="48"/>
+                            
+                            <Button Grid.Row="3" Grid.Column="1" 
+                                    Text="Accounting" 
+                                    Clicked="OnSkillTapped"
+                                    BackgroundColor="White" 
+                                    TextColor="{StaticResource PrimaryDark}" 
+                                    BorderColor="{StaticResource Gray200}"
+                                    BorderWidth="1"
+                                    FontSize="14"
+                                    CornerRadius="12" 
+                                    HeightRequest="48"/>
+                        </Grid>
+                        
+                        <!-- Custom Skill Input -->
+                        <VerticalStackLayout Spacing="12">
+                            <Border Stroke="{StaticResource Gray200}" 
+                                    StrokeThickness="1"
+                                    BackgroundColor="White"
+                                    Padding="16,0"
+                                    StrokeShape="RoundRectangle 12">
+                                <Entry x:Name="SkillEntry" 
+                                       Placeholder="Add custom requirement" 
+                                       PlaceholderColor="{StaticResource Gray400}"
+                                       TextColor="{StaticResource PrimaryDark}"
+                                       HeightRequest="48"
+                                       BackgroundColor="Transparent"/>
+                            </Border>
+                            
+                            <Button Text="Add Requirement" 
+                                    Clicked="OnAddSkill"
+                                    BackgroundColor="White" 
+                                    TextColor="{StaticResource Primary}" 
+                                    BorderColor="{StaticResource Primary}"
+                                    BorderWidth="2"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    CornerRadius="12" 
+                                    HeightRequest="56"/>
+                        </VerticalStackLayout>
+                        
+                        <!-- Selected Skills Section -->
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="Required Skills:" 
+                                   FontSize="14" 
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource PrimaryDark}"/>
+                            
+                            <Border Stroke="{StaticResource Gray200}" 
+                                    StrokeThickness="1"
+                                    BackgroundColor="White"
+                                    StrokeShape="RoundRectangle 12"
+                                    Padding="16"
+                                    MinimumHeightRequest="100">
+                                <VerticalStackLayout>
+                                    <Label x:Name="NoSkillsLabel"
+                                           Text="No requirements added yet. Select or add requirements above." 
+                                           FontSize="14" 
+                                           TextColor="{StaticResource Gray500}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           HorizontalTextAlignment="Center"/>
+                                    <FlexLayout x:Name="SkillsWrap" 
+                                               Wrap="Wrap" 
+                                               AlignItems="Start" 
+                                               AlignContent="Start" 
+                                               Direction="Row"
+                                               JustifyContent="Start"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Buttons -->
+                <Grid ColumnSpacing="12" Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Grid.Column="0" 
+                            Text="Back" 
+                            Clicked="OnBackTapped"
+                            BackgroundColor="White" 
+                            TextColor="{StaticResource PrimaryDark}" 
+                            BorderColor="{StaticResource Gray200}"
+                            BorderWidth="1"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="12" 
+                            HeightRequest="56"/>
+                    
+                    <Button Grid.Column="1" 
+                            Text="Complete Registration" 
+                            Clicked="OnFinish"
+                            BackgroundColor="{StaticResource Primary}" 
+                            TextColor="White" 
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            CornerRadius="12" 
+                            HeightRequest="56"/>
+                </Grid>
+                
+                <!-- Login Link -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                    <Label Text="Already have an account?" 
+                           FontSize="14" 
+                           TextColor="{StaticResource Gray500}"/>
+                    <Label Text="Log in" 
+                           FontSize="14" 
+                           TextColor="{StaticResource Primary}"
+                           FontAttributes="Bold">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnLoginTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <!-- Loading Overlay -->
+        <Grid x:Name="LoadingOverlay" 
+              Grid.Row="0"
+              BackgroundColor="#80000000" 
+              IsVisible="False">
+            <VerticalStackLayout HorizontalOptions="Center" 
+                               VerticalOptions="Center" 
+                               Spacing="16">
+                <ActivityIndicator IsRunning="True" 
+                                 Color="White" 
+                                 WidthRequest="50" 
+                                 HeightRequest="50"/>
+                <Label Text="Completing registration..." 
+                       TextColor="White" 
+                       FontSize="16" 
+                       FontAttributes="Bold"/>
+                <Label Text="Please wait a moment" 
+                       TextColor="White" 
+                       FontSize="14"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</base:BasePage>

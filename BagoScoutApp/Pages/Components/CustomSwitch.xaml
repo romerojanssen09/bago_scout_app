@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BagoScoutApp.Pages.Components.CustomSwitch"
+             WidthRequest="54"
+             HeightRequest="30">
+    
+    <Border x:Name="TrackBorder"
+            WidthRequest="50"
+            HeightRequest="26"
+            StrokeShape="RoundRectangle 13"
+            StrokeThickness="0"
+            BackgroundColor="#D1D5DB"
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+        
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnTapped"/>
+        </Border.GestureRecognizers>
+        
+        <Grid>
+            <!-- Thumb border -->
+            <Border x:Name="ThumbBorder"
+                    WidthRequest="22"
+                    HeightRequest="22"
+                    StrokeShape="RoundRectangle 11"
+                    StrokeThickness="0"
+                    BackgroundColor="White"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Margin="2,0"
+                    Shadow="{Shadow Brush=Black, Offset='0,1', Radius=2, Opacity=0.2}"/>
+        </Grid>
+    </Border>
+</ContentView>

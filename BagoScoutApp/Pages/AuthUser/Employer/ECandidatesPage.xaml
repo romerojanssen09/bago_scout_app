@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:BagoScoutApp.Pages.Components"
+             xmlns:components="clr-namespace:BagoScoutApp.Pages.AuthUser.Employer.Components"
+             x:Class="BagoScoutApp.Pages.AuthUser.Employer.ECandidatesPage"
+             Title="Candidates"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Secondary}">
+    
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Main Content Area -->
+        <Grid Grid.Row="0" RowDefinitions="Auto, Auto, *">
+            <!-- Header -->
+            <VerticalStackLayout Grid.Row="0" Padding="20,20,20,10" Spacing="6">
+                <Label Text="Candidate Applications" 
+                       FontSize="24" 
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource PrimaryDark}"
+                       Margin="0,10,0,0"/>
+                <Label Text="Review and manage applicants for your job postings" 
+                       FontSize="14" 
+                       TextColor="{StaticResource Gray500}"/>
+            </VerticalStackLayout>
+
+            <!-- Filter Picker Card -->
+            <Border Grid.Row="1" Margin="20,0,20,12" StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,10">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                </Border.Shadow>
+                <Grid ColumnDefinitions="Auto, *, Auto">
+                    <Label Grid.Column="0" Text="Filter by Job:" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center" Margin="0,0,12,0"/>
+                    <Picker Grid.Column="1" x:Name="JobFilterPicker" FontSize="13" TextColor="{StaticResource PrimaryDark}" Title="Select a job" SelectedIndexChanged="OnJobFilterChanged" VerticalOptions="Center"/>
+                    <Label Grid.Column="2" Text="&#xf107;" FontFamily="FASolid" FontSize="14" TextColor="{StaticResource Gray500}" VerticalOptions="Center" InputTransparent="True"/>
+                </Grid>
+            </Border>
+
+            <!-- List of Candidates -->
+            <Grid Grid.Row="2" Padding="20,0">
+                <!-- Loading Spinner -->
+                <ActivityIndicator x:Name="LoadingIndicator" IsRunning="True" Color="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40"/>
+
+                <CollectionView x:Name="CandidatesCollectionView" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="40" Spacing="12" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="&#xf0c0;" FontFamily="FASolid" FontSize="44" TextColor="{StaticResource Gray400}" HorizontalTextAlignment="Center"/>
+                            <Label Text="No candidates found" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" HorizontalTextAlignment="Center"/>
+                            <Label Text="Try choosing another job filter" FontSize="13" TextColor="{StaticResource Gray500}" HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeShape="RoundRectangle 16" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Margin="0,0,0,14" Padding="16">
+                                <Border.Shadow>
+                                    <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                                </Border.Shadow>
+                                <Grid RowDefinitions="Auto, Auto, Auto" RowSpacing="10">
+                                    <!-- Header: Name, Date, Status -->
+                                    <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" ColumnSpacing="12">
+                                        <!-- Photo/Avatar -->
+                                        <Border Grid.Column="0" WidthRequest="46" HeightRequest="46" StrokeShape="RoundRectangle 23" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}">
+                                            <Grid>
+                                                <Label Text="&#xf007;" FontFamily="FASolid" FontSize="20" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                                <Image Source="{Binding seekerPhoto}" Aspect="AspectFill" BackgroundColor="Transparent"/>
+                                            </Grid>
+                                        </Border>
+ 
+                                        <!-- Title details -->
+                                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                            <Label Text="{Binding seekerName}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                                            <Label Text="{Binding jobTitle, StringFormat='Applied for: {0}'}" FontSize="12" TextColor="{StaticResource Primary}" FontAttributes="Bold" MaxLines="1" LineBreakMode="TailTruncation"/>
+                                        </VerticalStackLayout>
+ 
+                                        <!-- Status Badge -->
+                                        <Border Grid.Column="2" Padding="8,4" StrokeThickness="0" StrokeShape="RoundRectangle 10" VerticalOptions="Start">
+                                            <Border.Triggers>
+                                                <!-- Pending Status -->
+                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Pending">
+                                                    <Setter Property="BackgroundColor" Value="#FEF3C7"/>
+                                                </DataTrigger>
+                                                <!-- Reviewed Status -->
+                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Reviewed">
+                                                    <Setter Property="BackgroundColor" Value="#DBEAFE"/>
+                                                </DataTrigger>
+                                                <!-- Accepted Status -->
+                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Accepted">
+                                                    <Setter Property="BackgroundColor" Value="#D1FAE5"/>
+                                                </DataTrigger>
+                                                <!-- Rejected Status -->
+                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Rejected">
+                                                    <Setter Property="BackgroundColor" Value="#FEE2E2"/>
+                                                </DataTrigger>
+                                            </Border.Triggers>
+                                            
+                                            <Label Text="{Binding status}" FontSize="11" FontAttributes="Bold">
+                                                <Label.Triggers>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Pending">
+                                                        <Setter Property="TextColor" Value="#92400E"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Reviewed">
+                                                        <Setter Property="TextColor" Value="#1E40AF"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Accepted">
+                                                        <Setter Property="TextColor" Value="#065F46"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Rejected">
+                                                        <Setter Property="TextColor" Value="#991B1B"/>
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </Border>
+                                    </Grid>
+ 
+                                    <!-- Candidate Info Details -->
+                                    <VerticalStackLayout Grid.Row="1" Spacing="4">
+                                        <Label Text="{Binding seekerEmail, StringFormat='✉ {0}'}" FontSize="12" TextColor="{StaticResource Gray500}"/>
+                                        <Label Text="{Binding seekerPhone, StringFormat='☏ {0}'}" FontSize="12" TextColor="{StaticResource Gray500}"/>
+                                        <Label Text="{Binding appliedAt, StringFormat='📅 Applied on {0:MMM dd, yyyy}'}" FontSize="11" TextColor="{StaticResource Gray400}"/>
+                                    </VerticalStackLayout>
+ 
+                                    <!-- Action Buttons -->
+                                    <Grid Grid.Row="2" ColumnDefinitions="*, *, *" ColumnSpacing="10" Margin="0,4,0,0">
+                                        <!-- Accept Button -->
+                                        <Button Grid.Column="0"
+                                                x:Name="AcceptBtn"
+                                                Text="Accept"
+                                                Clicked="OnAcceptCandidateClicked"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#D1FAE5"
+                                                TextColor="#065F46"
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                CornerRadius="10"
+                                                HeightRequest="40">
+                                            <Button.Triggers>
+                                                <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Accepted">
+                                                    <Setter Property="IsVisible" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Rejected">
+                                                    <Setter Property="IsVisible" Value="False"/>
+                                                </DataTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+ 
+                                        <!-- Reject Button -->
+                                        <Button Grid.Column="1"
+                                                x:Name="RejectBtn"
+                                                Text="Reject"
+                                                Clicked="OnRejectCandidateClicked"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#FEE2E2"
+                                                TextColor="#991B1B"
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                CornerRadius="10"
+                                                HeightRequest="40">
+                                            <Button.Triggers>
+                                                <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Accepted">
+                                                    <Setter Property="IsVisible" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Rejected">
+                                                    <Setter Property="IsVisible" Value="False"/>
+                                                </DataTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+ 
+                                        <!-- Ellipsis More Actions Button -->
+                                        <Button Grid.Column="2"
+                                                Text="&#xf142;"
+                                                FontFamily="FASolid"
+                                                Clicked="OnMoreActionsClicked"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="{StaticResource Secondary}"
+                                                TextColor="{StaticResource PrimaryDark}"
+                                                BorderColor="{StaticResource Gray200}"
+                                                BorderWidth="1"
+                                                FontAttributes="Bold"
+                                                FontSize="14"
+                                                CornerRadius="10"
+                                                HeightRequest="40">
+                                            <Button.Triggers>
+                                                <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Accepted">
+                                                    <Setter Property="Grid.ColumnSpan" Value="3"/>
+                                                    <Setter Property="Grid.Column" Value="0"/>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}"/>
+                                                    <Setter Property="TextColor" Value="White"/>
+                                                    <Setter Property="Text" Value="Actions"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Rejected">
+                                                    <Setter Property="Grid.ColumnSpan" Value="3"/>
+                                                    <Setter Property="Grid.Column" Value="0"/>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}"/>
+                                                    <Setter Property="TextColor" Value="White"/>
+                                                    <Setter Property="Text" Value="Actions"/>
+                                                </DataTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Grid>
+
+        <!-- Bottom Navigation -->
+        <components:BottomNav Grid.Row="1" x:Name="BottomNavigation" ActivePage="candidates"/>
+
+        <!-- Seeker Profile Details Modal Overlay -->
+        <Grid x:Name="ProfileDetailsOverlay" BackgroundColor="#80000000" IsVisible="False" Grid.RowSpan="2">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseProfileOverlayClicked"/>
+            </Grid.GestureRecognizers>
+            <Border VerticalOptions="End"
+                    HeightRequest="560"
+                    StrokeShape="RoundRectangle 24,24,0,0"
+                    StrokeThickness="0"
+                    BackgroundColor="White"
+                    Padding="24">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray400}" Offset="0,-4" Radius="12" Opacity="0.3"/>
+                </Border.Shadow>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer /> <!-- Intercept taps -->
+                </Border.GestureRecognizers>
+                
+                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="16">
+                    <!-- Title Row -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+                        <Label x:Name="OverlayTitleLabel" Text="Candidate Profile" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                        <Button Grid.Column="1" Text="&#xf00d;" FontFamily="FASolid" Clicked="OnCloseProfileOverlayClicked" BackgroundColor="Transparent" TextColor="{StaticResource Gray500}" FontSize="16" FontAttributes="Bold" WidthRequest="40" HeightRequest="40"/>
+                    </Grid>
+
+                    <!-- Scrollable Content -->
+                    <ScrollView Grid.Row="1">
+                        <VerticalStackLayout Spacing="16">
+                            <!-- Selfie and Name -->
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,10">
+                                <Border WidthRequest="80" HeightRequest="80" StrokeShape="RoundRectangle 40" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" HorizontalOptions="Center">
+                                    <Grid>
+                                        <Label Text="&#xf007;" FontFamily="FASolid" FontSize="36" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Image x:Name="OverlaySelfieImage" Aspect="AspectFill" BackgroundColor="Transparent"/>
+                                    </Grid>
+                                </Border>
+                                <Label x:Name="OverlayNameLabel" Text="-" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" HorizontalOptions="Center"/>
+                                <Label x:Name="OverlayJobTitleLabel" Text="-" FontSize="13" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+
+                            <!-- Contact Info Block -->
+                            <Border StrokeShape="RoundRectangle 12" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" Padding="14">
+                                <VerticalStackLayout Spacing="8">
+                                    <Label x:Name="OverlayEmailLabel" Text="✉ -" FontSize="12" TextColor="{StaticResource PrimaryDark}"/>
+                                    <Label x:Name="OverlayPhoneLabel" Text="☏ -" FontSize="12" TextColor="{StaticResource PrimaryDark}"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Skills Section -->
+                            <Label Text="Skills" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <FlexLayout x:Name="OverlaySkillsLayout" Wrap="Wrap" Direction="Row" AlignItems="Center" JustifyContent="Start"/>
+
+                            <!-- Experience Section -->
+                            <Label Text="Work Experience" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" Margin="0,10,0,0"/>
+                            <VerticalStackLayout x:Name="OverlayExperienceLayout" Spacing="10"/>
+
+                            <!-- Education Section -->
+                            <Label Text="Education" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" Margin="0,10,0,0"/>
+                            <VerticalStackLayout x:Name="OverlayEducationLayout" Spacing="10"/>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                    
+                    <Button Grid.Row="2" Text="Close Profile" Clicked="OnCloseProfileOverlayClicked" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource PrimaryDark}" HeightRequest="46" CornerRadius="10" FontAttributes="Bold"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Email Compose/History Modal Overlay -->
+        <Grid x:Name="EmailOverlay" BackgroundColor="#80000000" IsVisible="False" Grid.RowSpan="2">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseEmailOverlayClicked"/>
+            </Grid.GestureRecognizers>
+               <Border VerticalOptions="End"
+                    HeightRequest="520"
+                    StrokeShape="RoundRectangle 24,24,0,0"
+                    StrokeThickness="0"
+                    BackgroundColor="White"
+                    Padding="24">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray400}" Offset="0,-4" Radius="12" Opacity="0.3"/>
+                </Border.Shadow>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer /> <!-- Intercept taps -->
+                </Border.GestureRecognizers>
+                
+                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="16">
+                    <!-- Title Row -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+                        <Label x:Name="EmailOverlayTitle" Text="Email Candidate" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                        <Button Grid.Column="1" Text="&#xf00d;" FontFamily="FASolid" Clicked="OnCloseEmailOverlayClicked" BackgroundColor="Transparent" TextColor="{StaticResource Gray500}" FontSize="16" FontAttributes="Bold" WidthRequest="40" HeightRequest="40"/>
+                    </Grid>
+ 
+                    <!-- Content -->
+                    <ScrollView Grid.Row="1">
+                        <VerticalStackLayout Spacing="16">
+                            <!-- View Compose Form -->
+                            <VerticalStackLayout x:Name="EmailComposeLayout" Spacing="12">
+                                <Label Text="Subject" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                                <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,0" HeightRequest="44">
+                                    <Entry x:Name="EmailSubjectEntry" Placeholder="e.g. Interview invitation" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                </Border>
+ 
+                                <Label Text="Message Body" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                                <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,4">
+                                    <Editor x:Name="EmailBodyEditor" Placeholder="Write your message here..." HeightRequest="120" FontSize="13" TextColor="{StaticResource PrimaryDark}"/>
+                                </Border>
+                            </VerticalStackLayout>
+                            
+                            <!-- Email History Header -->
+                            <Label x:Name="EmailHistoryHeader" Text="Sent Emails History" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" Margin="0,10,0,0" IsVisible="False"/>
+                            <VerticalStackLayout x:Name="EmailHistoryLayout" Spacing="8" IsVisible="False"/>
+                        </VerticalStackLayout>
+                    </ScrollView>
+ 
+                    <!-- Buttons -->
+                    <Grid Grid.Row="2" ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,10,0,0">
+                        <Button Grid.Column="0" Text="Close" Clicked="OnCloseEmailOverlayClicked" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource PrimaryDark}" HeightRequest="46" CornerRadius="10" FontAttributes="Bold"/>
+                        <Button Grid.Column="1" x:Name="SendEmailSubmitBtn" Text="Send Email" Clicked="OnSendEmailSubmitClicked" BackgroundColor="{StaticResource Primary}" TextColor="White" HeightRequest="46" CornerRadius="10" FontAttributes="Bold"/>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</base:BasePage>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:BagoScoutApp.Pages.Components"
+             xmlns:components="clr-namespace:BagoScoutApp.Pages.AuthUser.Seeker.Components"
+             x:Class="BagoScoutApp.Pages.AuthUser.Seeker.SDashboardPage"
+             Title="Dashboard"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F3F4F6">
+    
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Main Content -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="20">
+                <!-- Welcome Section -->
+                <Grid ColumnDefinitions="*, Auto" Margin="0,10,0,10">
+                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+                        <Label x:Name="WelcomeLabel"
+                               Text="Welcome back! 👋" 
+                               FontSize="22" 
+                               FontAttributes="Bold"
+                               TextColor="#1C2B53"/>
+                        <Label Text="Find your next dream opportunity" 
+                               FontSize="14" 
+                               TextColor="#8D94A8"/>
+                    </VerticalStackLayout>
+                    <Border Grid.Column="1"
+                            WidthRequest="45"
+                            HeightRequest="45"
+                            StrokeShape="RoundRectangle 22.5"
+                            StrokeThickness="0"
+                            BackgroundColor="#6C63FF"
+                            VerticalOptions="Center">
+                        <Label Text="&#xf007;" 
+                               FontFamily="FASolid"
+                               FontSize="20" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"/>
+                    </Border>
+                </Grid>
+
+                <!-- Stats Cards Section -->
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+                    <!-- Card 1: Applications -->
+                    <Border Grid.Column="0"
+                            BackgroundColor="White"
+                            StrokeThickness="1"
+                            Stroke="#E5E7EB"
+                            Padding="16"
+                            StrokeShape="RoundRectangle 16">
+                        <Border.Shadow>
+                            <Shadow />
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Grid.Column="0" Text="Applied Jobs" FontSize="12" TextColor="#8D94A8" FontAttributes="Bold"/>
+                                <Border Grid.Column="1" WidthRequest="30" HeightRequest="30" StrokeShape="RoundRectangle 15" StrokeThickness="0" BackgroundColor="#E0E7FF" HorizontalOptions="End">
+                                    <Label Text="&#xf0b1;" FontFamily="FASolid" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                            <Label x:Name="AppliedCountLabel" Text="0" FontSize="26" FontAttributes="Bold" TextColor="#1C2B53"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Card 2: Profile Status -->
+                    <Border Grid.Column="1"
+                            BackgroundColor="White"
+                            StrokeThickness="1"
+                            Stroke="#E5E7EB"
+                            Padding="16"
+                            StrokeShape="RoundRectangle 16">
+                        <Border.Shadow>
+                            <Shadow />
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Grid.Column="0" Text="Profile Setup" FontSize="12" TextColor="#8D94A8" FontAttributes="Bold"/>
+                                <Border Grid.Column="1" WidthRequest="30" HeightRequest="30" StrokeShape="RoundRectangle 15" StrokeThickness="0" BackgroundColor="#D1FAE5" HorizontalOptions="End">
+                                    <Label Text="✓" FontSize="14" FontAttributes="Bold" TextColor="#065F46" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                            <Label x:Name="ProfileStatusLabel" Text="Complete" FontSize="18" FontAttributes="Bold" TextColor="#065F46" Margin="0,5,0,0"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Nearby Jobs Title -->
+                <Label Text="Jobs Near You" 
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       TextColor="#1C2B53"
+                       Margin="0,10,0,0"/>
+
+                <!-- Loading Spinner -->
+                <ActivityIndicator x:Name="LoadingIndicator" 
+                                   IsRunning="True" 
+                                   Color="#6C63FF" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"
+                                   HeightRequest="50"/>
+
+                <!-- Jobs Collection View -->
+                <CollectionView x:Name="JobsCollectionView"
+                                SelectionMode="None"
+                                Margin="0,0,0,10">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="30" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="&#xf002;" FontFamily="FASolid" FontSize="40" HorizontalTextAlignment="Center"/>
+                            <Label Text="No active jobs found" 
+                                   FontSize="15" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#1C2B53" 
+                                   HorizontalTextAlignment="Center"/>
+                            <Label Text="Try checking back later" 
+                                   FontSize="13" 
+                                   TextColor="#8D94A8" 
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeShape="RoundRectangle 16"
+                                    StrokeThickness="1"
+                                    Stroke="#E5E7EB"
+                                    BackgroundColor="White"
+                                    Margin="0,0,0,12"
+                                    Padding="16">
+                                <Border.Shadow>
+                                    <Shadow />
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnJobTapped" CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+                                <Grid RowDefinitions="Auto, Auto, Auto" RowSpacing="8">
+                                    <!-- Header -->
+                                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto" ColumnSpacing="8">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                            <Label Text="{Binding title}" 
+                                                   FontSize="16" 
+                                                   FontAttributes="Bold" 
+                                                   TextColor="#1C2B53"/>
+                                            <Label Text="{Binding company}" 
+                                                   FontSize="13" 
+                                                   TextColor="#6C63FF"
+                                                   FontAttributes="Bold"/>
+                                        </VerticalStackLayout>
+                                        <!-- Distance Badge -->
+                                        <Border Grid.Column="1" 
+                                                Padding="8,4" 
+                                                BackgroundColor="#F0F4FF" 
+                                                StrokeThickness="0" 
+                                                StrokeShape="RoundRectangle 8"
+                                                VerticalOptions="Start">
+                                            <Label Text="Nearby" 
+                                                   FontSize="11" 
+                                                   TextColor="#1C2B53" 
+                                                   FontAttributes="Bold"/>
+                                        </Border>
+                                    </Grid>
+
+                                    <!-- Details -->
+                                    <VerticalStackLayout Grid.Row="1" Spacing="4">
+                                        <Label FontSize="12" 
+                                               TextColor="#8D94A8">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="&#xf3c5; " FontFamily="FASolid"/>
+                                                    <Span Text="{Binding address}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </VerticalStackLayout>
+
+                                    <!-- Badges -->
+                                    <FlexLayout Grid.Row="2" Wrap="Wrap" Direction="Row" AlignItems="Center" JustifyContent="Start">
+                                        <!-- Job Type Badge -->
+                                        <Border Padding="10,4" BackgroundColor="#E0E7FF" StrokeThickness="0" StrokeShape="RoundRectangle 20" Margin="0,0,8,0">
+                                            <Label Text="{Binding jobType}" FontSize="11" TextColor="#3730A3" FontAttributes="Bold"/>
+                                        </Border>
+                                        <!-- Salary Badge -->
+                                        <Border Padding="10,4" BackgroundColor="#D1FAE5" StrokeThickness="0" StrokeShape="RoundRectangle 20" Margin="0,0,8,0">
+                                            <Label Text="{Binding salaryRange}" FontSize="11" TextColor="#065F46" FontAttributes="Bold"/>
+                                        </Border>
+                                    </FlexLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <!-- Bottom Navigation -->
+        <components:BottomNav Grid.Row="1" x:Name="BottomNavigation" ActivePage="dashboard"/>
+    </Grid>
+</base:BasePage>

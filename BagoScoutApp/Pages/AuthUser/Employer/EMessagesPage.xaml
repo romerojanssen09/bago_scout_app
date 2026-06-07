@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:BagoScoutApp.Pages.Components"
+             xmlns:components="clr-namespace:BagoScoutApp.Pages.AuthUser.Employer.Components"
+             x:Class="BagoScoutApp.Pages.AuthUser.Employer.EMessagesPage"
+             Title="Messages"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Secondary}">
+    
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Main Content Grid -->
+        <Grid Grid.Row="0">
+            <!-- 1. Conversations List View -->
+            <Grid x:Name="ConversationsGrid" RowDefinitions="Auto, *" Padding="20" RowSpacing="16" IsVisible="True">
+                <Label Grid.Row="0" Text="Inbox" 
+                       FontSize="22" 
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource PrimaryDark}"
+                       Margin="0,5,0,0"/>
+
+                <CollectionView Grid.Row="1" x:Name="ConversationsCollectionView" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="40" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="&#xf4ad;" FontFamily="FASolid" FontSize="40" TextColor="{StaticResource Gray400}" HorizontalTextAlignment="Center"/>
+                            <Label Text="No conversations yet" 
+                                   FontSize="15" 
+                                   FontAttributes="Bold" 
+                                   TextColor="{StaticResource PrimaryDark}" 
+                                   HorizontalTextAlignment="Center"/>
+                            <Label Text="Candidate messages will appear here" 
+                                   FontSize="13" 
+                                   TextColor="{StaticResource Gray500}" 
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeShape="RoundRectangle 16"
+                                    StrokeThickness="1"
+                                    Stroke="{StaticResource Gray200}"
+                                    BackgroundColor="White"
+                                    Margin="0,0,0,12"
+                                    Padding="14">
+                                <Border.Shadow>
+                                    <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnConversationTapped" CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="50, *, Auto" ColumnSpacing="12">
+                                     <!-- Avatar -->
+                                     <Border Grid.Column="0" WidthRequest="46" HeightRequest="46" StrokeShape="RoundRectangle 23" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" VerticalOptions="Center">
+                                         <Grid>
+                                             <Label Text="&#xf007;" FontFamily="FASolid" FontSize="20" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                             <Image Source="{Binding selfiePhotoUrl}" Aspect="AspectFill" BackgroundColor="Transparent"/>
+                                         </Grid>
+                                     </Border>
+
+                                     <!-- Content -->
+                                     <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                         <Label Text="{Binding fullName}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                                         <Label Text="{Binding lastMessage}" FontSize="12" TextColor="{StaticResource Gray500}" MaxLines="1" LineBreakMode="TailTruncation"/>
+                                     </VerticalStackLayout>
+
+                                     <!-- Meta details -->
+                                     <VerticalStackLayout Grid.Column="2" Spacing="6" HorizontalOptions="End" VerticalOptions="Center">
+                                         <Label Text="{Binding lastMessageTime, StringFormat='{0:h:mm tt}'}" FontSize="10" TextColor="{StaticResource Gray500}"/>
+                                         <!-- Unread Badge -->
+                                         <Border Padding="6,2" BackgroundColor="{StaticResource Primary}" StrokeThickness="0" StrokeShape="RoundRectangle 10" HorizontalOptions="End">
+                                             <Border.Triggers>
+                                                 <DataTrigger TargetType="Border" Binding="{Binding unreadCount}" Value="0">
+                                                     <Setter Property="IsVisible" Value="False"/>
+                                                 </DataTrigger>
+                                             </Border.Triggers>
+                                             <Label Text="{Binding unreadCount}" FontSize="9" FontAttributes="Bold" TextColor="White"/>
+                                         </Border>
+                                     </VerticalStackLayout>
+                                 </Grid>
+                             </Border>
+                         </DataTemplate>
+                     </CollectionView.ItemTemplate>
+                 </CollectionView>
+             </Grid>
+
+            <!-- 2. Chat Thread View -->
+            <Grid x:Name="ChatThreadGrid" RowDefinitions="Auto, *, Auto" IsVisible="False">
+                <!-- Chat Header -->
+                <Border Grid.Row="0" StrokeShape="RoundRectangle 0" BackgroundColor="White" Padding="16,10" Stroke="{StaticResource Gray200}" StrokeThickness="1">
+                    <Grid ColumnDefinitions="Auto, Auto, *, Auto" ColumnSpacing="12" VerticalOptions="Center">
+                        <!-- Back button with FontAwesome left arrow -->
+                        <Grid Grid.Column="0" WidthRequest="36" HeightRequest="36" VerticalOptions="Center" HorizontalOptions="Center">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnBackToConversationsClicked"/>
+                            </Grid.GestureRecognizers>
+                            <Label Text="&#xf060;" FontFamily="FASolid" FontSize="18" TextColor="{StaticResource PrimaryDark}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Grid>
+
+                        <!-- Vertical Separator -->
+                        <Label Grid.Column="1" Text="|" FontSize="20" TextColor="{StaticResource Gray200}" VerticalOptions="Center" Margin="0,0,0,2"/>
+
+                        <!-- Partner Info -->
+                        <VerticalStackLayout Grid.Column="2" Spacing="2" VerticalOptions="Center">
+                            <Label x:Name="ChatPartnerLabel" Text="Candidate Name" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Label Text="Seeker" FontSize="12" TextColor="{StaticResource Gray500}"/>
+                        </VerticalStackLayout>
+
+                        <!-- Profile Pic (Clickable) -->
+                        <Border Grid.Column="3" WidthRequest="40" HeightRequest="40" StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" VerticalOptions="Center">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnProfilePicClicked"/>
+                            </Border.GestureRecognizers>
+                            <Grid>
+                                <Label Text="&#xf007;" FontFamily="FASolid" FontSize="18" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                <Image x:Name="ChatPartnerImage" Aspect="AspectFill" BackgroundColor="Transparent"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Messages Thread -->
+                <CollectionView Grid.Row="1" x:Name="MessagesCollectionView" Margin="16,0" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <!-- Message Card -->
+                            <Grid Margin="0,4" ColumnDefinitions="*, Auto, *">
+                                <Border HorizontalOptions="{Binding alignment}"
+                                        StrokeThickness="0"
+                                        Padding="14,10"
+                                        Grid.ColumnSpan="3"
+                                        MaximumWidthRequest="280"
+                                        BackgroundColor="{Binding bubbleColor}"
+                                        StrokeShape="{Binding strokeShape}">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Label Text="{Binding messageText}" FontSize="13" TextColor="{Binding textColor}"/>
+                                        <Label Text="{Binding sentAt, StringFormat='{0:h:mm tt}'}" FontSize="9" TextColor="{Binding timeColor}" HorizontalOptions="End"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Input Row -->
+                <Border Grid.Row="2" StrokeThickness="0" BackgroundColor="White" Padding="16,12">
+                    <Grid ColumnDefinitions="*, Auto" ColumnSpacing="12">
+                        <Border Grid.Column="0" StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
+                            <Entry x:Name="MessageEntry" Placeholder="Type a message..." FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                        </Border>
+                        <Button Grid.Column="1" Text="Send" Clicked="OnSendMessageClicked" BackgroundColor="{StaticResource Primary}" TextColor="White" CornerRadius="10" WidthRequest="70" HeightRequest="44" FontAttributes="Bold" FontSize="13"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+        
+        <!-- Profile Details Overlay -->
+        <Grid x:Name="ProfileDetailsOverlay" BackgroundColor="#80000000" IsVisible="False" Grid.RowSpan="2">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseProfileOverlayClicked"/>
+            </Grid.GestureRecognizers>
+            
+            <Border VerticalOptions="End"
+                    HeightRequest="560"
+                    StrokeShape="RoundRectangle 24,24,0,0"
+                    StrokeThickness="0"
+                    BackgroundColor="White"
+                    Padding="24">
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Gray400}" Offset="0,-4" Radius="12" Opacity="0.3"/>
+                </Border.Shadow>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer /> <!-- Intercept taps -->
+                </Border.GestureRecognizers>
+                
+                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="16">
+                    <!-- Title Row -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
+                        <Label x:Name="OverlayTitleLabel" Text="Candidate Profile" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                        <Button Grid.Column="1" Text="&#xf00d;" FontFamily="FASolid" Clicked="OnCloseProfileOverlayClicked" BackgroundColor="Transparent" TextColor="{StaticResource Gray500}" FontSize="16" FontAttributes="Bold" WidthRequest="40" HeightRequest="40"/>
+                    </Grid>
+
+                    <!-- Scrollable Content -->
+                    <ScrollView Grid.Row="1">
+                        <VerticalStackLayout Spacing="16">
+                            <!-- Selfie and Name -->
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,10">
+                                <Border WidthRequest="80" HeightRequest="80" StrokeShape="RoundRectangle 40" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" HorizontalOptions="Center">
+                                    <Grid>
+                                        <Label Text="&#xf007;" FontFamily="FASolid" FontSize="36" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Image x:Name="OverlaySelfieImage" Aspect="AspectFill" BackgroundColor="Transparent"/>
+                                    </Grid>
+                                </Border>
+                                <Label x:Name="OverlayNameLabel" Text="-" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" HorizontalOptions="Center"/>
+                                <Label x:Name="OverlayJobTitleLabel" Text="-" FontSize="13" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
+
+                            <!-- Contact Info Block -->
+                            <Border StrokeShape="RoundRectangle 12" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" Padding="14">
+                                <VerticalStackLayout Spacing="8">
+                                    <Label x:Name="OverlayEmailLabel" Text="✉ -" FontSize="12" TextColor="{StaticResource PrimaryDark}"/>
+                                    <Label x:Name="OverlayPhoneLabel" Text="☏ -" FontSize="12" TextColor="{StaticResource PrimaryDark}"/>
+                                </VerticalStackLayout>
+                            </Border>
+
+                            <!-- Skills Section -->
+                            <Label Text="Skills" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <FlexLayout x:Name="OverlaySkillsLayout" Wrap="Wrap" Direction="Row" AlignItems="Center" JustifyContent="Start"/>
+
+                            <!-- Experience Section -->
+                            <Label Text="Work Experience" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" Margin="0,10,0,0"/>
+                            <VerticalStackLayout x:Name="OverlayExperienceLayout" Spacing="10"/>
+
+                            <!-- Education Section -->
+                            <Label Text="Education" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" Margin="0,10,0,0"/>
+                            <VerticalStackLayout x:Name="OverlayEducationLayout" Spacing="10"/>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                    
+                    <Button Grid.Row="2" Text="Close Profile" Clicked="OnCloseProfileOverlayClicked" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource PrimaryDark}" HeightRequest="46" CornerRadius="10" FontAttributes="Bold"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- Bottom Navigation -->
+        <components:BottomNav Grid.Row="1" x:Name="BottomNavigation" ActivePage="messages"/>
+    </Grid>
+</base:BasePage>

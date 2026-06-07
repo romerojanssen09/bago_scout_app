@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:BagoScoutApp.Pages.Components"
+             xmlns:components="clr-namespace:BagoScoutApp.Pages.AuthUser.Employer.Components"
+             x:Class="BagoScoutApp.Pages.AuthUser.Employer.EDashboardPage"
+             Title="Employer Dashboard"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Secondary}">
+    
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Main Content -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="20">
+                <!-- Welcome Section -->
+                <Grid ColumnDefinitions="*, Auto" Margin="0,10,0,10">
+                    <VerticalStackLayout Grid.Column="0" Spacing="4">
+                        <Label x:Name="WelcomeLabel"
+                               Text="Welcome back! 👋" 
+                               FontSize="22" 
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource PrimaryDark}"/>
+                        <Label Text="Manage job postings and review candidates" 
+                               FontSize="14" 
+                               TextColor="{StaticResource Gray500}"/>
+                    </VerticalStackLayout>
+                    <Border Grid.Column="1"
+                            WidthRequest="45"
+                            HeightRequest="45"
+                            StrokeShape="RoundRectangle 22.5"
+                            StrokeThickness="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            VerticalOptions="Center">
+                        <Label Text="&#xf1ad;" 
+                               FontFamily="FASolid"
+                               FontSize="20" 
+                               TextColor="White"
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"/>
+                    </Border>
+                </Grid>
+
+                <!-- Stats Grid (2x2) -->
+                <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *" RowSpacing="12" ColumnSpacing="12">
+                    <!-- Active Jobs -->
+                    <Border Grid.Row="0" Grid.Column="0" BackgroundColor="White" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="14" StrokeShape="RoundRectangle 16">
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Text="Active Jobs" FontSize="11" TextColor="{StaticResource Gray500}" FontAttributes="Bold"/>
+                                <Border Grid.Column="1" WidthRequest="26" HeightRequest="26" StrokeShape="RoundRectangle 13" StrokeThickness="0" BackgroundColor="#E0E7FF">
+                                    <Label Text="&#xf0b1;" FontFamily="FASolid" FontSize="12" TextColor="#3730A3" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                            <Label x:Name="ActiveJobsCountLabel" Text="0" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Total Applicants -->
+                    <Border Grid.Row="0" Grid.Column="1" BackgroundColor="White" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="14" StrokeShape="RoundRectangle 16">
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Text="Applicants" FontSize="11" TextColor="{StaticResource Gray500}" FontAttributes="Bold"/>
+                                <Border Grid.Column="1" WidthRequest="26" HeightRequest="26" StrokeShape="RoundRectangle 13" StrokeThickness="0" BackgroundColor="#D1FAE5">
+                                    <Label Text="&#xf0c0;" FontFamily="FASolid" FontSize="12" TextColor="#065F46" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                            <Label x:Name="TotalApplicantsLabel" Text="0" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Pending Review -->
+                    <Border Grid.Row="1" Grid.Column="0" BackgroundColor="White" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="14" StrokeShape="RoundRectangle 16">
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Text="Pending Review" FontSize="11" TextColor="{StaticResource Gray500}" FontAttributes="Bold"/>
+                                <Border Grid.Column="1" WidthRequest="26" HeightRequest="26" StrokeShape="RoundRectangle 13" StrokeThickness="0" BackgroundColor="#FEF3C7">
+                                    <Label Text="&#xf254;" FontFamily="FASolid" FontSize="12" TextColor="#92400E" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                            <Label x:Name="PendingCountLabel" Text="0" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Accepted (Hired) -->
+                    <Border Grid.Row="1" Grid.Column="1" BackgroundColor="White" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="14" StrokeShape="RoundRectangle 16">
+                        <Border.Shadow>
+                            <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                        </Border.Shadow>
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Text="Hired / Accepted" FontSize="11" TextColor="{StaticResource Gray500}" FontAttributes="Bold"/>
+                                <Border Grid.Column="1" WidthRequest="26" HeightRequest="26" StrokeShape="RoundRectangle 13" StrokeThickness="0" BackgroundColor="#E0F2FE">
+                                    <Label Text="&#xf058;" FontFamily="FASolid" FontSize="12" TextColor="#0284C7" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                            <Label x:Name="AcceptedCountLabel" Text="0" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Recent Applicants Section -->
+                <Grid ColumnDefinitions="*, Auto" Margin="0,10,0,0">
+                    <Label Grid.Column="0" Text="Recent Applicants" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                    <Button Grid.Column="1" Text="View All" Clicked="OnViewAllApplicantsClicked" BackgroundColor="Transparent" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontSize="13"/>
+                </Grid>
+
+                <!-- Loading Indicator -->
+                <ActivityIndicator x:Name="LoadingIndicator" IsRunning="True" Color="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40"/>
+
+                <!-- Applicants Collection View -->
+                <CollectionView x:Name="ApplicantsCollectionView" SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Padding="35" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="&#xf0c0;" FontFamily="FASolid" FontSize="40" TextColor="{StaticResource Gray400}" HorizontalTextAlignment="Center"/>
+                            <Label Text="No applicants yet" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" HorizontalTextAlignment="Center"/>
+                            <Label Text="Your job openings will show applicants here" FontSize="13" TextColor="{StaticResource Gray500}" HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeShape="RoundRectangle 16" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Margin="0,0,0,12" Padding="14">
+                                <Border.Shadow>
+                                    <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnApplicantTapped" CommandParameter="{Binding .}"/>
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="48, *, Auto" ColumnSpacing="12">
+                                    <!-- Avatar -->
+                                    <Border Grid.Column="0" WidthRequest="46" HeightRequest="46" StrokeShape="RoundRectangle 23" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" VerticalOptions="Center">
+                                        <Grid>
+                                            <Label Text="&#xf007;" FontFamily="FASolid" FontSize="20" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                            <Image Source="{Binding seekerPhoto}" Aspect="AspectFill" BackgroundColor="Transparent"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Content -->
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                        <Label Text="{Binding seekerName}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                                        <Label Text="{Binding jobTitle, StringFormat='For: {0}'}" FontSize="12" TextColor="{StaticResource Gray500}" MaxLines="1" LineBreakMode="TailTruncation"/>
+                                        <Label Text="{Binding appliedAt, StringFormat='{0:MMM dd, yyyy}'}" FontSize="11" TextColor="{StaticResource Gray400}"/>
+                                    </VerticalStackLayout>
+
+                                    <!-- Status Badge -->
+                                    <Border Grid.Column="2" Padding="8,4" StrokeThickness="0" StrokeShape="RoundRectangle 10" VerticalOptions="Center">
+                                        <Border.Triggers>
+                                            <!-- Pending Status -->
+                                            <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Pending">
+                                                <Setter Property="BackgroundColor" Value="#FEF3C7"/>
+                                            </DataTrigger>
+                                            <!-- Accepted Status -->
+                                            <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Accepted">
+                                                <Setter Property="BackgroundColor" Value="#D1FAE5"/>
+                                            </DataTrigger>
+                                            <!-- Rejected Status -->
+                                            <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Rejected">
+                                                <Setter Property="BackgroundColor" Value="#FEE2E2"/>
+                                            </DataTrigger>
+                                        </Border.Triggers>
+                                        
+                                        <Label Text="{Binding status}" FontSize="11" FontAttributes="Bold">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Pending">
+                                                    <Setter Property="TextColor" Value="#92400E"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Accepted">
+                                                    <Setter Property="TextColor" Value="#065F46"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Rejected">
+                                                    <Setter Property="TextColor" Value="#991B1B"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <!-- Bottom Navigation -->
+        <components:BottomNav Grid.Row="1" x:Name="BottomNavigation" ActivePage="dashboard"/>
+    </Grid>
+</base:BasePage>

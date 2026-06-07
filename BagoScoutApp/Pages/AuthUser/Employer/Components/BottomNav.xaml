@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BagoScoutApp.Pages.AuthUser.Employer.Components.BottomNav"
+             x:Name="ThisBottomNav">
+    
+    <Border BackgroundColor="#1C2B53" 
+            StrokeThickness="0"
+            Padding="0">
+        <Border.Shadow>
+            <Shadow Brush="Black" Opacity="0.1" Radius="10" Offset="0,-2"/>
+        </Border.Shadow>
+        
+        <Grid Padding="10,8" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Dashboard -->
+            <VerticalStackLayout Grid.Column="0" Spacing="4" HorizontalOptions="Center">
+                <Label x:Name="DashboardIcon"
+                       Text="&#xf015;" 
+                       FontFamily="FASolid" 
+                       FontSize="20" 
+                       TextColor="#6C63FF"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="DashboardLabel"
+                       Text="Dashboard" 
+                       FontSize="11" 
+                       TextColor="#6C63FF"
+                       HorizontalOptions="Center"/>
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnDashboardTapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+            
+            <!-- Job Postings -->
+            <VerticalStackLayout Grid.Column="1" Spacing="4" HorizontalOptions="Center">
+                <Label x:Name="PostingsIcon"
+                       Text="&#xf0b1;" 
+                       FontFamily="FASolid" 
+                       FontSize="20" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="PostingsLabel"
+                       Text="Postings" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnPostingsTapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+            
+            <!-- Candidates -->
+            <VerticalStackLayout Grid.Column="2" Spacing="4" HorizontalOptions="Center">
+                <Label x:Name="CandidatesIcon"
+                       Text="&#xf0c0;" 
+                       FontFamily="FASolid" 
+                       FontSize="20" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="CandidatesLabel"
+                       Text="Candidates" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnCandidatesTapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+            
+            <!-- Messages -->
+            <VerticalStackLayout Grid.Column="3" Spacing="4" HorizontalOptions="Center">
+                <Label x:Name="MessagesIcon"
+                       Text="&#xf4ad;" 
+                       FontFamily="FASolid" 
+                       FontSize="20" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="MessagesLabel"
+                       Text="Messages" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnMessagesTapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+            
+            <!-- Company Profile -->
+            <VerticalStackLayout Grid.Column="4" Spacing="4" HorizontalOptions="Center">
+                <Label x:Name="ProfileIcon"
+                       Text="&#xf1ad;" 
+                       FontFamily="FASolid" 
+                       FontSize="20" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+                <Label x:Name="ProfileLabel"
+                       Text="Profile" 
+                       FontSize="11" 
+                       TextColor="#8D94A8"
+                       HorizontalOptions="Center"/>
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnProfileTapped"/>
+                </VerticalStackLayout.GestureRecognizers>
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
+</ContentView>

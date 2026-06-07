@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BagoScoutApp.Pages.Components.PageHeader"
+             x:Name="ThisPageHeader">
+    
+    <Grid BackgroundColor="White" 
+          Padding="20,10,10,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Back Button and Title Row -->
+        <Grid Grid.Row="0" ColumnSpacing="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Label Grid.Column="0"
+                   FontFamily="FASolid"
+                   Text="&#xf060;"
+                   FontSize="20"
+                   TextColor="#404040"
+                   VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackTapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+            
+            <VerticalStackLayout Grid.Column="1">
+                <Label x:Name="TitleLabel"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="#1F2937"
+                       VerticalOptions="Center" />
+                <Label x:Name="DescriptionLabel"
+                       Margin="0,-2,0,0"
+                       FontSize="12"
+                       TextColor="#6B7280"
+                       HorizontalTextAlignment="Start"
+                       LineBreakMode="WordWrap"/>
+            </VerticalStackLayout>
+        </Grid>
+        <!-- Bottom Border -->
+        <BoxView Grid.ColumnSpan="2"
+     Color="#E5E7EB"
+     Margin="0,0,0,-10"
+     HeightRequest="1"
+     VerticalOptions="End"/>
+    </Grid>
+</ContentView>
