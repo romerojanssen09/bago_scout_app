@@ -80,6 +80,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<!-- Configuration files -->
+		<MauiAsset Include="appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <AndroidResource Remove="Pages\AuthUsers\**" />
 	  <Compile Remove="Pages\AuthUsers\**" />
 	  <EmbeddedResource Remove="Pages\AuthUsers\**" />
