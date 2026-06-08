@@ -1,0 +1,30 @@
+# Firebase/FCM configuration (contains sensitive keys)
+google-services.json
+GoogleService-Info.plist
+
+# Build outputs
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userprefs
+
+# Configuration with secrets
+appsettings.json
+!appsettings.json.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vs/
+.vscode/
+.idea/
+
+# MAUI specific
+*.apk
+*.aab
+*.ipa
