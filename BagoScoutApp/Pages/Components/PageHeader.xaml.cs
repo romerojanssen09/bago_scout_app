@@ -39,6 +39,7 @@ public partial class PageHeader : ContentView
 
     private async void OnBackTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("..", false);
+        // Always return to MainPage for consistent navigation
+        await Shell.Current.GoToAsync("//MainPage", false);
     }
 }

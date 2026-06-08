@@ -30,7 +30,12 @@
         Title="Seeker Dashboard"
         ContentTemplate="{DataTemplate seeker:SDashboardPage}"
         Route="SDashboardPage" />
-        
+
+    <ShellContent
+        Title="Seeker Preferences"
+        ContentTemplate="{DataTemplate seeker:SPreferencesPage}"
+        Route="SPreferencesPage" />
+
     <ShellContent
         Title="Jobs"
         ContentTemplate="{DataTemplate seeker:SJobsPage}"

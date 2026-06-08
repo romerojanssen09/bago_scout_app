@@ -13,10 +13,10 @@ namespace BagoScoutApp.Services
 
         static HttpClientHandler CreateHandler()
         {
-            var handler = new HttpClientHandler 
-            { 
-                UseCookies = true, 
-                CookieContainer = Cookies 
+            var handler = new HttpClientHandler
+            {
+                UseCookies = true,
+                CookieContainer = Cookies
             };
 
 #if DEBUG && ANDROID
@@ -29,14 +29,16 @@ namespace BagoScoutApp.Services
 
         static string GetBaseUrl()
         {
-#if DEBUG
-            // Use HTTP on port 5180 for local development to avoid self-signed HTTPS certificate errors
-            return "http://192.168.1.10:5180";
-#else
-            // Use HTTPS on port 7030 as backend has HTTPS redirection enabled
             return ConfigurationService.Instance.ApiBaseUrl ?? "http://192.168.1.10:5180";
 
-#endif
+            //#if DEBUG
+            //            // Use HTTP on port 5180 for local development to avoid self-signed HTTPS certificate errors
+            //            return "http://192.168.1.10:5180";
+            //#else
+            //            // Use HTTPS on port 7030 as backend has HTTPS redirection enabled
+            //            return ConfigurationService.Instance.ApiBaseUrl ?? "http://192.168.1.10:5180";
+
+            //#endif
         }
 
         public ApiClient(string? baseUrl = null)
@@ -168,6 +170,24 @@ namespace BagoScoutApp.Services
         {
             var token = await SecureStorage.GetAsync("AuthToken");
             return await _http.GetFromJsonAsync<SeekerDashboardData>($"/api/mobile/dashboard/seeker?token={token}");
+        }
+
+        public async Task<List<RecommendedJobDto>?> GetRecommendedJobsAsync()
+        {
+            await AddAuthHeader();
+            return await _http.GetFromJsonAsync<List<RecommendedJobDto>>("/api/preferences/recommended-jobs");
+        }
+
+        public async Task<JobPreferencesDto?> GetJobPreferencesAsync()
+        {
+            await AddAuthHeader();
+            return await _http.GetFromJsonAsync<JobPreferencesDto>("/api/preferences/get");
+        }
+
+        public async Task<HttpResponseMessage> SaveJobPreferencesAsync(JobPreferencesDto preferences)
+        {
+            await AddAuthHeader();
+            return await _http.PostAsJsonAsync("/api/preferences/save", preferences);
         }
 
         // --- JOBS & APPLICATIONS ---
@@ -417,9 +437,42 @@ namespace BagoScoutApp.Services
         public string requirements { get; set; } = "";
         public bool isActive { get; set; }
         public DateTime createdAt { get; set; }
-        
+
         public string distanceDisplay { get; set; } = "";
         public bool hasDistance => !string.IsNullOrEmpty(distanceDisplay);
+        public bool hasExperienceLevel => !string.IsNullOrEmpty(experienceLevel);
+        public bool hasRequirements => !string.IsNullOrEmpty(requirements);
+    }
+
+    public class RecommendedJobDto
+    {
+        public int jobId { get; set; }
+        public string title { get; set; } = "";
+        public string description { get; set; } = "";
+        public string company { get; set; } = "";
+        public string address { get; set; } = "";
+        public string salaryRange { get; set; } = "";
+        public string jobType { get; set; } = "";
+        public string experienceLevel { get; set; } = "";
+        public DateTime createdAt { get; set; }
+        public List<string> matchedCriteria { get; set; } = new();
+        public int matchCount { get; set; }
+        
+        public bool hasMatches => matchCount > 0;
+        public string matchLabel => matchCount > 0 ? $"{matchCount} Match{(matchCount > 1 ? "es" : "")}" : "";
+    }
+
+    public class JobPreferencesDto
+    {
+        public string preferredJobType { get; set; } = "";
+        public string preferredJobTitles { get; set; } = "";
+        public int? minSalary { get; set; }
+        public int? maxSalary { get; set; }
+        public string preferredLocation { get; set; } = "";
+        public double? preferredLatitude { get; set; }
+        public double? preferredLongitude { get; set; }
+        public int? maxDistance { get; set; }
+        public string preferredExperienceLevel { get; set; } = "";
     }
 
     public class ApplicationDto
@@ -452,7 +505,7 @@ namespace BagoScoutApp.Services
         public string lastMessage { get; set; } = "";
         public DateTime lastMessageTime { get; set; }
         public int unreadCount { get; set; }
-        
+
         public string fullName => $"{firstName} {lastName}".Trim();
     }
 

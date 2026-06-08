@@ -13,6 +13,10 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
     {
         private readonly ApiClient _api = new();
         private CompanyProfileDto? _profile;
+        private readonly string[] _industryOptions = new[] { "Technology", "Healthcare", "Finance", "Education", "Retail", "Manufacturing", "Construction", "Hospitality", "Other" };
+        private readonly string[] _sizeOptions = new[] { "1-10", "11-50", "51-200", "201-500", "501-1000", "1000+" };
+        private string _selectedIndustry = "";
+        private string _selectedSize = "";
 
         public EProfilePage()
         {
@@ -38,21 +42,15 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
                     
                     // Populate company details
                     CompanyNameEntry.Text = _profile.companyName;
-                    if (CompanyIndustryPicker.ItemsSource is IList<string> industries)
-                    {
-                        int idx = industries.IndexOf(_profile.companyIndustry);
-                        CompanyIndustryPicker.SelectedIndex = idx >= 0 ? idx : -1;
-                    }
+                    _selectedIndustry = _profile.companyIndustry ?? "";
+                    CompanyIndustryLabel.Text = string.IsNullOrEmpty(_selectedIndustry) ? "Select Industry" : _selectedIndustry;
                     CompanyWebsiteEntry.Text = _profile.companyWebsite;
                     CompanyAddressEntry.Text = _profile.companyAddress;
                     CompanyDescEditor.Text = _profile.companyDescription;
 
-                    // Setup picker value
-                    if (CompanySizePicker.ItemsSource is IList<string> sizes)
-                    {
-                        int index = sizes.IndexOf(_profile.companySize);
-                        CompanySizePicker.SelectedIndex = index >= 0 ? index : -1;
-                    }
+                    // Setup size value
+                    _selectedSize = _profile.companySize ?? "";
+                    CompanySizeLabel.Text = string.IsNullOrEmpty(_selectedSize) ? "Select Size" : _selectedSize;
 
                     // Setup company location coordinates & map
                     var lat = _profile.companyLatitude ?? 10.5389;
@@ -102,19 +100,10 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
 
         private async void OnChangeLogoClicked(object sender, EventArgs e)
         {
-            var action = await DisplayActionSheet("Change Company Logo", "Cancel", null, "Choose from Gallery", "Take Photo");
-            
             FileResult? logo = null;
             try
             {
-                if (action == "Choose from Gallery")
-                {
-                    logo = await MediaPicker.Default.PickPhotoAsync();
-                }
-                else if (action == "Take Photo")
-                {
-                    logo = await MediaPicker.Default.CapturePhotoAsync();
-                }
+                logo = await MediaPicker.Default.PickPhotoAsync();
 
                 if (logo != null)
                 {
@@ -146,11 +135,11 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
             if (_profile == null) return;
 
             var companyName = CompanyNameEntry.Text?.Trim() ?? "";
-            var industry = CompanyIndustryPicker.SelectedItem?.ToString() ?? "";
+            var industry = _selectedIndustry;
             var website = CompanyWebsiteEntry.Text?.Trim() ?? "";
             var address = CompanyAddressEntry.Text?.Trim() ?? "";
             var desc = CompanyDescEditor.Text?.Trim() ?? "";
-            var size = CompanySizePicker.SelectedItem?.ToString() ?? "";
+            var size = _selectedSize;
 
             var firstName = FirstNameEntry.Text?.Trim() ?? "";
             var lastName = LastNameEntry.Text?.Trim() ?? "";
@@ -222,6 +211,30 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
             }
         }
 
+        private async void OnIndustryPickerClicked(object sender, EventArgs e)
+        {
+            int currentIndex = Array.IndexOf(_industryOptions, _selectedIndustry);
+            var result = await ShowSelectOptionAsync("Select Industry", "Cancel", _industryOptions, currentIndex);
+
+            if (result != "Cancel")
+            {
+                _selectedIndustry = result;
+                CompanyIndustryLabel.Text = _selectedIndustry;
+            }
+        }
+
+        private async void OnSizePickerClicked(object sender, EventArgs e)
+        {
+            int currentIndex = Array.IndexOf(_sizeOptions, _selectedSize);
+            var result = await ShowSelectOptionAsync("Select Company Size", "Cancel", _sizeOptions, currentIndex);
+
+            if (result != "Cancel")
+            {
+                _selectedSize = result;
+                CompanySizeLabel.Text = _selectedSize;
+            }
+        }
+
         private void InitializeMap(double lat, double lng)
         {
             try
@@ -235,57 +248,56 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
                 CompanyLatitudeEntry.Text = lat.ToString(System.Globalization.CultureInfo.InvariantCulture);
                 CompanyLongitudeEntry.Text = lng.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-                var htmlTemplate = @"<!DOCTYPE html>
+                var token = ConfigurationService.Instance.MapboxAccessToken;
+                var latStr = lat.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                var lngStr = lng.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+                var html = $@"<!DOCTYPE html>
 <html>
 <head>
 <meta charset='utf-8'>
-<title>Display a map</title>
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'>
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet'>
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
 <style>
-body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
-.mapboxgl-ctrl-logo { display: none !important; }
-.mapboxgl-ctrl-attrib { display: none !important; }
+body {{ margin: 0; padding: 0; }}
+#map {{ position: absolute; top: 0; bottom: 0; width: 100%; }}
+.mapboxgl-ctrl-logo {{ display: none !important; }}
+.mapboxgl-ctrl-attrib {{ display: none !important; }}
 </style>
 </head>
 <body>
 <div id='map'></div>
 <script>
-    mapboxgl.accessToken = '{ConfigurationService.Instance.MapboxAccessToken}';
-    const map = new mapboxgl.Map({
+    mapboxgl.accessToken = '{token}';
+    const map = new mapboxgl.Map({{
         container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [{lng}, {lat}],
-        zoom: 13
-    });
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [{lngStr}, {latStr}],
+        zoom: 13,
+        attributionControl: false
+    }});
 
-    const marker = new mapboxgl.Marker({
-        draggable: true
-    })
-    .setLngLat([{lng}, {lat}])
-    .addTo(map);
+    const marker = new mapboxgl.Marker({{ draggable: true }})
+        .setLngLat([{lngStr}, {latStr}])
+        .addTo(map);
 
-    function onDragEnd() {
+    function onDragEnd() {{
         const lngLat = marker.getLngLat();
         window.location.href = 'invoke://coordinates?lat=' + lngLat.lat + '&lng=' + lngLat.lng;
-    }
+    }}
 
     marker.on('dragend', onDragEnd);
-    
-    map.on('click', function(e) {
+
+    map.on('click', function(e) {{
         marker.setLngLat(e.lngLat);
         window.location.href = 'invoke://coordinates?lat=' + e.lngLat.lat + '&lng=' + e.lngLat.lng;
-    });
+    }});
 </script>
 </body>
 </html>";
-                var htmlSource = new HtmlWebViewSource();
-                htmlSource.Html = htmlTemplate
-                    .Replace("{lat}", lat.ToString(System.Globalization.CultureInfo.InvariantCulture))
-                    .Replace("{lng}", lng.ToString(System.Globalization.CultureInfo.InvariantCulture));
-                MapWebView.Source = htmlSource;
+
+                MapWebView.Source = new HtmlWebViewSource { Html = html };
             }
             catch (Exception ex)
             {

@@ -15,6 +15,7 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
         private List<JobDto> _allJobs = new();
         private JobDto? _currentSelectedJob;
         private Location? _lastUserLocation;
+        private bool _jobsLoaded; // skip reload when returning from sub-pages
 
         public string TargetJobId
         {
@@ -48,13 +49,25 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await LoadJobsList();
-            
-            // Check location permission status on page appearance (Requirement 10.5)
-            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-            if (status == PermissionStatus.Granted)
+
+            // Only do the full load once; on return from sub-pages just restore state
+            if (!_jobsLoaded)
             {
-                JobMap.EnableUserLocation(true);
+                _jobsLoaded = true;
+                await LoadJobsList();
+            }
+            else
+            {
+                // Re-push jobs in case the map WebView reloaded while hidden
+                if (_allJobs.Any())
+                    JobMap.Jobs = _allJobs;
+            }
+            
+            // Check location permission status on page appearance
+            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            if (status == PermissionStatus.Granted && _lastUserLocation != null)
+            {
+                JobMap.UpdateUserLocation(_lastUserLocation.Latitude, _lastUserLocation.Longitude);
             }
 
             // Check if coordinates were supplied for direct centering (Requirement 5.1)
@@ -244,8 +257,6 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
 
                 if (status == PermissionStatus.Granted)
                 {
-                    JobMap.EnableUserLocation(true);
-
                     _ = Task.Run(async () =>
                     {
                         try
@@ -265,13 +276,15 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
 
                                 MainThread.BeginInvokeOnMainThread(() =>
                                 {
-                                    InitializeMap(_allJobs);
-                                    
-                                    // If no target job coordinates and no saved map state exists, default center to user location
+                                    // Show user dot on map
+                                    JobMap.UpdateUserLocation(userLoc.Latitude, userLoc.Longitude);
+
+                                    // Set initial center if no saved state and no target coords
                                     if (string.IsNullOrEmpty(TargetJobLat) && !Preferences.ContainsKey("LastMapCenterLat"))
                                     {
-                                        JobMap.CenterOnLocation(userLoc.Latitude, userLoc.Longitude, 12, 0); // instant jump
+                                        JobMap.SetInitialCenter(userLoc.Latitude, userLoc.Longitude, 12);
                                     }
+                                    InitializeMap(_allJobs);
                                 });
                             }
                         }
@@ -309,7 +322,7 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
 
             CoverLetterEditor.Text = "";
             DetailsOverlay.IsVisible = true;
-            JobMap.IsVisible = false;
+            // Keep map visible under the dark overlay — hiding it shows the grey page background
             MyLocationButton.IsVisible = false;
             JobListButton.IsVisible = false; 
         }
@@ -317,13 +330,12 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
         private void OnCloseDetailsTapped(object sender, EventArgs e)
         {
             DetailsOverlay.IsVisible = false;
-            JobMap.IsVisible = true;
             MyLocationButton.IsVisible = true;
             JobListButton.IsVisible = true; 
             _currentSelectedJob = null;
             TargetJobId = "";
             
-            // Clear selected marker highlight (Requirement 4.5)
+            // Clear selected marker highlight
             JobMap.SelectedJob = null;
         }
 
@@ -364,7 +376,6 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
                 {
                     await ShowAlertAsync("Application Submitted!", $"You have successfully applied for {_currentSelectedJob.title} at {_currentSelectedJob.company}.", "Awesome");
                     DetailsOverlay.IsVisible = false;
-                    JobMap.IsVisible = true;
                     MyLocationButton.IsVisible = true;
                     JobListButton.IsVisible = true;
                     _currentSelectedJob = null;
@@ -435,13 +446,10 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
                     _lastUserLocation = userLoc;
                     UpdateJobsDistanceDisplay(userLoc);
 
-                    // Enable puck location (Requirement 3.1)
-                    JobMap.EnableUserLocation(true);
-
-                    // Center camera with zoom 15 and 800ms animation (Requirement 6.2, 6.3, 6.4)
+                    // Show user dot and fly to location
+                    JobMap.UpdateUserLocation(userLoc.Latitude, userLoc.Longitude);
                     JobMap.CenterOnLocation(userLoc.Latitude, userLoc.Longitude, 15, 800);
 
-                    // Small delay after animation completes to restore interactions
                     await Task.Delay(850);
                 }
                 else

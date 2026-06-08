@@ -10,6 +10,8 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.kiro
+*.vscode
 
 # Build outputs
 *.dll
@@ -63,3 +65,6 @@ local.properties
 appsettings.json
 appsettings.*.json
 !appsettings.json.example
+
+*logs.md
+*bago

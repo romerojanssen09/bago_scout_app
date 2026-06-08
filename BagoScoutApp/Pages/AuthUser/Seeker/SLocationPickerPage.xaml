@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BagoScoutApp.Pages.AuthUser.Seeker.SLocationPickerPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F8FAFC"
+             Title="Select Location">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0"
+                             Padding="20,20,20,10"
+                             Spacing="8"
+                             BackgroundColor="White">
+            <HorizontalStackLayout Spacing="12">
+                <Label Text="←"
+                       FontFamily="Inter"
+                       FontSize="24"
+                       TextColor="#0F172A"
+                       VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="Select Preferred Location"
+                       FontFamily="Inter"
+                       FontAttributes="Bold"
+                       FontSize="20"
+                       TextColor="#0F172A"
+                       VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+            <Label Text="Pan or tap the map to position the pin, then press 'Use This Location'"
+                   FontFamily="Inter"
+                   FontSize="13"
+                   TextColor="#64748B"
+                   Margin="36,0,0,0"/>
+        </VerticalStackLayout>
+
+        <!-- Map (WebView fills the row) -->
+        <Grid Grid.Row="1">
+            <!-- Loading placeholder -->
+            <ActivityIndicator x:Name="MapLoader"
+                               IsRunning="True"
+                               IsVisible="True"
+                               Color="#6C63FF"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+
+            <WebView x:Name="MapWebView"
+                     HorizontalOptions="Fill"
+                     VerticalOptions="Fill"/>
+        </Grid>
+
+        <!-- Selected Location Info & Actions -->
+        <VerticalStackLayout Grid.Row="2"
+                             Padding="20"
+                             Spacing="12"
+                             BackgroundColor="White">
+
+            <Border x:Name="LocationInfoBorder"
+                    IsVisible="False"
+                    BackgroundColor="#F8FAFC"
+                    StrokeThickness="1"
+                    Stroke="#E2E8F0"
+                    Padding="16">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Selected Location:"
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="12"
+                           TextColor="#64748B"/>
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="&#xf3c5;"
+                               FontFamily="FASolid"
+                               FontSize="14"
+                               TextColor="#EF4444"
+                               VerticalOptions="Start"/>
+                        <Label x:Name="SelectedLocationLabel"
+                               Text="Loading address..."
+                               FontFamily="Inter"
+                               FontSize="14"
+                               TextColor="#0F172A"
+                               LineBreakMode="WordWrap"
+                               MaxLines="2"
+                               HorizontalOptions="FillAndExpand"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="4">
+                        <Label Text="Coordinates:"
+                               FontFamily="Inter"
+                               FontSize="11"
+                               TextColor="#94A3B8"/>
+                        <Label x:Name="CoordinatesLabel"
+                               Text=""
+                               FontFamily="Inter"
+                               FontSize="11"
+                               TextColor="#94A3B8"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Cancel / Confirm -->
+            <Grid ColumnDefinitions="*,12,*">
+                <Border Grid.Column="0"
+                        BackgroundColor="White"
+                        StrokeThickness="1"
+                        Stroke="#E2E8F0"
+                        Padding="14">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCancelTapped"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="Cancel"
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           TextColor="#64748B"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Border>
+
+                <Border Grid.Column="2"
+                        BackgroundColor="#6C63FF"
+                        StrokeThickness="0"
+                        Padding="14">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnConfirmTapped"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="Use This Location"
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Border>
+            </Grid>
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>

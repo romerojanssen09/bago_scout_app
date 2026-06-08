@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BagoScoutApp.Pages.AuthUser.Seeker.SDistancePickerPage"
+             BackgroundColor="#F8FAFC"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Header -->
+        <Grid Grid.Row="0" BackgroundColor="White" Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" WidthRequest="40" HeightRequest="40">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackTapped"/>
+                </Grid.GestureRecognizers>
+                <RoundRectangle CornerRadius="8" Fill="#F1F5F9"/>
+                <Label Text="&#xf053;" 
+                       FontFamily="FASolid"
+                       FontSize="16"
+                       TextColor="#0F172A"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            </Grid>
+
+            <VerticalStackLayout Grid.Column="1" Spacing="4" Margin="12,0,0,0">
+                <Label Text="Set Maximum Distance" 
+                       FontFamily="Inter"
+                       FontAttributes="Bold"
+                       FontSize="20"
+                       TextColor="#0F172A"/>
+                <Label x:Name="SubtitleLabel"
+                       Text="Adjust the range to see jobs within this distance from your location"
+                       FontFamily="Inter"
+                       FontSize="13"
+                       TextColor="#64748B"/>
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20" Spacing="20">
+                <!-- Distance Slider Card -->
+                <Grid BackgroundColor="White" HeightRequest="120">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32"/>
+                        <RowDefinition Height="48"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+
+                    <RoundRectangle Grid.RowSpan="3" CornerRadius="16" Fill="White"/>
+                    <RoundRectangle Grid.RowSpan="3" CornerRadius="16" Stroke="#E2E8F0" StrokeThickness="1"/>
+
+                    <Label Grid.Row="0"
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="14"
+                           Margin="20,8,20,0"
+                           VerticalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Distance Range: " TextColor="#64748B"/>
+                                <Span x:Name="DistanceValueLabel" Text="50 km" TextColor="#6C63FF"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Slider Grid.Row="1"
+                            x:Name="DistanceSlider"
+                            Minimum="1"
+                            Maximum="100"
+                            Value="50"
+                            MinimumTrackColor="#6C63FF"
+                            MaximumTrackColor="#E2E8F0"
+                            ThumbColor="#6C63FF"
+                            ValueChanged="OnDistanceChanged"
+                            Margin="5,0,5,0"
+                            VerticalOptions="Center"/>
+
+                    <Grid Grid.Row="2" Margin="20,0,20,0" VerticalOptions="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"
+                               Text="1 km"
+                               FontFamily="Inter"
+                               FontSize="12"
+                               TextColor="#94A3B8"
+                               HorizontalOptions="Start"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="100 km"
+                               FontFamily="Inter"
+                               FontSize="12"
+                               TextColor="#94A3B8"
+                               HorizontalOptions="End"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Grid>
+
+                <!-- Map Container -->
+                <Grid BackgroundColor="White" HeightRequest="400">
+                    <RoundRectangle CornerRadius="16" Fill="White"/>
+                    <RoundRectangle CornerRadius="16" Stroke="#E2E8F0" StrokeThickness="1"/>
+                    
+                    <WebView x:Name="MapWebView"
+                             Margin="1"
+                             HeightRequest="398"
+                             WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type Grid}}, Path=Width}"/>
+                    
+                    <Label x:Name="MapPlaceholder"
+                           Text="Loading map..."
+                           FontFamily="Inter"
+                           FontSize="14"
+                           TextColor="#94A3B8"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Confirm Button -->
+                <Grid HeightRequest="54">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnConfirmTapped"/>
+                    </Grid.GestureRecognizers>
+                    <RoundRectangle CornerRadius="12" Fill="#1C2B53"/>
+                    <Label Text="Use This Range" 
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Cancel Button -->
+                <Grid HeightRequest="54">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCancelTapped"/>
+                    </Grid.GestureRecognizers>
+                    <RoundRectangle CornerRadius="12" Fill="White" Stroke="#E2E8F0" StrokeThickness="2"/>
+                    <Label Text="Cancel" 
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           TextColor="#64748B"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

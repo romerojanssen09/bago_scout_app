@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Distance Circle Map</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        .mapboxgl-ctrl-logo,
+        .mapboxgl-ctrl-attrib {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    
+    <script>
+        // Token will be injected from appsettings.json at runtime
+        mapboxgl.accessToken = '{{TOKEN}}';
+        
+        let map = null;
+        let centerMarker = null;
+        let circleLayerId = 'distance-circle';
+        let circleSourceId = 'circle-source';
+        
+        // Initialize the map
+        function initMap(lat, lng, zoom) {
+            if (map) {
+                map.remove();
+            }
+            
+            map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v12',
+                center: [lng, lat],
+                zoom: zoom
+            });
+            
+            map.on('load', function() {
+                console.log('Map loaded');
+                
+                // Add marker
+                if (centerMarker) {
+                    centerMarker.remove();
+                }
+                centerMarker = new mapboxgl.Marker({ color: '#FF4500' })
+                    .setLngLat([lng, lat])
+                    .addTo(map);
+                
+                // Notify MAUI that map is ready
+                if (window.chrome && window.chrome.webview) {
+                    window.chrome.webview.postMessage('MAP_READY');
+                }
+            });
+        }
+        
+        // Create a circle using turf.js circle function
+        function createCircle(centerLng, centerLat, radiusKm) {
+            const points = 64;
+            const km = radiusKm;
+            const ret = [];
+            const distanceX = km / (111.320 * Math.cos(centerLat * Math.PI / 180));
+            const distanceY = km / 110.574;
+            
+            for (let i = 0; i < points; i++) {
+                const theta = (i / points) * (2 * Math.PI);
+                const x = distanceX * Math.cos(theta);
+                const y = distanceY * Math.sin(theta);
+                ret.push([centerLng + x, centerLat + y]);
+            }
+            ret.push(ret[0]); // Close the polygon
+            
+            return {
+                type: 'Feature',
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: [ret]
+                }
+            };
+        }
+        
+        // Update the circle on the map
+        function updateCircle(lat, lng, distanceKm) {
+            if (!map) return;
+            
+            const circle = createCircle(lng, lat, distanceKm);
+            
+            // Remove existing circle
+            if (map.getLayer(circleLayerId)) {
+                map.removeLayer(circleLayerId);
+            }
+            if (map.getSource(circleSourceId)) {
+                map.removeSource(circleSourceId);
+            }
+            
+            // Add new circle
+            map.addSource(circleSourceId, {
+                type: 'geojson',
+                data: circle
+            });
+            
+            map.addLayer({
+                id: circleLayerId,
+                type: 'fill',
+                source: circleSourceId,
+                paint: {
+                    'fill-color': '#6C63FF',
+                    'fill-opacity': 0.3
+                }
+            });
+            
+            map.addLayer({
+                id: circleLayerId + '-outline',
+                type: 'line',
+                source: circleSourceId,
+                paint: {
+                    'line-color': '#6C63FF',
+                    'line-width': 2
+                }
+            });
+        }
+        
+        // Update zoom level
+        function updateZoom(zoom) {
+            if (map) {
+                map.setZoom(zoom);
+            }
+        }
+        
+        // Message handler from MAUI
+        window.addEventListener('message', function(event) {
+            try {
+                const data = JSON.parse(event.data);
+                
+                if (data.action === 'init') {
+                    initMap(data.lat, data.lng, data.zoom);
+                } else if (data.action === 'updateCircle') {
+                    updateCircle(data.lat, data.lng, data.distance);
+                } else if (data.action === 'updateZoom') {
+                    updateZoom(data.zoom);
+                } else if (data.action === 'setToken') {
+                    mapboxgl.accessToken = data.token;
+                }
+            } catch (e) {
+                console.error('Error handling message:', e);
+            }
+        });
+    </script>
+</body>
+</html>

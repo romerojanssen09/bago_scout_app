@@ -230,7 +230,7 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
         {
             if (e.Parameter is JobDto clickedJob)
             {
-                // Navigate using Shell routing
+                // Navigate using Shell routing to map view with job details
                 await Shell.Current.Navigation.PushAsync(new SJobsPage { 
                     TargetStaticJobId = clickedJob.jobId.ToString(),
                     TargetJobLat = clickedJob.latitude?.ToString() ?? "",

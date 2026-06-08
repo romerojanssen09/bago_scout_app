@@ -15,6 +15,8 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
         private List<JobDto> _employerJobs = new();
         private bool _isDataLoading = false;
         private ApplicationDto _currentApplicant;
+        private string _currentFilter = "All Jobs";
+        private List<string> _filterOptions = new();
 
         private Color GetThemeColor(string key, string fallbackHex)
         {
@@ -39,8 +41,9 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
         private async Task LoadData()
         {
             _isDataLoading = true;
+            LoadingContainer.IsVisible = true;
             LoadingIndicator.IsRunning = true;
-            LoadingIndicator.IsVisible = true;
+            CandidatesCollectionView.IsVisible = false;
 
             try
             {
@@ -53,16 +56,16 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
                 _employerJobs = jobsTask.Result ?? new List<JobDto>();
                 _allCandidates = candidatesTask.Result ?? new List<ApplicationDto>();
 
-                // Setup picker items
-                var pickerItems = new List<string> { "All Jobs" };
-                pickerItems.AddRange(_employerJobs.Select(j => j.title));
-                JobFilterPicker.ItemsSource = pickerItems;
+                // Setup filter options
+                _filterOptions = new List<string> { "All Jobs" };
+                _filterOptions.AddRange(_employerJobs.Select(j => j.title));
 
-                // Default selection
-                if (JobFilterPicker.SelectedIndex < 0)
+                // Set default filter if not set
+                if (string.IsNullOrEmpty(_currentFilter))
                 {
-                    JobFilterPicker.SelectedIndex = 0;
+                    _currentFilter = "All Jobs";
                 }
+                FilterLabel.Text = _currentFilter;
 
                 ApplyFilters();
             }
@@ -73,31 +76,39 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
             }
             finally
             {
+                LoadingContainer.IsVisible = false;
                 LoadingIndicator.IsRunning = false;
-                LoadingIndicator.IsVisible = false;
+                CandidatesCollectionView.IsVisible = true;
                 _isDataLoading = false;
             }
         }
 
-        private void OnJobFilterChanged(object sender, EventArgs e)
+        private async void OnFilterButtonClicked(object sender, EventArgs e)
         {
-            ApplyFilters();
+            if (_filterOptions.Count == 0) return;
+
+            int currentIndex = _filterOptions.IndexOf(_currentFilter);
+            var result = await ShowSelectOptionAsync("Filter by Job", "Cancel", _filterOptions.ToArray(), currentIndex);
+
+            if (result != "Cancel" && result != _currentFilter)
+            {
+                _currentFilter = result;
+                FilterLabel.Text = _currentFilter;
+                ApplyFilters();
+            }
         }
 
         private void ApplyFilters()
         {
-            if (JobFilterPicker.SelectedIndex < 0) return;
-
-            var selectedFilter = JobFilterPicker.SelectedItem?.ToString() ?? "All Jobs";
             List<ApplicationDto> filteredList;
 
-            if (selectedFilter == "All Jobs")
+            if (_currentFilter == "All Jobs")
             {
                 filteredList = _allCandidates;
             }
             else
             {
-                filteredList = _allCandidates.Where(c => c.jobTitle.Equals(selectedFilter, StringComparison.OrdinalIgnoreCase)).ToList();
+                filteredList = _allCandidates.Where(c => c.jobTitle.Equals(_currentFilter, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             // Adjust photo URLs
@@ -193,7 +204,7 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
                     optionsList.Add("Mark as Reviewed");
                 }
 
-                string choice = await ShowActionSheetAsync($"Actions for {applicant.seekerName}", "Cancel", optionsList.ToArray());
+                string choice = await ShowSelectOptionAsync($"Actions for {applicant.seekerName}", "Cancel", optionsList.ToArray());
 
                 if (choice == "Message")
                 {

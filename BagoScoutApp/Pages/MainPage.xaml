@@ -65,7 +65,7 @@
                             BackgroundColor="White"
                             Padding="0">
                         <Border.Shadow>
-                            <Shadow />
+                            <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.05"/>
                         </Border.Shadow>
                         <Grid RowSpacing="0">
                             <Grid.RowDefinitions>
@@ -200,7 +200,7 @@
                             StrokeShape="RoundRectangle 16"
                             Padding="20">
                         <Border.Shadow>
-                            <Shadow />
+                            <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.05"/>
                         </Border.Shadow>
                         <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
                             <Image Source="vast_job_listings.png" 
@@ -225,7 +225,7 @@
                             StrokeShape="RoundRectangle 16"
                             Padding="20">
                         <Border.Shadow>
-                            <Shadow />
+                            <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.05"/>
                         </Border.Shadow>
                         <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
                             <Image Source="chatting.png" 
@@ -250,7 +250,7 @@
                             StrokeShape="RoundRectangle 16"
                             Padding="20">
                         <Border.Shadow>
-                            <Shadow />
+                            <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.05"/>
                         </Border.Shadow>
                         <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
                             <Image Source="map.png" 
@@ -342,7 +342,7 @@
                             StrokeShape="RoundRectangle 16"
                             Padding="24">
                         <Border.Shadow>
-                            <Shadow />
+                            <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.05"/>
                         </Border.Shadow>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnEmailContactTapped" />
@@ -384,7 +384,7 @@
                             StrokeShape="RoundRectangle 16"
                             Padding="24">
                         <Border.Shadow>
-                            <Shadow />
+                            <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.05"/>
                         </Border.Shadow>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnPhoneContactTapped" />
@@ -426,7 +426,7 @@
                             StrokeShape="RoundRectangle 16"
                             Padding="24">
                         <Border.Shadow>
-                            <Shadow />
+                            <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.05"/>
                         </Border.Shadow>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnLinkedInContactTapped" />

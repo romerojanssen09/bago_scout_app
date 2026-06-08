@@ -3,267 +3,168 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:base="clr-namespace:BagoScoutApp.Pages.Components"
              x:Class="BagoScoutApp.Pages.Register.RegisterVerifyPage"
-             Title="Register: Verify"
+             Title="Register"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="White">
-    
-    <Grid RowSpacing="0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        
-        <!-- Content -->
-        <ScrollView Grid.Row="0">
-            <VerticalStackLayout Padding="20,40,20,20" Spacing="32">
-                <!-- Close Button -->
-                <Label Text="&#x2715;" 
-                       FontSize="24" 
-                       TextColor="{StaticResource Gray500}"
-                       HorizontalOptions="End"
-                       VerticalOptions="Start">
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,52,24,32" Spacing="0">
+
+            <!-- Close -->
+            <Label Text="&#xf00d;" FontFamily="FASolid" FontSize="18" TextColor="#94A3B8"
+                   HorizontalOptions="End" Margin="0,0,0,24">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnCloseTapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <!-- Brand -->
+            <VerticalStackLayout Spacing="6" HorizontalOptions="Center" Margin="0,0,0,32">
+                <Label Text="BagoScout" FontFamily="Inter" FontAttributes="Bold"
+                       FontSize="28" TextColor="#1C2B53" HorizontalOptions="Center"/>
+                <Label Text="Create your account" FontFamily="Inter" FontSize="15"
+                       TextColor="#64748B" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Progress -->
+            <Grid Margin="0,0,0,8" HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/><ColumnDefinition Width="28"/>
+                    <ColumnDefinition Width="Auto"/><ColumnDefinition Width="28"/>
+                    <ColumnDefinition Width="Auto"/><ColumnDefinition Width="28"/>
+                    <ColumnDefinition Width="Auto"/><ColumnDefinition Width="28"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" WidthRequest="32" HeightRequest="32"
+                        StrokeShape="RoundRectangle 16" StrokeThickness="0" BackgroundColor="#6C63FF">
+                    <Label Text="&#xf00c;" FontFamily="FASolid" FontSize="13" TextColor="White"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <BoxView Grid.Column="1" Color="#6C63FF" HeightRequest="2" VerticalOptions="Center"/>
+                <Border Grid.Column="2" WidthRequest="32" HeightRequest="32"
+                        StrokeShape="RoundRectangle 16" StrokeThickness="0" BackgroundColor="#6C63FF">
+                    <Label Text="&#xf00c;" FontFamily="FASolid" FontSize="13" TextColor="White"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <BoxView Grid.Column="3" Color="#6C63FF" HeightRequest="2" VerticalOptions="Center"/>
+                <Border Grid.Column="4" WidthRequest="32" HeightRequest="32"
+                        StrokeShape="RoundRectangle 16" StrokeThickness="0" BackgroundColor="#6C63FF">
+                    <Label Text="3" FontFamily="Inter" FontAttributes="Bold" FontSize="13" TextColor="White"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <BoxView Grid.Column="5" Color="#E2E8F0" HeightRequest="2" VerticalOptions="Center"/>
+                <Border Grid.Column="6" WidthRequest="32" HeightRequest="32"
+                        StrokeShape="RoundRectangle 16" StrokeThickness="0" BackgroundColor="#E2E8F0">
+                    <Label Text="4" FontFamily="Inter" FontAttributes="Bold" FontSize="13" TextColor="#94A3B8"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <BoxView Grid.Column="7" Color="#E2E8F0" HeightRequest="2" VerticalOptions="Center"/>
+                <Border Grid.Column="8" WidthRequest="32" HeightRequest="32"
+                        StrokeShape="RoundRectangle 16" StrokeThickness="0" BackgroundColor="#E2E8F0">
+                    <Label Text="5" FontFamily="Inter" FontAttributes="Bold" FontSize="13" TextColor="#94A3B8"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+            </Grid>
+
+            <Label Text="Step 3 of 5 — Email Verification" FontFamily="Inter" FontSize="12"
+                   TextColor="#94A3B8" HorizontalOptions="Center" Margin="0,0,0,28"/>
+
+            <!-- Card -->
+            <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Padding="24,32">
+                <Border.Shadow>
+                    <Shadow Brush="#64748B" Offset="0,4" Radius="16" Opacity="0.06"/>
+                </Border.Shadow>
+                <VerticalStackLayout Spacing="24" HorizontalOptions="Fill">
+
+                    <!-- Email icon -->
+                    <Border WidthRequest="64" HeightRequest="64" StrokeShape="RoundRectangle 18"
+                            StrokeThickness="0" BackgroundColor="#EEF2FF" HorizontalOptions="Center">
+                        <Label Text="&#xf0e0;" FontFamily="FASolid" FontSize="26"
+                               TextColor="#6C63FF" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+
+                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                        <Label Text="Check your inbox"
+                               FontFamily="Inter"
+                               FontAttributes="Bold"
+                               FontSize="20"
+                               TextColor="#0F172A"
+                               HorizontalOptions="Center"/>
+                        <Label Text="We sent a 6-digit code to your email address"
+                               FontFamily="Inter"
+                               FontSize="13"
+                               TextColor="#64748B"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+
+                    <!-- Code input -->
+                    <Border Stroke="#E2E8F0" StrokeThickness="2" BackgroundColor="#F8FAFC"
+                            StrokeShape="RoundRectangle 14" HorizontalOptions="Center"
+                            WidthRequest="180" Padding="16,0">
+                        <Entry x:Name="CodeEntry"
+                               Placeholder="000000"
+                               Keyboard="Numeric"
+                               MaxLength="6"
+                               PlaceholderColor="#CBD5E1"
+                               TextColor="#1C2B53"
+                               FontFamily="Inter"
+                               FontAttributes="Bold"
+                               FontSize="28"
+                               HeightRequest="64"
+                               HorizontalTextAlignment="Center"
+                               BackgroundColor="Transparent"/>
+                    </Border>
+
+                    <!-- Resend -->
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                        <Label Text="Didn't receive it?" FontFamily="Inter" FontSize="13" TextColor="#64748B"/>
+                        <Label Text="Resend code" FontFamily="Inter" FontAttributes="Bold"
+                               FontSize="13" TextColor="#6C63FF">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnResend"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Buttons -->
+            <Grid ColumnSpacing="12" Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" StrokeShape="RoundRectangle 12" StrokeThickness="1"
+                        Stroke="#E2E8F0" BackgroundColor="White" HeightRequest="54">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBackTapped"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="Back" FontFamily="Inter" FontAttributes="Bold" FontSize="15"
+                           TextColor="#475569" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <Button Grid.Column="1" Text="Verify Email"
+                        Clicked="OnVerify"
+                        BackgroundColor="#1C2B53"
+                        TextColor="White"
+                        FontFamily="Inter"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        CornerRadius="12"
+                        HeightRequest="54"/>
+            </Grid>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="4" Margin="0,16,0,0">
+                <Label Text="Already have an account?" FontFamily="Inter" FontSize="14" TextColor="#64748B"/>
+                <Label Text="Sign in" FontFamily="Inter" FontAttributes="Bold"
+                       FontSize="14" TextColor="#6C63FF">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnCloseTapped"/>
+                        <TapGestureRecognizer Tapped="OnLoginTapped"/>
                     </Label.GestureRecognizers>
                 </Label>
-                
-                <!-- Title Section -->
-                <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,-20,0,0">
-                    <Label Text="Create Account" 
-                           FontSize="32" 
-                           FontAttributes="Bold" 
-                           TextColor="{StaticResource PrimaryDark}"
-                           HorizontalOptions="Center"/>
-                    <Label Text="Join BagoScout today" 
-                           FontSize="16" 
-                           TextColor="{StaticResource Gray500}"
-                           HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-                
-                <!-- Progress Steps -->
-                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
-                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
-                        <!-- Step 1 - Completed -->
-                        <Border WidthRequest="48" 
-                                HeightRequest="48" 
-                                StrokeShape="RoundRectangle 24"
-                                Stroke="Transparent"
-                                BackgroundColor="{StaticResource Primary}">
-                            <Label Text="&#x2713;" 
-                                   FontFamily="FASolid"
-                                   FontSize="20" 
-                                   FontAttributes="Bold"
-                                   TextColor="White"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                        </Border>
-                        
-                        <BoxView Color="{StaticResource Primary}" 
-                                 HeightRequest="2" 
-                                 WidthRequest="40"
-                                 VerticalOptions="Center"/>
-                        
-                        <!-- Step 2 - Completed -->
-                        <Border WidthRequest="48" 
-                                HeightRequest="48" 
-                                StrokeShape="RoundRectangle 24"
-                                Stroke="Transparent"
-                                BackgroundColor="{StaticResource Primary}">
-                            <Label Text="&#x2713;" 
-                                   FontFamily="FASolid"
-                                   FontSize="20" 
-                                   FontAttributes="Bold"
-                                   TextColor="White"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                        </Border>
-                        
-                        <BoxView Color="{StaticResource Primary}" 
-                                 HeightRequest="2" 
-                                 WidthRequest="40"
-                                 VerticalOptions="Center"/>
-                        
-                        <!-- Step 3 - Active -->
-                        <Border WidthRequest="48" 
-                                HeightRequest="48" 
-                                StrokeShape="RoundRectangle 24"
-                                Stroke="Transparent"
-                                BackgroundColor="{StaticResource Primary}">
-                            <Label Text="3" 
-                                   FontSize="18" 
-                                   FontAttributes="Bold"
-                                   TextColor="White"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                        </Border>
-                        
-                        <BoxView Color="{StaticResource Gray200}" 
-                                 HeightRequest="2" 
-                                 WidthRequest="40"
-                                 VerticalOptions="Center"/>
-                        
-                        <!-- Step 4 -->
-                        <Border WidthRequest="48" 
-                                HeightRequest="48" 
-                                StrokeShape="RoundRectangle 24"
-                                Stroke="Transparent"
-                                BackgroundColor="{StaticResource Gray200}">
-                            <Label Text="4" 
-                                   FontSize="18" 
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray500}"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                        </Border>
-                        
-                        <BoxView Color="{StaticResource Gray200}" 
-                                 HeightRequest="2" 
-                                 WidthRequest="40"
-                                 VerticalOptions="Center"/>
-                        
-                        <!-- Step 5 -->
-                        <Border WidthRequest="48" 
-                                HeightRequest="48" 
-                                StrokeShape="RoundRectangle 24"
-                                Stroke="Transparent"
-                                BackgroundColor="{StaticResource Gray200}">
-                            <Label Text="5" 
-                                   FontSize="18" 
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray500}"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                        </Border>
-                    </HorizontalStackLayout>
-                    
-                    <!-- Step Labels -->
-                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
-                        <Label Text="Type" 
-                               FontSize="12" 
-                               TextColor="{StaticResource Gray500}"
-                               WidthRequest="48"
-                               HorizontalTextAlignment="Center"/>
-                        <BoxView WidthRequest="40" Opacity="0"/>
-                        <Label Text="Account" 
-                               FontSize="12" 
-                               TextColor="{StaticResource Gray500}"
-                               WidthRequest="48"
-                               HorizontalTextAlignment="Center"/>
-                        <BoxView WidthRequest="40" Opacity="0"/>
-                        <Label Text="Verify" 
-                               FontSize="12" 
-                               TextColor="{StaticResource Primary}"
-                               FontAttributes="Bold"
-                               WidthRequest="48"
-                               HorizontalTextAlignment="Center"/>
-                        <BoxView WidthRequest="40" Opacity="0"/>
-                        <Label Text="ID" 
-                               FontSize="12" 
-                               TextColor="{StaticResource Gray500}"
-                               WidthRequest="48"
-                               HorizontalTextAlignment="Center"/>
-                        <BoxView WidthRequest="40" Opacity="0"/>
-                        <Label Text="Skills" 
-                               FontSize="12" 
-                               TextColor="{StaticResource Gray500}"
-                               WidthRequest="48"
-                               HorizontalTextAlignment="Center"/>
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
-                
-                <!-- Form Title -->
-                <Label Text="Verify Your Email" 
-                       FontSize="24" 
-                       FontAttributes="Bold" 
-                       TextColor="{StaticResource PrimaryDark}"
-                       HorizontalOptions="Center"/>
-                
-                <Label Text="Enter the 6-digit code sent to your email" 
-                       FontSize="15" 
-                       TextColor="{StaticResource Gray500}"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"/>
-                
-                <!-- Code Entry - Single Entry for simplicity -->
-                <Border Stroke="{StaticResource Gray200}" 
-                        StrokeThickness="1"
-                        BackgroundColor="White"
-                        StrokeShape="RoundRectangle 12"
-                        HorizontalOptions="Center"
-                        WidthRequest="200"
-                        Padding="12,0">
-                    <Entry x:Name="CodeEntry" 
-                           Placeholder="000000" 
-                           Keyboard="Numeric" 
-                           MaxLength="6"
-                           PlaceholderColor="{StaticResource Gray400}"
-                           TextColor="{StaticResource PrimaryDark}"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           HeightRequest="56"
-                           HorizontalTextAlignment="Center"
-                           BackgroundColor="Transparent"/>
-                </Border>
-                
-                <!-- Resend Link -->
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
-                    <Label Text="Didn't receive code?" 
-                           FontSize="14" 
-                           TextColor="{StaticResource Gray500}"/>
-                    <Label Text="Resend" 
-                           FontSize="14" 
-                           TextColor="{StaticResource Primary}"
-                           FontAttributes="Bold">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnResend"/>
-                        </Label.GestureRecognizers>
-                    </Label>
-                </HorizontalStackLayout>
-                
-                <!-- Buttons -->
-                <Grid ColumnSpacing="12" Margin="0,32,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="2*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <Button Grid.Column="0" 
-                            Text="Back" 
-                            Clicked="OnBackTapped"
-                            BackgroundColor="White" 
-                            TextColor="{StaticResource PrimaryDark}" 
-                            BorderColor="{StaticResource Gray200}"
-                            BorderWidth="1"
-                            FontSize="16"
-                            FontAttributes="Bold"
-                            CornerRadius="12" 
-                            HeightRequest="56"/>
-                    
-                    <Button Grid.Column="1" 
-                            Text="Next" 
-                            Clicked="OnVerify"
-                            BackgroundColor="{StaticResource Primary}" 
-                            TextColor="White" 
-                            FontSize="16"
-                            FontAttributes="Bold"
-                            CornerRadius="12" 
-                            HeightRequest="56"/>
-                </Grid>
-                
-                <!-- Login Link -->
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
-                    <Label Text="Already have an account?" 
-                           FontSize="14" 
-                           TextColor="{StaticResource Gray500}"/>
-                    <Label Text="Log in" 
-                           FontSize="14" 
-                           TextColor="{StaticResource Primary}"
-                           FontAttributes="Bold">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnLoginTapped"/>
-                        </Label.GestureRecognizers>
-                    </Label>
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-        </ScrollView>
-    </Grid>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </base:BasePage>

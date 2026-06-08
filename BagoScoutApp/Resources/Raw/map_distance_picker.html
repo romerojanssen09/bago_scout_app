@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Distance Picker Map</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 0; overflow: hidden; background: #F8FAFC; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script>
+        var map = null;
+        var centerLat = {{LAT}};
+        var centerLng = {{LNG}};
+        var distanceKm = {{DISTANCE}};
+
+        mapboxgl.accessToken = '{{TOKEN}}';
+
+        // Build a polygon approximating a circle (64 points)
+        function createCircleGeoJSON(lng, lat, radiusKm) {
+            var points = 64;
+            var coords = [];
+            var radiusMeters = radiusKm * 1000;
+            var distX = radiusMeters / (111320.0 * Math.cos(lat * Math.PI / 180.0));
+            var distY = radiusMeters / 110574.0;
+
+            for (var i = 0; i < points; i++) {
+                var theta = (i / points) * (2.0 * Math.PI);
+                coords.push([lng + distX * Math.cos(theta), lat + distY * Math.sin(theta)]);
+            }
+            coords.push(coords[0]); // close polygon
+
+            return {
+                type: 'Feature',
+                geometry: { type: 'Polygon', coordinates: [coords] }
+            };
+        }
+
+        // Compute the bounding box that fits the circle with padding
+        function getBoundsForCircle(lng, lat, radiusKm) {
+            var radiusMeters = radiusKm * 1000;
+            var distX = radiusMeters / (111320.0 * Math.cos(lat * Math.PI / 180.0));
+            var distY = radiusMeters / 110574.0;
+            return [
+                [lng - distX, lat - distY], // SW
+                [lng + distX, lat + distY]  // NE
+            ];
+        }
+
+        // Fit map to show the full circle with padding
+        function fitCircle(animate) {
+            var bounds = getBoundsForCircle(centerLng, centerLat, distanceKm);
+            map.fitBounds(bounds, {
+                padding: 40,
+                animate: animate !== false,
+                duration: 300
+            });
+        }
+
+        function initMap() {
+            map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v12',
+                center: [centerLng, centerLat],
+                zoom: 10,
+                attributionControl: false,
+                logoPosition: 'bottom-right'
+            });
+
+            map.on('load', function () {
+                // Add circle source & layers
+                map.addSource('distance-circle', {
+                    type: 'geojson',
+                    data: createCircleGeoJSON(centerLng, centerLat, distanceKm)
+                });
+
+                map.addLayer({
+                    id: 'circle-fill',
+                    type: 'fill',
+                    source: 'distance-circle',
+                    paint: {
+                        'fill-color': '#6C63FF',
+                        'fill-opacity': 0.2
+                    }
+                });
+
+                map.addLayer({
+                    id: 'circle-border',
+                    type: 'line',
+                    source: 'distance-circle',
+                    paint: {
+                        'line-color': '#6C63FF',
+                        'line-width': 2.5,
+                        'line-opacity': 0.9
+                    }
+                });
+
+                // Add center marker
+                new mapboxgl.Marker({ color: '#FF4500' })
+                    .setLngLat([centerLng, centerLat])
+                    .addTo(map);
+
+                // Fit to show the full circle (no animation on first load)
+                fitCircle(false);
+
+                // Notify MAUI the map is fully ready.
+                // Using a custom scheme that MAUI's Navigating event intercepts.
+                window.location.href = 'mauibridge://map_ready';
+            });
+
+            map.on('error', function (e) {
+                window.location.href = 'mauibridge://map_error';
+            });
+        }
+
+        // Called from C# via WebView.Eval() when slider changes
+        function updateCircle(newDistanceKm) {
+            distanceKm = newDistanceKm;
+            if (!map) return;
+            var src = map.getSource('distance-circle');
+            if (src) {
+                src.setData(createCircleGeoJSON(centerLng, centerLat, distanceKm));
+            }
+            fitCircle(true);
+        }
+
+        // Start
+        initMap();
+    </script>
+</body>
+</html>

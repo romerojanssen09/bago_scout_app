@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Job Map</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet"/>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { overflow: hidden; background: #F8FAFC; font-family: -apple-system, sans-serif; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+
+        @keyframes pulse {
+            0%   { box-shadow: 0 0 0 0   rgba(74,144,217,0.6); }
+            70%  { box-shadow: 0 0 0 10px rgba(74,144,217,0);   }
+            100% { box-shadow: 0 0 0 0   rgba(74,144,217,0);    }
+        }
+
+        /* ── Popup card ───────────────────────────────────────────────────── */
+        #popup-card {
+            display: none;
+            position: absolute;
+            bottom: 16px;
+            left: 12px;
+            right: 12px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+            padding: 16px;
+            z-index: 10;
+        }
+        #popup-card.visible {
+            display: block;
+            animation: slideUp 0.22s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(16px); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
+        }
+
+        .popup-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .popup-titles { min-width: 0; flex: 1; }
+        .popup-title  { font-size: 15px; font-weight: 700; color: #1C2B53; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .popup-co     { font-size: 12px; font-weight: 700; color: #6C63FF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+
+        .popup-close  { background: none; border: none; font-size: 18px; color: #9CA3AF; cursor: pointer; padding: 0 0 0 10px; flex-shrink: 0; line-height: 1; }
+
+        .popup-addr   { font-size: 11px; color: #6B7280; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .popup-pills  { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        .pill-green   { background: #D1FAE5; color: #065F46; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; }
+        .pill-indigo  { background: #E0E7FF; color: #3730A3; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; }
+        .popup-btn    { width: 100%; background: #1C2B53; color: #fff; border: none; border-radius: 10px; height: 44px; font-size: 13px; font-weight: 700; cursor: pointer; }
+        .popup-btn:active { opacity: 0.82; }
+
+        /* ── Offline banner ───────────────────────────────────────────────── */
+        #offline-banner {
+            display: none;
+            position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+            background: #FEE2E2; color: #991B1B;
+            padding: 8px 14px; border-radius: 8px;
+            font-size: 12px; font-weight: 700;
+            z-index: 20; white-space: nowrap;
+        }
+        #offline-banner.visible { display: block; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <div id="popup-card">
+        <div class="popup-header">
+            <div class="popup-titles">
+                <div class="popup-title" id="p-title">Job Title</div>
+                <div class="popup-co"    id="p-company">Company</div>
+            </div>
+            <button class="popup-close" id="btn-close">✕</button>
+        </div>
+        <div class="popup-addr" id="p-addr">📍 Address</div>
+        <div class="popup-pills">
+            <span class="pill-green"  id="p-salary">Salary</span>
+            <span class="pill-indigo" id="p-type">Type</span>
+        </div>
+        <button class="popup-btn" id="btn-details">View Full Details  →</button>
+    </div>
+
+    <div id="offline-banner">⚠ Offline Mode – Displaying cached map tiles</div>
+
+    <!-- Invisible bridge iframe — each src change fires Navigating without
+         navigating the main page, so multiple rapid messages all arrive. -->
+    <iframe id="bridge" style="display:none" src="about:blank"></iframe>
+
+    <script>
+        // ── Bridge ─────────────────────────────────────────────────────────────
+        // Uses an iframe src change instead of window.location.href so the main
+        // WebView page is never navigated away, and sequential messages all fire.
+        function notify(msg) {
+            document.getElementById('bridge').src = 'mauibridge://' + msg;
+        }
+
+        // ── Map setup ──────────────────────────────────────────────────────────
+        mapboxgl.accessToken = '{{TOKEN}}';
+
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [{{INIT_LNG}}, {{INIT_LAT}}],
+            zoom: {{INIT_ZOOM}},
+            attributionControl: false
+        });
+
+        var jobs = [];
+        var selectedJobId = null;
+        var markers = {};
+        var mapLoaded = false;
+        var pendingB64 = null; // jobs queued before map was ready
+
+        // ─── User location marker ──────────────────────────────────────────────
+        var userMarker = null;
+
+        function updateUserLocation(lat, lng) {
+            var lngLat = [lng, lat];
+            if (userMarker) {
+                userMarker.setLngLat(lngLat);
+                return;
+            }
+            // Blue pulsing dot for user position
+            var el = document.createElement('div');
+            el.style.cssText = [
+                'width:18px;height:18px;',
+                'border-radius:50%;',
+                'background:#4A90D9;',
+                'border:3px solid white;',
+                'box-shadow:0 0 0 0 rgba(74,144,217,0.6);',
+                'animation:pulse 1.8s ease-out infinite;'
+            ].join('');
+            userMarker = new mapboxgl.Marker({ element: el, anchor: 'center' })
+                .setLngLat(lngLat)
+                .addTo(map);
+        }
+
+        // ── Job markers ────────────────────────────────────────────────────────
+        var markerCounter = 0; // unique SVG filter IDs across all markers
+
+        function makeMarkerEl(isSelected) {
+            var el = document.createElement('div');
+            el.style.cursor = 'pointer';
+            var fid = 'f' + (markerCounter++); // unique filter ID per marker
+
+            if (isSelected) {
+                el.style.width  = '36px';
+                el.style.height = '44px';
+                el.innerHTML = [
+                    '<svg width="36" height="44" viewBox="0 0 36 44" xmlns="http://www.w3.org/2000/svg">',
+                    '  <defs><filter id="' + fid + '" x="-30%" y="-30%" width="160%" height="160%">',
+                    '    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.35)"/>',
+                    '  </filter></defs>',
+                    '  <g filter="url(#' + fid + ')">',
+                    '    <path d="M18 2C11.37 2 6 7.37 6 14c0 10.5 12 28 12 28s12-17.5 12-28C30 7.37 24.63 2 18 2z" fill="#FF4500"/>',
+                    '    <circle cx="18" cy="14" r="6" fill="white"/>',
+                    '  </g>',
+                    '</svg>'
+                ].join('');
+            } else {
+                el.style.width  = '28px';
+                el.style.height = '36px';
+                el.innerHTML = [
+                    '<svg width="28" height="36" viewBox="0 0 28 36" xmlns="http://www.w3.org/2000/svg">',
+                    '  <defs><filter id="' + fid + '" x="-30%" y="-30%" width="160%" height="160%">',
+                    '    <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="rgba(0,0,0,0.28)"/>',
+                    '  </filter></defs>',
+                    '  <g filter="url(#' + fid + ')">',
+                    '    <path d="M14 2C8.48 2 4 6.48 4 12c0 8.5 10 22 10 22s10-13.5 10-22C24 6.48 19.52 2 14 2z" fill="#6C63FF"/>',
+                    '    <circle cx="14" cy="12" r="4.5" fill="white"/>',
+                    '  </g>',
+                    '</svg>'
+                ].join('');
+            }
+            return el;
+        }
+
+        function clearMarkers() {
+            Object.keys(markers).forEach(function(id) { markers[id].remove(); });
+            markers = {};
+        }
+
+        function renderMarkers() {
+            clearMarkers();
+            jobs.forEach(function(job) {
+                if (job.latitude == null || job.longitude == null) return;
+                var isSelected = (job.jobId === selectedJobId);
+                var el = makeMarkerEl(isSelected);
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    selectJob(job.jobId);
+                });
+                markers[job.jobId] = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
+                    .setLngLat([job.longitude, job.latitude])
+                    .addTo(map);
+            });
+        }
+
+        // ── Popup ──────────────────────────────────────────────────────────────
+        function selectJob(jobId) {
+            selectedJobId = jobId;
+            renderMarkers();
+
+            var job = jobs.find(function(j) { return j.jobId === jobId; });
+            if (!job) return;
+
+            document.getElementById('p-title').textContent   = job.title   || 'Untitled';
+            document.getElementById('p-company').textContent = job.company  || '';
+            document.getElementById('p-addr').textContent    = '📍 ' + (job.address || '');
+            document.getElementById('p-salary').textContent  = job.salaryRange || 'Negotiable';
+            document.getElementById('p-type').textContent    = job.jobType  || '';
+
+            var card = document.getElementById('popup-card');
+            card.className = '';               // reset to restart animation
+            void card.offsetWidth;             // force reflow
+            card.className = 'visible';
+
+            // Pan so the marker stays visible above the card
+            var cardH = card.offsetHeight;
+            map.panTo([job.longitude, job.latitude], { offset: [0, -(cardH / 2 + 48)], duration: 300 });
+
+            notify('job_selected:' + jobId);
+        }
+
+        function closePopup() {
+            selectedJobId = null;
+            document.getElementById('popup-card').className = '';
+            renderMarkers();
+            notify('popup_closed');
+        }
+
+        function viewDetails() {
+            if (selectedJobId == null) return;
+            var id = selectedJobId;
+            // Close popup visually first, then fire bridge
+            document.getElementById('popup-card').className = '';
+            notify('view_details:' + id);
+        }
+
+        // Button event listeners (not inline onclick — avoids CSP issues on Android)
+        document.getElementById('btn-close').addEventListener('click', function(e) {
+            e.stopPropagation();
+            closePopup();
+        });
+        document.getElementById('btn-details').addEventListener('click', function(e) {
+            e.stopPropagation();
+            viewDetails();
+        });
+
+        // Tap on map background closes popup
+        map.on('click', closePopup);
+
+        // ── Public API (called via WebView.Eval from C#) ───────────────────────
+
+        // Base64-encoded JSON — avoids all quoting/escaping issues
+        function setJobsBase64(b64) {
+            if (!mapLoaded) {
+                pendingB64 = b64;
+                return;
+            }
+            try {
+                var json = atob(b64);
+                jobs = JSON.parse(json);
+            } catch(e) {
+                console.error('setJobsBase64 parse error', e);
+                jobs = [];
+            }
+            renderMarkers();
+        }
+
+        // Legacy plain-JSON entry point (kept for safety, pendingJobsJson unused)
+        function setJobs(jobsJson) {
+            if (!mapLoaded) { return; }
+            try { jobs = JSON.parse(jobsJson); } catch(e) { jobs = []; }
+            renderMarkers();
+        }
+
+        function centerOn(lat, lng, zoom, durationMs) {
+            map.flyTo({ center: [lng, lat], zoom: zoom || 12, duration: durationMs || 0 });
+        }
+
+        // enableUserLocation is a no-op — location centering is done from
+        // the native MAUI floating button via centerOn(); no WebView control needed.
+        function enableUserLocation(enable) { /* handled natively */ }
+
+        function selectJobById(jobId) { selectJob(jobId); }
+        function clearSelection() { closePopup(); }
+
+        function showOfflineBanner(show) {
+            document.getElementById('offline-banner').className = show ? 'visible' : '';
+        }
+
+        // ── Map ready signal ───────────────────────────────────────────────────
+        map.on('load', function() {
+            mapLoaded = true;
+            // Flush any jobs queued before the style was ready
+            if (pendingB64) {
+                try {
+                    jobs = JSON.parse(atob(pendingB64));
+                } catch(e) { jobs = []; }
+                pendingB64 = null;
+                renderMarkers();
+            }
+            notify('map_ready');
+        });
+    </script>
+</body>
+</html>

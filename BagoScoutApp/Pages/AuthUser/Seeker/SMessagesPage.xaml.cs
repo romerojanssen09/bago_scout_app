@@ -110,6 +110,11 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
 
         private async Task LoadConversations()
         {
+            // Show loading, hide list
+            ConversationsLoadingContainer.IsVisible = true;
+            ConversationsLoadingIndicator.IsRunning = true;
+            ConversationsCollectionView.IsVisible = false;
+
             try
             {
                 var convs = await _api.GetConversationsAsync();
@@ -152,17 +157,30 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
                                 break;
                             }
                         }
-                        if (!changed) return;
+                        if (!changed)
+                        {
+                            // Hide loading, show list
+                            ConversationsLoadingContainer.IsVisible = false;
+                            ConversationsLoadingIndicator.IsRunning = false;
+                            ConversationsCollectionView.IsVisible = true;
+                            return;
+                        }
                     }
                     ConversationsCollectionView.ItemsSource = convs;
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading conversations: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Error loading seeker conversations: {ex.Message}");
+            }
+            finally
+            {
+                // Hide loading, show list
+                ConversationsLoadingContainer.IsVisible = false;
+                ConversationsLoadingIndicator.IsRunning = false;
+                ConversationsCollectionView.IsVisible = true;
             }
         }
-
         private void OnConversationTapped(object sender, TappedEventArgs e)
         {
             if (e.Parameter is ConversationDto conversation)

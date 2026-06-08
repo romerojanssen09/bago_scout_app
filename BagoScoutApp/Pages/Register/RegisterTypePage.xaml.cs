@@ -47,7 +47,7 @@ namespace BagoScoutApp.Pages.Register
         
         async void OnLoginTapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("..", false);
+            await Shell.Current.GoToAsync("//LoginPage", false);
         }
         
         void OnSeeker(object sender, EventArgs e)

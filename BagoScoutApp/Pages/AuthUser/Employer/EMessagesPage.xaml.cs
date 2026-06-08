@@ -119,6 +119,11 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
 
         private async Task LoadConversations()
         {
+            // Show loading, hide list
+            ConversationsLoadingContainer.IsVisible = true;
+            ConversationsLoadingIndicator.IsRunning = true;
+            ConversationsCollectionView.IsVisible = false;
+
             try
             {
                 var convs = await _api.GetConversationsAsync();
@@ -161,7 +166,14 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
                                 break;
                             }
                         }
-                        if (!changed) return;
+                        if (!changed)
+                        {
+                            // Hide loading, show list
+                            ConversationsLoadingContainer.IsVisible = false;
+                            ConversationsLoadingIndicator.IsRunning = false;
+                            ConversationsCollectionView.IsVisible = true;
+                            return;
+                        }
                     }
                     ConversationsCollectionView.ItemsSource = convs;
                 }
@@ -169,6 +181,13 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error loading employer conversations: {ex.Message}");
+            }
+            finally
+            {
+                // Hide loading, show list
+                ConversationsLoadingContainer.IsVisible = false;
+                ConversationsLoadingIndicator.IsRunning = false;
+                ConversationsCollectionView.IsVisible = true;
             }
         }
 

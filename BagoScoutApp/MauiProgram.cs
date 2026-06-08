@@ -6,10 +6,6 @@ using BagoScoutApp.Pages.AuthUser.Employer;
 using BagoScoutApp.Pages.AuthUser.Seeker;
 using BagoScoutApp.Services;
 
-#if ANDROID || IOS
-using MapboxMaui;
-#endif
-
 namespace BagoScoutApp
 {
     public static class MauiProgram
@@ -23,6 +19,9 @@ namespace BagoScoutApp
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    // Inter Variable Fonts (support multiple weights in one file)
+                    fonts.AddFont("Inter-Variable.ttf", "Inter");
+                    fonts.AddFont("Inter-Italic-Variable.ttf", "InterItalic");
                     fonts.AddFont("Font Awesome 7 Brands-Regular-400.otf", "FABrands");
                     fonts.AddFont("Font Awesome 7 Free-Regular-400.otf", "FARegular");
                     fonts.AddFont("Font Awesome 7 Free-Solid-900.otf", "FASolid");
@@ -44,6 +43,9 @@ namespace BagoScoutApp
             builder.Services.AddTransient<SApplicationsPage>();
             builder.Services.AddTransient<SMessagesPage>();
             builder.Services.AddTransient<SProfilePage>();
+            builder.Services.AddTransient<SPreferencesPage>();
+            builder.Services.AddTransient<SLocationPickerPage>();
+            builder.Services.AddTransient<SDistancePickerPage>();
             
             builder.Services.AddTransient<EDashboardPage>();
             builder.Services.AddTransient<EPostingsPage>();
@@ -59,10 +61,6 @@ namespace BagoScoutApp
                 handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
 #endif
             });
-
-#if ANDROID || IOS
-            builder.UseMapbox(ConfigurationService.Instance.MapboxAccessToken);
-#endif
 
 #if DEBUG
             builder.Logging.AddDebug();

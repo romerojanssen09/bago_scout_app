@@ -94,5 +94,10 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
                 await Shell.Current.GoToAsync($"//{nameof(ECandidatesPage)}", false);
             }
         }
+
+        private async void OnBuildingIconTapped(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("///EProfilePage");
+        }
     }
 }

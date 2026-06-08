@@ -264,19 +264,11 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
 
         private async void OnChangePhotoClicked(object sender, EventArgs e)
         {
-            var action = await DisplayActionSheet("Change Profile Photo", "Cancel", null, "Choose from Gallery", "Take Photo");
-            
             FileResult? photo = null;
             try
             {
-                if (action == "Choose from Gallery")
-                {
-                    photo = await MediaPicker.Default.PickPhotoAsync();
-                }
-                else if (action == "Take Photo")
-                {
-                    photo = await MediaPicker.Default.CapturePhotoAsync();
-                }
+                // Directly open photo picker without action sheet
+                photo = await MediaPicker.Default.PickPhotoAsync();
 
                 if (photo != null)
                 {

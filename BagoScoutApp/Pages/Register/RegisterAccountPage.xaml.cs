@@ -73,7 +73,7 @@ namespace BagoScoutApp.Pages.Register
         
         async void OnLoginTapped(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("../..", false);
+            await Shell.Current.GoToAsync(nameof(LoginPage), false);
         }
         
         void OnTogglePassword(object sender, EventArgs e)

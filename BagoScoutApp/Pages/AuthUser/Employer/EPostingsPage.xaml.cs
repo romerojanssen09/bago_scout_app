@@ -13,6 +13,10 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
         private readonly ApiClient _api = new();
         private JobDto? _currentEditingJob;
         private bool _isDataLoading = false;
+        private readonly string[] _jobTypeOptions = new[] { "Full-Time", "Part-Time", "Contract", "Internship" };
+        private readonly string[] _statusOptions = new[] { "Active", "Inactive" };
+        private string _selectedJobType = "Full-Time";
+        private string _selectedStatus = "Active";
 
         public EPostingsPage()
         {
@@ -63,8 +67,10 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
                 JobCompanyEntry.Text = Preferences.Get("UserName", "My Company");
             }
             JobAddressEntry.Text = "";
-            JobTypePicker.SelectedIndex = 0;
-            JobStatusPicker.SelectedIndex = 0;
+            _selectedJobType = "Full-Time";
+            JobTypeLabel.Text = _selectedJobType;
+            _selectedStatus = "Active";
+            JobStatusLabel.Text = _selectedStatus;
             JobSalaryEntry.Text = "";
             JobExperienceEntry.Text = "";
             JobDescEditor.Text = "";
@@ -91,13 +97,13 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
                 JobDescEditor.Text = job.description;
                 JobReqEditor.Text = job.requirements;
 
-                // Select Picker item
-                if (JobTypePicker.ItemsSource is IList<string> items)
-                {
-                    int index = items.IndexOf(job.jobType);
-                    JobTypePicker.SelectedIndex = index >= 0 ? index : 0;
-                }
-                JobStatusPicker.SelectedIndex = (job.isActive == false) ? 1 : 0;
+                // Set job type
+                _selectedJobType = job.jobType ?? "Full-Time";
+                JobTypeLabel.Text = _selectedJobType;
+                
+                // Set status
+                _selectedStatus = (job.isActive == false) ? "Inactive" : "Active";
+                JobStatusLabel.Text = _selectedStatus;
 
                 InitializeMap(job.latitude ?? 10.5389, job.longitude ?? 122.8398);
 
@@ -142,7 +148,7 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
             var title = JobTitleEntry.Text?.Trim() ?? "";
             var company = JobCompanyEntry.Text?.Trim() ?? "";
             var address = JobAddressEntry.Text?.Trim() ?? "";
-            var jobType = JobTypePicker.SelectedItem?.ToString() ?? "Full-Time";
+            var jobType = _selectedJobType;
             var salary = JobSalaryEntry.Text?.Trim() ?? "";
             var expLevel = JobExperienceEntry.Text?.Trim() ?? "";
             var description = JobDescEditor.Text?.Trim() ?? "";
@@ -172,7 +178,7 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
                     ExperienceLevel = expLevel,
                     Description = description,
                     Requirements = requirements,
-                    IsActive = JobStatusPicker.SelectedItem?.ToString() != "Inactive",
+                    IsActive = _selectedStatus != "Inactive",
                     Latitude = latitude,
                     Longitude = longitude
                 };
@@ -214,7 +220,6 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
         {
             try
             {
-                // Default coordinates if empty or zero (Bago City, Negros Occidental)
                 if (lat == 0 && lng == 0)
                 {
                     lat = 10.5389;
@@ -224,57 +229,56 @@ namespace BagoScoutApp.Pages.AuthUser.Employer
                 JobLatitudeEntry.Text = lat.ToString(System.Globalization.CultureInfo.InvariantCulture);
                 JobLongitudeEntry.Text = lng.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
-                var htmlTemplate = @"<!DOCTYPE html>
+                var token = ConfigurationService.Instance.MapboxAccessToken;
+                var latStr = lat.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                var lngStr = lng.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+                var html = $@"<!DOCTYPE html>
 <html>
 <head>
 <meta charset='utf-8'>
-<title>Display a map</title>
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'>
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet'>
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
 <style>
-body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
-.mapboxgl-ctrl-logo { display: none !important; }
-.mapboxgl-ctrl-attrib { display: none !important; }
+body {{ margin: 0; padding: 0; }}
+#map {{ position: absolute; top: 0; bottom: 0; width: 100%; }}
+.mapboxgl-ctrl-logo {{ display: none !important; }}
+.mapboxgl-ctrl-attrib {{ display: none !important; }}
 </style>
 </head>
 <body>
 <div id='map'></div>
 <script>
-    mapboxgl.accessToken = '{ConfigurationService.Instance.MapboxAccessToken}';
-    const map = new mapboxgl.Map({
+    mapboxgl.accessToken = '{token}';
+    const map = new mapboxgl.Map({{
         container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [{lng}, {lat}],
-        zoom: 13
-    });
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [{lngStr}, {latStr}],
+        zoom: 13,
+        attributionControl: false
+    }});
 
-    const marker = new mapboxgl.Marker({
-        draggable: true
-    })
-    .setLngLat([{lng}, {lat}])
-    .addTo(map);
+    const marker = new mapboxgl.Marker({{ draggable: true }})
+        .setLngLat([{lngStr}, {latStr}])
+        .addTo(map);
 
-    function onDragEnd() {
+    function onDragEnd() {{
         const lngLat = marker.getLngLat();
         window.location.href = 'invoke://coordinates?lat=' + lngLat.lat + '&lng=' + lngLat.lng;
-    }
+    }}
 
     marker.on('dragend', onDragEnd);
-    
-    map.on('click', function(e) {
+
+    map.on('click', function(e) {{
         marker.setLngLat(e.lngLat);
         window.location.href = 'invoke://coordinates?lat=' + e.lngLat.lat + '&lng=' + e.lngLat.lng;
-    });
+    }});
 </script>
 </body>
 </html>";
-                var htmlSource = new HtmlWebViewSource();
-                htmlSource.Html = htmlTemplate
-                    .Replace("{lat}", lat.ToString(System.Globalization.CultureInfo.InvariantCulture))
-                    .Replace("{lng}", lng.ToString(System.Globalization.CultureInfo.InvariantCulture));
-                MapWebView.Source = htmlSource;
+
+                MapWebView.Source = new HtmlWebViewSource { Html = html };
             }
             catch (Exception ex)
             {
@@ -350,6 +354,30 @@ body { margin: 0; padding: 0; }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Reverse geocoding error: {ex.Message}");
+            }
+        }
+
+        private async void OnJobTypePickerClicked(object sender, EventArgs e)
+        {
+            int currentIndex = Array.IndexOf(_jobTypeOptions, _selectedJobType);
+            var result = await ShowSelectOptionAsync("Select Job Type", "Cancel", _jobTypeOptions, currentIndex);
+
+            if (result != "Cancel")
+            {
+                _selectedJobType = result;
+                JobTypeLabel.Text = _selectedJobType;
+            }
+        }
+
+        private async void OnJobStatusPickerClicked(object sender, EventArgs e)
+        {
+            int currentIndex = Array.IndexOf(_statusOptions, _selectedStatus);
+            var result = await ShowSelectOptionAsync("Select Status", "Cancel", _statusOptions, currentIndex);
+
+            if (result != "Cancel")
+            {
+                _selectedStatus = result;
+                JobStatusLabel.Text = _selectedStatus;
             }
         }
     }

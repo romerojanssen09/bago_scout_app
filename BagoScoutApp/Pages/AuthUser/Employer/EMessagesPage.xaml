@@ -6,7 +6,7 @@
              x:Class="BagoScoutApp.Pages.AuthUser.Employer.EMessagesPage"
              Title="Messages"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="{StaticResource Secondary}">
+             BackgroundColor="#F8FAFC">
     
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
@@ -17,68 +17,139 @@
         <!-- Main Content Grid -->
         <Grid Grid.Row="0">
             <!-- 1. Conversations List View -->
-            <Grid x:Name="ConversationsGrid" RowDefinitions="Auto, *" Padding="20" RowSpacing="16" IsVisible="True">
-                <Label Grid.Row="0" Text="Inbox" 
-                       FontSize="22" 
+            <Grid x:Name="ConversationsGrid" RowDefinitions="Auto, *" Padding="20,16,20,20" RowSpacing="18" IsVisible="True">
+                <Label Grid.Row="0" 
+                       Text="Inbox" 
+                       FontFamily="Inter"
                        FontAttributes="Bold"
-                       TextColor="{StaticResource PrimaryDark}"
-                       Margin="0,5,0,0"/>
+                       FontSize="28"
+                       TextColor="#0F172A"
+                       Margin="0,8,0,0"/>
 
-                <CollectionView Grid.Row="1" x:Name="ConversationsCollectionView" SelectionMode="None">
+                <Grid Grid.Row="1">
+                    <!-- Loading Spinner - Only visible when loading -->
+                    <VerticalStackLayout x:Name="ConversationsLoadingContainer" 
+                                         IsVisible="False" 
+                                         HorizontalOptions="Center" 
+                                         VerticalOptions="Center"
+                                         Spacing="14">
+                        <ActivityIndicator x:Name="ConversationsLoadingIndicator" 
+                                           IsRunning="False"
+                                           Color="#6C63FF" 
+                                           HeightRequest="50"
+                                           WidthRequest="50"/>
+                        <Label Text="Loading conversations..." 
+                               FontFamily="Inter"
+                               FontAttributes="Bold"
+                               FontSize="15" 
+                               TextColor="#64748B"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+
+                    <!-- Conversations List -->
+                    <CollectionView x:Name="ConversationsCollectionView" 
+                                    SelectionMode="None"
+                                    IsVisible="True">
                     <CollectionView.EmptyView>
-                        <VerticalStackLayout Padding="40" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="&#xf4ad;" FontFamily="FASolid" FontSize="40" TextColor="{StaticResource Gray400}" HorizontalTextAlignment="Center"/>
+                        <VerticalStackLayout Padding="40,50" Spacing="14" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Border WidthRequest="72" 
+                                    HeightRequest="72" 
+                                    StrokeThickness="0" 
+                                    BackgroundColor="#F1F5F9" 
+                                    StrokeShape="RoundRectangle 20"
+                                    HorizontalOptions="Center">
+                                <Label Text="&#xf4ad;" 
+                                       FontFamily="FASolid" 
+                                       FontSize="32" 
+                                       TextColor="#94A3B8" 
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                            </Border>
                             <Label Text="No conversations yet" 
-                                   FontSize="15" 
-                                   FontAttributes="Bold" 
-                                   TextColor="{StaticResource PrimaryDark}" 
+                                   FontFamily="Inter"
+                                   FontAttributes="Bold"
+                                   FontSize="18" 
+                                   TextColor="#0F172A" 
                                    HorizontalTextAlignment="Center"/>
                             <Label Text="Candidate messages will appear here" 
-                                   FontSize="13" 
-                                   TextColor="{StaticResource Gray500}" 
+                                   FontFamily="Inter"
+                                   FontSize="14" 
+                                   TextColor="#64748B" 
                                    HorizontalTextAlignment="Center"/>
                         </VerticalStackLayout>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border StrokeShape="RoundRectangle 16"
-                                    StrokeThickness="1"
-                                    Stroke="{StaticResource Gray200}"
+                            <Border StrokeShape="RoundRectangle 20"
+                                    StrokeThickness="0"
                                     BackgroundColor="White"
                                     Margin="0,0,0,12"
-                                    Padding="14">
+                                    Padding="16">
                                 <Border.Shadow>
-                                    <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                                    <Shadow Brush="#64748B" Offset="0,4" Radius="16" Opacity="0.06"/>
                                 </Border.Shadow>
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="OnConversationTapped" CommandParameter="{Binding .}"/>
                                 </Border.GestureRecognizers>
-                                <Grid ColumnDefinitions="50, *, Auto" ColumnSpacing="12">
+                                <Grid ColumnDefinitions="56, *, Auto" ColumnSpacing="14">
                                      <!-- Avatar -->
-                                     <Border Grid.Column="0" WidthRequest="46" HeightRequest="46" StrokeShape="RoundRectangle 23" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" VerticalOptions="Center">
+                                     <Border Grid.Column="0" 
+                                             WidthRequest="56" 
+                                             HeightRequest="56" 
+                                             StrokeShape="RoundRectangle 16" 
+                                             StrokeThickness="2"
+                                             Stroke="#F1F5F9"
+                                             BackgroundColor="#F8FAFC" 
+                                             VerticalOptions="Center">
                                          <Grid>
-                                             <Label Text="&#xf007;" FontFamily="FASolid" FontSize="20" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
-                                             <Image Source="{Binding selfiePhotoUrl}" Aspect="AspectFill" BackgroundColor="Transparent"/>
+                                             <Label Text="&#xf007;" 
+                                                    FontFamily="FASolid" 
+                                                    FontSize="24" 
+                                                    TextColor="#CBD5E1" 
+                                                    HorizontalOptions="Center" 
+                                                    VerticalOptions="Center"/>
+                                             <Border StrokeShape="RoundRectangle 16" 
+                                                     StrokeThickness="0"
+                                                     BackgroundColor="Transparent">
+                                                 <Image Source="{Binding selfiePhotoUrl}" 
+                                                        Aspect="AspectFill"/>
+                                             </Border>
                                          </Grid>
                                      </Border>
 
                                      <!-- Content -->
-                                     <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
-                                         <Label Text="{Binding fullName}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                         <Label Text="{Binding lastMessage}" FontSize="12" TextColor="{StaticResource Gray500}" MaxLines="1" LineBreakMode="TailTruncation"/>
+                                     <VerticalStackLayout Grid.Column="1" Spacing="6" VerticalOptions="Center">
+                                         <Label Text="{Binding fullName}" 
+                                                FontFamily="Inter"
+                                                FontAttributes="Bold"
+                                                FontSize="16" 
+                                                TextColor="#0F172A"/>
+                                         <Label Text="{Binding lastMessage}" 
+                                                FontFamily="Inter"
+                                                FontSize="13" 
+                                                TextColor="#64748B" 
+                                                MaxLines="1" 
+                                                LineBreakMode="TailTruncation"/>
                                      </VerticalStackLayout>
 
                                      <!-- Meta details -->
-                                     <VerticalStackLayout Grid.Column="2" Spacing="6" HorizontalOptions="End" VerticalOptions="Center">
-                                         <Label Text="{Binding lastMessageTime, StringFormat='{0:h:mm tt}'}" FontSize="10" TextColor="{StaticResource Gray500}"/>
+                                     <VerticalStackLayout Grid.Column="2" Spacing="8" HorizontalOptions="End" VerticalOptions="Center">
+                                         <Label Text="{Binding lastMessageTime, StringFormat='{0:h:mm tt}'}" 
+                                                FontFamily="Inter"
+                                                FontSize="11" 
+                                                TextColor="#94A3B8"/>
                                          <!-- Unread Badge -->
-                                         <Border Padding="6,2" BackgroundColor="{StaticResource Primary}" StrokeThickness="0" StrokeShape="RoundRectangle 10" HorizontalOptions="End">
+                                         <Border Padding="8,3" BackgroundColor="{StaticResource Primary}" StrokeThickness="0" StrokeShape="RoundRectangle 12" HorizontalOptions="End">
                                              <Border.Triggers>
                                                  <DataTrigger TargetType="Border" Binding="{Binding unreadCount}" Value="0">
                                                      <Setter Property="IsVisible" Value="False"/>
                                                  </DataTrigger>
                                              </Border.Triggers>
-                                             <Label Text="{Binding unreadCount}" FontSize="9" FontAttributes="Bold" TextColor="White"/>
+                                             <Label Text="{Binding unreadCount}" 
+                                                    FontFamily="Inter"
+                                                    FontAttributes="Bold"
+                                                    FontSize="10" 
+                                                    TextColor="White"/>
                                          </Border>
                                      </VerticalStackLayout>
                                  </Grid>
@@ -87,6 +158,7 @@
                      </CollectionView.ItemTemplate>
                  </CollectionView>
              </Grid>
+         </Grid>
 
             <!-- 2. Chat Thread View -->
             <Grid x:Name="ChatThreadGrid" RowDefinitions="Auto, *, Auto" IsVisible="False">
@@ -106,8 +178,16 @@
 
                         <!-- Partner Info -->
                         <VerticalStackLayout Grid.Column="2" Spacing="2" VerticalOptions="Center">
-                            <Label x:Name="ChatPartnerLabel" Text="Candidate Name" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                            <Label Text="Seeker" FontSize="12" TextColor="{StaticResource Gray500}"/>
+                            <Label x:Name="ChatPartnerLabel" 
+                                   Text="Candidate Name" 
+                                   FontFamily="Inter"
+                                   FontAttributes="Bold"
+                                   FontSize="17" 
+                                   TextColor="#0F172A"/>
+                            <Label Text="Seeker" 
+                                   FontFamily="Inter"
+                                   FontSize="13" 
+                                   TextColor="#64748B"/>
                         </VerticalStackLayout>
 
                         <!-- Profile Pic (Clickable) -->
@@ -128,17 +208,24 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <!-- Message Card -->
-                            <Grid Margin="0,4" ColumnDefinitions="*, Auto, *">
+                            <Grid Margin="0,6" ColumnDefinitions="*, Auto, *">
                                 <Border HorizontalOptions="{Binding alignment}"
                                         StrokeThickness="0"
-                                        Padding="14,10"
+                                        Padding="16,12"
                                         Grid.ColumnSpan="3"
-                                        MaximumWidthRequest="280"
+                                        MaximumWidthRequest="290"
                                         BackgroundColor="{Binding bubbleColor}"
                                         StrokeShape="{Binding strokeShape}">
-                                    <VerticalStackLayout Spacing="4">
-                                        <Label Text="{Binding messageText}" FontSize="13" TextColor="{Binding textColor}"/>
-                                        <Label Text="{Binding sentAt, StringFormat='{0:h:mm tt}'}" FontSize="9" TextColor="{Binding timeColor}" HorizontalOptions="End"/>
+                                    <VerticalStackLayout Spacing="6">
+                                        <Label Text="{Binding messageText}" 
+                                               FontFamily="Inter"
+                                               FontSize="14" 
+                                               TextColor="{Binding textColor}"/>
+                                        <Label Text="{Binding sentAt, StringFormat='{0:h:mm tt}'}" 
+                                               FontFamily="Inter"
+                                               FontSize="10" 
+                                               TextColor="{Binding timeColor}" 
+                                               HorizontalOptions="End"/>
                                     </VerticalStackLayout>
                                 </Border>
                             </Grid>
@@ -147,19 +234,34 @@
                 </CollectionView>
 
                 <!-- Input Row -->
-                <Border Grid.Row="2" StrokeThickness="0" BackgroundColor="White" Padding="16,12">
+                <Border Grid.Row="2" StrokeThickness="0" BackgroundColor="White" Padding="16,14">
                     <Grid ColumnDefinitions="*, Auto" ColumnSpacing="12">
-                        <Border Grid.Column="0" StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="12,0" HeightRequest="44">
-                            <Entry x:Name="MessageEntry" Placeholder="Type a message..." FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                        <Border Grid.Column="0" StrokeShape="RoundRectangle 14" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="14,0" HeightRequest="48">
+                            <Entry x:Name="MessageEntry" 
+                                   Placeholder="Type a message..." 
+                                   FontFamily="Inter"
+                                   FontSize="14" 
+                                   TextColor="#0F172A" 
+                                   VerticalOptions="Center"/>
                         </Border>
-                        <Button Grid.Column="1" Text="Send" Clicked="OnSendMessageClicked" BackgroundColor="{StaticResource Primary}" TextColor="White" CornerRadius="10" WidthRequest="70" HeightRequest="44" FontAttributes="Bold" FontSize="13"/>
+                        <Button Grid.Column="1" 
+                                Text="Send" 
+                                FontFamily="Inter"
+                                Clicked="OnSendMessageClicked" 
+                                BackgroundColor="{StaticResource Primary}" 
+                                TextColor="White" 
+                                CornerRadius="14" 
+                                WidthRequest="80" 
+                                HeightRequest="48" 
+                                FontAttributes="Bold" 
+                                FontSize="14"/>
                     </Grid>
                 </Border>
             </Grid>
         </Grid>
         
         <!-- Profile Details Overlay -->
-        <Grid x:Name="ProfileDetailsOverlay" BackgroundColor="#80000000" IsVisible="False" Grid.RowSpan="2">
+        <Grid x:Name="ProfileDetailsOverlay" BackgroundColor="#80000000" IsVisible="False" Grid.Row="0">
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnCloseProfileOverlayClicked"/>
             </Grid.GestureRecognizers>
@@ -169,59 +271,130 @@
                     StrokeShape="RoundRectangle 24,24,0,0"
                     StrokeThickness="0"
                     BackgroundColor="White"
-                    Padding="24">
+                    Padding="24,20">
                 <Border.Shadow>
-                    <Shadow Brush="{StaticResource Gray400}" Offset="0,-4" Radius="12" Opacity="0.3"/>
+                    <Shadow Brush="#64748B" Offset="0,-6" Radius="20" Opacity="0.15"/>
                 </Border.Shadow>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer /> <!-- Intercept taps -->
                 </Border.GestureRecognizers>
                 
-                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="16">
+                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="18">
                     <!-- Title Row -->
                     <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
-                        <Label x:Name="OverlayTitleLabel" Text="Candidate Profile" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
-                        <Button Grid.Column="1" Text="&#xf00d;" FontFamily="FASolid" Clicked="OnCloseProfileOverlayClicked" BackgroundColor="Transparent" TextColor="{StaticResource Gray500}" FontSize="16" FontAttributes="Bold" WidthRequest="40" HeightRequest="40"/>
+                        <Label x:Name="OverlayTitleLabel" 
+                               Text="Candidate Profile" 
+                               FontFamily="Inter"
+                               FontAttributes="Bold"
+                               FontSize="20" 
+                               TextColor="#0F172A" 
+                               VerticalOptions="Center"/>
+                        <Button Grid.Column="1" 
+                                Text="&#xf00d;" 
+                                FontFamily="FASolid" 
+                                Clicked="OnCloseProfileOverlayClicked" 
+                                BackgroundColor="Transparent" 
+                                TextColor="#94A3B8" 
+                                FontSize="18" 
+                                WidthRequest="44" 
+                                HeightRequest="44"
+                                Padding="0"/>
                     </Grid>
 
                     <!-- Scrollable Content -->
                     <ScrollView Grid.Row="1">
-                        <VerticalStackLayout Spacing="16">
+                        <VerticalStackLayout Spacing="18">
                             <!-- Selfie and Name -->
-                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,10">
-                                <Border WidthRequest="80" HeightRequest="80" StrokeShape="RoundRectangle 40" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" HorizontalOptions="Center">
+                            <VerticalStackLayout Spacing="10" HorizontalOptions="Center" Margin="0,10">
+                                <Border WidthRequest="90" 
+                                        HeightRequest="90" 
+                                        StrokeShape="RoundRectangle 24" 
+                                        StrokeThickness="3"
+                                        Stroke="{StaticResource Primary}"
+                                        BackgroundColor="{StaticResource Secondary}" 
+                                        HorizontalOptions="Center">
                                     <Grid>
-                                        <Label Text="&#xf007;" FontFamily="FASolid" FontSize="36" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
-                                        <Image x:Name="OverlaySelfieImage" Aspect="AspectFill" BackgroundColor="Transparent"/>
+                                        <Label Text="&#xf007;" 
+                                               FontFamily="FASolid" 
+                                               FontSize="40" 
+                                               TextColor="{StaticResource Primary}" 
+                                               HorizontalOptions="Center" 
+                                               VerticalOptions="Center"/>
+                                        <Image x:Name="OverlaySelfieImage" 
+                                               Aspect="AspectFill" 
+                                               BackgroundColor="Transparent"/>
                                     </Grid>
                                 </Border>
-                                <Label x:Name="OverlayNameLabel" Text="-" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" HorizontalOptions="Center"/>
-                                <Label x:Name="OverlayJobTitleLabel" Text="-" FontSize="13" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                <Label x:Name="OverlayNameLabel" 
+                                       Text="-" 
+                                       FontFamily="Inter"
+                                       FontAttributes="Bold"
+                                       FontSize="20" 
+                                       TextColor="#0F172A" 
+                                       HorizontalOptions="Center"/>
+                                <Label x:Name="OverlayJobTitleLabel" 
+                                       Text="-" 
+                                       FontFamily="Inter"
+                                       FontAttributes="Bold"
+                                       FontSize="14" 
+                                       TextColor="{StaticResource Primary}" 
+                                       HorizontalOptions="Center"/>
                             </VerticalStackLayout>
 
                             <!-- Contact Info Block -->
-                            <Border StrokeShape="RoundRectangle 12" StrokeThickness="0" BackgroundColor="{StaticResource Secondary}" Padding="14">
-                                <VerticalStackLayout Spacing="8">
-                                    <Label x:Name="OverlayEmailLabel" Text="✉ -" FontSize="12" TextColor="{StaticResource PrimaryDark}"/>
-                                    <Label x:Name="OverlayPhoneLabel" Text="☏ -" FontSize="12" TextColor="{StaticResource PrimaryDark}"/>
+                            <Border StrokeShape="RoundRectangle 14" StrokeThickness="0" BackgroundColor="#F8FAFC" Padding="16">
+                                <VerticalStackLayout Spacing="10">
+                                    <Label x:Name="OverlayEmailLabel" 
+                                           Text="✉ -" 
+                                           FontFamily="Inter"
+                                           FontSize="13" 
+                                           TextColor="#0F172A"/>
+                                    <Label x:Name="OverlayPhoneLabel" 
+                                           Text="☏ -" 
+                                           FontFamily="Inter"
+                                           FontSize="13" 
+                                           TextColor="#0F172A"/>
                                 </VerticalStackLayout>
                             </Border>
 
                             <!-- Skills Section -->
-                            <Label Text="Skills" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                            <Label Text="Skills" 
+                                   FontFamily="Inter"
+                                   FontAttributes="Bold"
+                                   FontSize="16" 
+                                   TextColor="#0F172A"/>
                             <FlexLayout x:Name="OverlaySkillsLayout" Wrap="Wrap" Direction="Row" AlignItems="Center" JustifyContent="Start"/>
 
                             <!-- Experience Section -->
-                            <Label Text="Work Experience" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" Margin="0,10,0,0"/>
-                            <VerticalStackLayout x:Name="OverlayExperienceLayout" Spacing="10"/>
+                            <Label Text="Work Experience" 
+                                   FontFamily="Inter"
+                                   FontAttributes="Bold"
+                                   FontSize="16" 
+                                   TextColor="#0F172A" 
+                                   Margin="0,10,0,0"/>
+                            <VerticalStackLayout x:Name="OverlayExperienceLayout" Spacing="12"/>
 
                             <!-- Education Section -->
-                            <Label Text="Education" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" Margin="0,10,0,0"/>
-                            <VerticalStackLayout x:Name="OverlayEducationLayout" Spacing="10"/>
+                            <Label Text="Education" 
+                                   FontFamily="Inter"
+                                   FontAttributes="Bold"
+                                   FontSize="16" 
+                                   TextColor="#0F172A" 
+                                   Margin="0,10,0,0"/>
+                            <VerticalStackLayout x:Name="OverlayEducationLayout" Spacing="12"/>
                         </VerticalStackLayout>
                     </ScrollView>
                     
-                    <Button Grid.Row="2" Text="Close Profile" Clicked="OnCloseProfileOverlayClicked" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource PrimaryDark}" HeightRequest="46" CornerRadius="10" FontAttributes="Bold"/>
+                    <Button Grid.Row="2" 
+                            Text="Close Profile" 
+                            FontFamily="Inter"
+                            Clicked="OnCloseProfileOverlayClicked" 
+                            BackgroundColor="#F1F5F9" 
+                            TextColor="#0F172A" 
+                            HeightRequest="50" 
+                            CornerRadius="12" 
+                            FontSize="15"
+                            FontAttributes="Bold"/>
                 </Grid>
             </Border>
         </Grid>

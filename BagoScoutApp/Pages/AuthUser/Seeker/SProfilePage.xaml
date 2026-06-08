@@ -6,7 +6,7 @@
              x:Class="BagoScoutApp.Pages.AuthUser.Seeker.SProfilePage"
              Title="Profile"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="{StaticResource Secondary}">
+             BackgroundColor="#F8FAFC">
     
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
@@ -18,162 +18,230 @@
         <Grid Grid.Row="0">
             <!-- Main Scrollable Content -->
             <ScrollView>
-            <VerticalStackLayout Padding="20" Spacing="20">
+            <VerticalStackLayout Padding="20,16,20,24" Spacing="20">
                 <!-- Title Header -->
-                <Label Text="My Profile" 
-                       FontSize="24" 
-                       FontAttributes="Bold"
-                       TextColor="{StaticResource PrimaryDark}"
-                       Margin="0,10,0,0"/>
+                <VerticalStackLayout Spacing="8" Margin="0,8,0,0">
+                    <Label Text="My Profile" 
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="28"
+                           TextColor="#0F172A"/>
+                    <Label Text="Update your personal information and credentials" 
+                           FontFamily="Inter"
+                           FontSize="15"
+                           TextColor="#64748B"/>
+                </VerticalStackLayout>
  
                 <!-- Profile Photo Card -->
-                <Border StrokeShape="RoundRectangle 16"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource Gray200}"
+                <Border StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0"
                         BackgroundColor="White"
-                        Padding="20">
+                        Padding="24,20">
                     <Border.Shadow>
-                        <Shadow Offset="0,4" Radius="10" Brush="#0F172A" Opacity="0.05"/>
+                        <Shadow Brush="#64748B" Offset="0,4" Radius="16" Opacity="0.06"/>
                     </Border.Shadow>
-                    <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <VerticalStackLayout Spacing="14" HorizontalOptions="Center">
                         <!-- Avatar / Photo -->
                         <Grid HorizontalOptions="Center">
                             <Border x:Name="ProfilePhotoBorder"
-                                    WidthRequest="100"
-                                    HeightRequest="100"
-                                    StrokeShape="RoundRectangle 50"
+                                    WidthRequest="110"
+                                    HeightRequest="110"
+                                    StrokeShape="RoundRectangle 28"
                                     StrokeThickness="3"
-                                    Stroke="{StaticResource Primary}"
-                                    BackgroundColor="{StaticResource Secondary}"
+                                    Stroke="#6C63FF"
+                                    BackgroundColor="#F8FAFC"
                                     HorizontalOptions="Center">
                                 <Grid>
-                                    <Image x:Name="ProfileImage"
-                                           Aspect="AspectFill"
-                                           IsVisible="False"/>
                                     <Label x:Name="ProfilePlaceholder"
                                            Text="&#xf007;"
                                            FontFamily="FASolid"
-                                           FontSize="44"
-                                           TextColor="{StaticResource Primary}"
+                                           FontSize="48"
+                                           TextColor="#CBD5E1"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"/>
+                                    <Border StrokeShape="RoundRectangle 28" 
+                                            StrokeThickness="0"
+                                            BackgroundColor="Transparent">
+                                        <Image x:Name="ProfileImage"
+                                               Aspect="AspectFill"
+                                               IsVisible="False"/>
+                                    </Border>
                                 </Grid>
                             </Border>
-                            <Button Text="&#xf030;"
-                                    FontFamily="FASolid"
-                                    Clicked="OnChangePhotoClicked"
-                                    WidthRequest="40"
-                                    HeightRequest="40"
-                                    CornerRadius="20"
-                                    BackgroundColor="{StaticResource PrimaryDark}"
-                                    TextColor="White"
-                                    FontSize="14"
+                            
+                            <!-- Camera Button -->
+                            <Border WidthRequest="42"
+                                    HeightRequest="42"
+                                    StrokeShape="RoundRectangle 21"
+                                    StrokeThickness="0"
+                                    BackgroundColor="#0F172A"
                                     HorizontalOptions="End"
                                     VerticalOptions="End"
-                                    TranslationX="10"
-                                    TranslationY="10">
-                                <Button.Shadow>
-                                    <Shadow Offset="0,2" Radius="4" Brush="#000000" Opacity="0.15"/>
-                                </Button.Shadow>
-                            </Button>
+                                    TranslationX="8"
+                                    TranslationY="8">
+                                <Border.Shadow>
+                                    <Shadow Offset="0,3" Radius="8" Brush="#000000" Opacity="0.2"/>
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnChangePhotoClicked"/>
+                                </Border.GestureRecognizers>
+                                <Label Text="&#xf030;"
+                                       FontFamily="FASolid"
+                                       FontSize="18"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Border>
                         </Grid>
                         
                         <Label x:Name="UserFullNameLabel"
                                Text="-"
-                               FontSize="18"
+                               FontFamily="Inter"
                                FontAttributes="Bold"
-                               TextColor="{StaticResource PrimaryDark}"
+                               FontSize="20"
+                               TextColor="#0F172A"
                                HorizontalOptions="Center"/>
                         
                         <Label x:Name="UserEmailLabel"
                                Text="-"
+                               FontFamily="Inter"
                                FontSize="14"
-                               TextColor="{StaticResource Gray500}"
+                               TextColor="#64748B"
                                HorizontalOptions="Center"/>
                     </VerticalStackLayout>
                 </Border>
  
                 <!-- Personal Info Fields Card -->
-                <Border StrokeShape="RoundRectangle 16"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource Gray200}"
+                <Border StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0"
                         BackgroundColor="White"
-                        Padding="20">
+                        Padding="24,20">
                     <Border.Shadow>
-                        <Shadow Offset="0,4" Radius="10" Brush="#0F172A" Opacity="0.05"/>
+                        <Shadow Brush="#64748B" Offset="0,4" Radius="16" Opacity="0.06"/>
                     </Border.Shadow>
-                    <VerticalStackLayout Spacing="16">
+                    <VerticalStackLayout Spacing="18">
                         <Label Text="Personal Information" 
-                               FontSize="16" 
+                               FontFamily="Inter"
                                FontAttributes="Bold"
-                               TextColor="{StaticResource PrimaryDark}"/>
+                               FontSize="20"
+                               TextColor="#0F172A"/>
                         
                         <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
                             <!-- First Name -->
                             <VerticalStackLayout Grid.Column="0" Spacing="6">
-                                <Label Text="First Name *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,0" HeightRequest="48">
-                                    <Entry x:Name="FirstNameEntry" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                <Label Text="First Name *" 
+                                       FontFamily="Inter"
+                                       FontSize="12" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#0F172A"/>
+                                <Border StrokeShape="RoundRectangle 12" 
+                                        StrokeThickness="1" 
+                                        Stroke="#E2E8F0" 
+                                        Padding="14,0" 
+                                        HeightRequest="48">
+                                    <Entry x:Name="FirstNameEntry" 
+                                           FontFamily="Inter"
+                                           FontSize="14" 
+                                           TextColor="#0F172A" 
+                                           VerticalOptions="Center"/>
                                 </Border>
                             </VerticalStackLayout>
                             
                             <!-- Last Name -->
                             <VerticalStackLayout Grid.Column="1" Spacing="6">
-                                <Label Text="Last Name *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,0" HeightRequest="48">
-                                    <Entry x:Name="LastNameEntry" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                <Label Text="Last Name *" 
+                                       FontFamily="Inter"
+                                       FontSize="12" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#0F172A"/>
+                                <Border StrokeShape="RoundRectangle 12" 
+                                        StrokeThickness="1" 
+                                        Stroke="#E2E8F0" 
+                                        Padding="14,0" 
+                                        HeightRequest="48">
+                                    <Entry x:Name="LastNameEntry" 
+                                           FontFamily="Inter"
+                                           FontSize="14" 
+                                           TextColor="#0F172A" 
+                                           VerticalOptions="Center"/>
                                 </Border>
                             </VerticalStackLayout>
                         </Grid>
  
                         <!-- Phone Number -->
                         <VerticalStackLayout Spacing="6">
-                            <Label Text="Phone Number" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                            <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,0" HeightRequest="48">
-                                <Entry x:Name="PhoneNumberEntry" Keyboard="Telephone" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            <Label Text="Phone Number" 
+                                   FontFamily="Inter"
+                                   FontSize="12" 
+                                   FontAttributes="Bold" 
+                                   TextColor="#0F172A"/>
+                            <Border StrokeShape="RoundRectangle 12" 
+                                    StrokeThickness="1" 
+                                    Stroke="#E2E8F0" 
+                                    Padding="14,0" 
+                                    HeightRequest="48">
+                                <Entry x:Name="PhoneNumberEntry" 
+                                       Keyboard="Telephone" 
+                                       FontFamily="Inter"
+                                       FontSize="14" 
+                                       TextColor="#0F172A" 
+                                       VerticalOptions="Center"/>
                             </Border>
                         </VerticalStackLayout>
                         
                         <Button x:Name="SaveProfileBtn"
                                 Text="Save Profile"
+                                FontFamily="Inter"
                                 Clicked="OnSaveProfileClicked"
-                                BackgroundColor="{StaticResource Primary}"
+                                BackgroundColor="#6C63FF"
                                 TextColor="White"
                                 CornerRadius="12"
-                                HeightRequest="56"
+                                HeightRequest="50"
                                 FontAttributes="Bold"
                                 FontSize="15"
-                                Margin="0,10,0,0"/>
+                                Margin="0,12,0,0"/>
                     </VerticalStackLayout>
                 </Border>
  
                 <!-- Skills Chip Card -->
-                <Border StrokeShape="RoundRectangle 16"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource Gray200}"
+                <Border StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0"
                         BackgroundColor="White"
-                        Padding="20">
+                        Padding="24,20">
                     <Border.Shadow>
-                        <Shadow Offset="0,4" Radius="10" Brush="#0F172A" Opacity="0.05"/>
+                        <Shadow Brush="#64748B" Offset="0,4" Radius="16" Opacity="0.06"/>
                     </Border.Shadow>
-                    <VerticalStackLayout Spacing="16">
+                    <VerticalStackLayout Spacing="18">
                         <Label Text="Skills" 
-                               FontSize="16" 
+                               FontFamily="Inter"
                                FontAttributes="Bold"
-                               TextColor="{StaticResource PrimaryDark}"/>
+                               FontSize="20"
+                               TextColor="#0F172A"/>
                         
                         <!-- Add Custom Skill Field -->
                         <Grid ColumnDefinitions="*, Auto" ColumnSpacing="12">
-                            <Border Grid.Column="0" StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,0" HeightRequest="48">
-                                <Entry x:Name="CustomSkillEntry" Placeholder="Add skill (e.g. C#)" PlaceholderColor="{StaticResource Gray400}" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            <Border Grid.Column="0" 
+                                    StrokeShape="RoundRectangle 12" 
+                                    StrokeThickness="1" 
+                                    Stroke="#E2E8F0" 
+                                    Padding="14,0" 
+                                    HeightRequest="48">
+                                <Entry x:Name="CustomSkillEntry" 
+                                       Placeholder="Add skill (e.g. C#)" 
+                                       PlaceholderColor="#94A3B8" 
+                                       FontFamily="Inter"
+                                       FontSize="14" 
+                                       TextColor="#0F172A" 
+                                       VerticalOptions="Center"/>
                             </Border>
                             <Button Grid.Column="1"
                                     Text="Add"
+                                    FontFamily="Inter"
                                     Clicked="OnAddCustomSkillClicked"
-                                    BackgroundColor="{StaticResource PrimaryDark}"
+                                    BackgroundColor="#0F172A"
                                     TextColor="White"
                                     CornerRadius="12"
-                                    WidthRequest="80"
+                                    WidthRequest="90"
                                     HeightRequest="48"
                                     FontAttributes="Bold"
                                     FontSize="14"/>
@@ -185,73 +253,77 @@
                                     Direction="Row" 
                                     AlignItems="Center" 
                                     JustifyContent="Start"
-                                    Margin="0,5,0,0">
+                                    Margin="0,8,0,0">
                             <!-- Skill chips populated in C# dynamically -->
                         </FlexLayout>
                     </VerticalStackLayout>
                 </Border>
  
                 <!-- Education Card -->
-                <Border StrokeShape="RoundRectangle 16"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource Gray200}"
+                <Border StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0"
                         BackgroundColor="White"
-                        Padding="20">
+                        Padding="24,20">
                     <Border.Shadow>
-                        <Shadow Offset="0,4" Radius="10" Brush="#0F172A" Opacity="0.05"/>
+                        <Shadow Brush="#64748B" Offset="0,4" Radius="16" Opacity="0.06"/>
                     </Border.Shadow>
-                    <VerticalStackLayout Spacing="16">
+                    <VerticalStackLayout Spacing="18">
                         <Grid ColumnDefinitions="*, Auto">
-                            <Label Grid.Column="0" Text="Education" 
-                                   FontSize="16" 
+                            <Label Grid.Column="0" 
+                                   Text="Education" 
+                                   FontFamily="Inter"
                                    FontAttributes="Bold"
-                                   TextColor="{StaticResource PrimaryDark}"
+                                   FontSize="20"
+                                   TextColor="#0F172A"
                                    VerticalOptions="Center"/>
                             <Button Grid.Column="1"
                                     Text="+ Add"
+                                    FontFamily="Inter"
                                     Clicked="OnAddEducationClicked"
-                                    BackgroundColor="{StaticResource Primary}"
+                                    BackgroundColor="#6C63FF"
                                     TextColor="White"
-                                    CornerRadius="8"
-                                    Padding="12,0"
-                                    HeightRequest="36"
-                                    FontSize="12"
+                                    CornerRadius="10"
+                                    Padding="14,0"
+                                    HeightRequest="38"
+                                    FontSize="13"
                                     FontAttributes="Bold"/>
                         </Grid>
-                        <VerticalStackLayout x:Name="EducationListLayout" Spacing="12">
+                        <VerticalStackLayout x:Name="EducationListLayout" Spacing="14">
                             <!-- Populated in C# -->
                         </VerticalStackLayout>
                     </VerticalStackLayout>
                 </Border>
  
                 <!-- Experience Card -->
-                <Border StrokeShape="RoundRectangle 16"
-                        StrokeThickness="1"
-                        Stroke="{StaticResource Gray200}"
+                <Border StrokeShape="RoundRectangle 20"
+                        StrokeThickness="0"
                         BackgroundColor="White"
-                        Padding="20">
+                        Padding="24,20">
                     <Border.Shadow>
-                        <Shadow Offset="0,4" Radius="10" Brush="#0F172A" Opacity="0.05"/>
+                        <Shadow Brush="#64748B" Offset="0,4" Radius="16" Opacity="0.06"/>
                     </Border.Shadow>
-                    <VerticalStackLayout Spacing="16">
+                    <VerticalStackLayout Spacing="18">
                         <Grid ColumnDefinitions="*, Auto">
-                            <Label Grid.Column="0" Text="Experience" 
-                                   FontSize="16" 
+                            <Label Grid.Column="0" 
+                                   Text="Experience" 
+                                   FontFamily="Inter"
                                    FontAttributes="Bold"
-                                   TextColor="{StaticResource PrimaryDark}"
+                                   FontSize="20"
+                                   TextColor="#0F172A"
                                    VerticalOptions="Center"/>
                             <Button Grid.Column="1"
                                     Text="+ Add"
+                                    FontFamily="Inter"
                                     Clicked="OnAddExperienceClicked"
-                                    BackgroundColor="{StaticResource Primary}"
+                                    BackgroundColor="#6C63FF"
                                     TextColor="White"
-                                    CornerRadius="8"
-                                    Padding="12,0"
-                                    HeightRequest="36"
-                                    FontSize="12"
+                                    CornerRadius="10"
+                                    Padding="14,0"
+                                    HeightRequest="38"
+                                    FontSize="13"
                                     FontAttributes="Bold"/>
                         </Grid>
-                        <VerticalStackLayout x:Name="ExperienceListLayout" Spacing="12">
+                        <VerticalStackLayout x:Name="ExperienceListLayout" Spacing="14">
                             <!-- Populated in C# -->
                         </VerticalStackLayout>
                     </VerticalStackLayout>
@@ -259,11 +331,12 @@
  
                 <!-- Logout Card -->
                 <Button Text="Logout" 
+                        FontFamily="Inter"
                         Clicked="OnLogoutClicked"
                         BackgroundColor="#EF4444"
                         TextColor="White"
                         CornerRadius="12"
-                        HeightRequest="56"
+                        HeightRequest="50"
                         FontAttributes="Bold"
                         FontSize="15"
                         Margin="0,0,0,20"/>
@@ -271,146 +344,374 @@
         </ScrollView>
         
         <!-- Education Form Modal Overlay -->
-        <Grid x:Name="EducationFormOverlay" ZIndex="30" BackgroundColor="#80000000" IsVisible="False">
-            <Border StrokeShape="RoundRectangle 24"
+        <Grid x:Name="EducationFormOverlay" ZIndex="30" BackgroundColor="#80000000" IsVisible="False" Grid.RowSpan="2">
+            <Border StrokeShape="RoundRectangle 24,24,0,0"
                     StrokeThickness="0"
                     BackgroundColor="White"
                     VerticalOptions="End"
                     HeightRequest="520"
                     Padding="24,20">
-                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="16">
+                <Border.Shadow>
+                    <Shadow Brush="#64748B" Offset="0,-6" Radius="20" Opacity="0.15"/>
+                </Border.Shadow>
+                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="18">
                     <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
-                        <Label x:Name="EduFormTitleLabel" Text="Add Education" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
-                        <Button Grid.Column="1" Text="&#xf00d;" FontFamily="FASolid" Clicked="OnCancelEduClicked" BackgroundColor="Transparent" TextColor="{StaticResource Gray500}" FontSize="16" FontAttributes="Bold" WidthRequest="40" HeightRequest="40"/>
+                        <Label x:Name="EduFormTitleLabel" 
+                               Text="Add Education" 
+                               FontFamily="Inter"
+                               FontAttributes="Bold"
+                               FontSize="20" 
+                               TextColor="#0F172A" 
+                               VerticalOptions="Center"/>
+                        <Button Grid.Column="1" 
+                                Text="&#xf00d;" 
+                                FontFamily="FASolid" 
+                                Clicked="OnCancelEduClicked" 
+                                BackgroundColor="Transparent" 
+                                TextColor="#94A3B8" 
+                                FontSize="18" 
+                                WidthRequest="44" 
+                                HeightRequest="44"
+                                Padding="0"/>
                     </Grid>
                     
                     <ScrollView Grid.Row="1">
-                        <VerticalStackLayout Spacing="16">
+                        <VerticalStackLayout Spacing="18">
                             <!-- School -->
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="School / University *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,0" HeightRequest="48">
-                                    <Entry x:Name="EduSchoolEntry" Placeholder="e.g. Bago City College" PlaceholderColor="{StaticResource Gray400}" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="School / University *" 
+                                       FontFamily="Inter"
+                                       FontSize="13" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#0F172A"/>
+                                <Border StrokeShape="RoundRectangle 12" 
+                                        StrokeThickness="1" 
+                                        Stroke="#E2E8F0" 
+                                        Padding="14,0" 
+                                        HeightRequest="48">
+                                    <Entry x:Name="EduSchoolEntry" 
+                                           Placeholder="e.g. Bago City College" 
+                                           PlaceholderColor="#94A3B8" 
+                                           FontFamily="Inter"
+                                           FontSize="14" 
+                                           TextColor="#0F172A" 
+                                           VerticalOptions="Center"/>
                                 </Border>
                             </VerticalStackLayout>
                             
                             <!-- Degree -->
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="Degree *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,0" HeightRequest="48">
-                                    <Entry x:Name="EduDegreeEntry" Placeholder="e.g. Bachelor of Science" PlaceholderColor="{StaticResource Gray400}" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Degree *" 
+                                       FontFamily="Inter"
+                                       FontSize="13" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#0F172A"/>
+                                <Border StrokeShape="RoundRectangle 12" 
+                                        StrokeThickness="1" 
+                                        Stroke="#E2E8F0" 
+                                        Padding="14,0" 
+                                        HeightRequest="48">
+                                    <Entry x:Name="EduDegreeEntry" 
+                                           Placeholder="e.g. Bachelor of Science" 
+                                           PlaceholderColor="#94A3B8" 
+                                           FontFamily="Inter"
+                                           FontSize="14" 
+                                           TextColor="#0F172A" 
+                                           VerticalOptions="Center"/>
                                 </Border>
                             </VerticalStackLayout>
                             
                             <!-- Field of Study -->
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="Field of Study" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,0" HeightRequest="48">
-                                    <Entry x:Name="EduFieldEntry" Placeholder="e.g. Information Technology" PlaceholderColor="{StaticResource Gray400}" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Field of Study" 
+                                       FontFamily="Inter"
+                                       FontSize="13" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#0F172A"/>
+                                <Border StrokeShape="RoundRectangle 12" 
+                                        StrokeThickness="1" 
+                                        Stroke="#E2E8F0" 
+                                        Padding="14,0" 
+                                        HeightRequest="48">
+                                    <Entry x:Name="EduFieldEntry" 
+                                           Placeholder="e.g. Information Technology" 
+                                           PlaceholderColor="#94A3B8" 
+                                           FontFamily="Inter"
+                                           FontSize="14" 
+                                           TextColor="#0F172A" 
+                                           VerticalOptions="Center"/>
                                 </Border>
                             </VerticalStackLayout>
                             
                             <!-- Dates -->
                             <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
-                                <VerticalStackLayout Grid.Column="0" Spacing="6">
-                                    <Label Text="Start Date" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                    <DatePicker x:Name="EduStartDatePicker" Format="yyyy-MM-dd" FontSize="13" TextColor="{StaticResource PrimaryDark}" HeightRequest="48"/>
+                                <VerticalStackLayout Grid.Column="0" Spacing="8">
+                                    <Label Text="Start Date" 
+                                           FontFamily="Inter"
+                                           FontSize="13" 
+                                           FontAttributes="Bold" 
+                                           TextColor="#0F172A"/>
+                                    <DatePicker x:Name="EduStartDatePicker" 
+                                                Format="yyyy-MM-dd" 
+                                                FontFamily="Inter"
+                                                FontSize="14" 
+                                                TextColor="#0F172A" 
+                                                HeightRequest="48"/>
                                 </VerticalStackLayout>
-                                <VerticalStackLayout Grid.Column="1" Spacing="6">
-                                    <Label Text="End Date" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                    <DatePicker x:Name="EduEndDatePicker" Format="yyyy-MM-dd" FontSize="13" TextColor="{StaticResource PrimaryDark}" HeightRequest="48"/>
+                                <VerticalStackLayout Grid.Column="1" Spacing="8">
+                                    <Label Text="End Date" 
+                                           FontFamily="Inter"
+                                           FontSize="13" 
+                                           FontAttributes="Bold" 
+                                           TextColor="#0F172A"/>
+                                    <DatePicker x:Name="EduEndDatePicker" 
+                                                Format="yyyy-MM-dd" 
+                                                FontFamily="Inter"
+                                                FontSize="14" 
+                                                TextColor="#0F172A" 
+                                                HeightRequest="48"/>
                                 </VerticalStackLayout>
                             </Grid>
                             
                             <!-- Description -->
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="Description" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,8">
-                                    <Editor x:Name="EduDescEditor" Placeholder="Describe your studies, achievements..." PlaceholderColor="{StaticResource Gray400}" HeightRequest="90" FontSize="13" TextColor="{StaticResource PrimaryDark}"/>
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Description" 
+                                       FontFamily="Inter"
+                                       FontSize="13" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#0F172A"/>
+                                <Border StrokeShape="RoundRectangle 12" 
+                                        StrokeThickness="1" 
+                                        Stroke="#E2E8F0" 
+                                        Padding="14,10">
+                                    <Editor x:Name="EduDescEditor" 
+                                            Placeholder="Describe your studies, achievements..." 
+                                            PlaceholderColor="#94A3B8" 
+                                            HeightRequest="100" 
+                                            FontFamily="Inter"
+                                            FontSize="14" 
+                                            TextColor="#0F172A"/>
                                 </Border>
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                     </ScrollView>
                     
                     <Grid Grid.Row="2" ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,10,0,0">
-                        <Button Grid.Column="0" Text="Cancel" Clicked="OnCancelEduClicked" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource PrimaryDark}" CornerRadius="12" HeightRequest="56" FontAttributes="Bold"/>
-                        <Button Grid.Column="1" x:Name="SaveEduBtn" Text="Save" Clicked="OnSaveEduClicked" BackgroundColor="{StaticResource Primary}" TextColor="White" CornerRadius="12" HeightRequest="56" FontAttributes="Bold"/>
+                        <Button Grid.Column="0" 
+                                Text="Cancel" 
+                                FontFamily="Inter"
+                                Clicked="OnCancelEduClicked" 
+                                BackgroundColor="#F1F5F9" 
+                                TextColor="#0F172A" 
+                                CornerRadius="12" 
+                                HeightRequest="50" 
+                                FontAttributes="Bold"
+                                FontSize="15"/>
+                        <Button Grid.Column="1" 
+                                x:Name="SaveEduBtn" 
+                                Text="Save" 
+                                FontFamily="Inter"
+                                Clicked="OnSaveEduClicked" 
+                                BackgroundColor="#6C63FF" 
+                                TextColor="White" 
+                                CornerRadius="12" 
+                                HeightRequest="50" 
+                                FontAttributes="Bold"
+                                FontSize="15"/>
                     </Grid>
                 </Grid>
             </Border>
         </Grid>
  
         <!-- Experience Form Modal Overlay -->
-        <Grid x:Name="ExperienceFormOverlay" ZIndex="30" BackgroundColor="#80000000" IsVisible="False">
-            <Border StrokeShape="RoundRectangle 24"
+        <Grid x:Name="ExperienceFormOverlay" ZIndex="30" BackgroundColor="#80000000" IsVisible="False" Grid.RowSpan="2">
+            <Border StrokeShape="RoundRectangle 24,24,0,0"
                     StrokeThickness="0"
                     BackgroundColor="White"
                     VerticalOptions="End"
                     HeightRequest="550"
                     Padding="24,20">
-                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="16">
+                <Border.Shadow>
+                    <Shadow Brush="#64748B" Offset="0,-6" Radius="20" Opacity="0.15"/>
+                </Border.Shadow>
+                <Grid RowDefinitions="Auto, *, Auto" RowSpacing="18">
                     <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
-                        <Label x:Name="ExpFormTitleLabel" Text="Add Experience" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
-                        <Button Grid.Column="1" Text="&#xf00d;" FontFamily="FASolid" Clicked="OnCancelExpClicked" BackgroundColor="Transparent" TextColor="{StaticResource Gray500}" FontSize="16" FontAttributes="Bold" WidthRequest="40" HeightRequest="40"/>
+                        <Label x:Name="ExpFormTitleLabel" 
+                               Text="Add Experience" 
+                               FontFamily="Inter"
+                               FontAttributes="Bold"
+                               FontSize="20" 
+                               TextColor="#0F172A" 
+                               VerticalOptions="Center"/>
+                        <Button Grid.Column="1" 
+                                Text="&#xf00d;" 
+                                FontFamily="FASolid" 
+                                Clicked="OnCancelExpClicked" 
+                                BackgroundColor="Transparent" 
+                                TextColor="#94A3B8" 
+                                FontSize="18" 
+                                WidthRequest="44" 
+                                HeightRequest="44"
+                                Padding="0"/>
                     </Grid>
                     
                     <ScrollView Grid.Row="1">
-                        <VerticalStackLayout Spacing="16">
+                        <VerticalStackLayout Spacing="18">
                             <!-- Job Title -->
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="Job Title *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,0" HeightRequest="48">
-                                    <Entry x:Name="ExpTitleEntry" Placeholder="e.g. Senior Software Engineer" PlaceholderColor="{StaticResource Gray400}" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Job Title *" 
+                                       FontFamily="Inter"
+                                       FontSize="13" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#0F172A"/>
+                                <Border StrokeShape="RoundRectangle 12" 
+                                        StrokeThickness="1" 
+                                        Stroke="#E2E8F0" 
+                                        Padding="14,0" 
+                                        HeightRequest="48">
+                                    <Entry x:Name="ExpTitleEntry" 
+                                           Placeholder="e.g. Senior Software Engineer" 
+                                           PlaceholderColor="#94A3B8" 
+                                           FontFamily="Inter"
+                                           FontSize="14" 
+                                           TextColor="#0F172A" 
+                                           VerticalOptions="Center"/>
                                 </Border>
                             </VerticalStackLayout>
                             
                             <!-- Company -->
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="Company *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,0" HeightRequest="48">
-                                    <Entry x:Name="ExpCompanyEntry" Placeholder="e.g. Google" PlaceholderColor="{StaticResource Gray400}" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Company *" 
+                                       FontFamily="Inter"
+                                       FontSize="13" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#0F172A"/>
+                                <Border StrokeShape="RoundRectangle 12" 
+                                        StrokeThickness="1" 
+                                        Stroke="#E2E8F0" 
+                                        Padding="14,0" 
+                                        HeightRequest="48">
+                                    <Entry x:Name="ExpCompanyEntry" 
+                                           Placeholder="e.g. Google" 
+                                           PlaceholderColor="#94A3B8" 
+                                           FontFamily="Inter"
+                                           FontSize="14" 
+                                           TextColor="#0F172A" 
+                                           VerticalOptions="Center"/>
                                 </Border>
                             </VerticalStackLayout>
                             
                             <!-- Location -->
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="Location" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,0" HeightRequest="48">
-                                    <Entry x:Name="ExpLocationEntry" Placeholder="e.g. Mountain View, CA" PlaceholderColor="{StaticResource Gray400}" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Location" 
+                                       FontFamily="Inter"
+                                       FontSize="13" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#0F172A"/>
+                                <Border StrokeShape="RoundRectangle 12" 
+                                        StrokeThickness="1" 
+                                        Stroke="#E2E8F0" 
+                                        Padding="14,0" 
+                                        HeightRequest="48">
+                                    <Entry x:Name="ExpLocationEntry" 
+                                           Placeholder="e.g. Mountain View, CA" 
+                                           PlaceholderColor="#94A3B8" 
+                                           FontFamily="Inter"
+                                           FontSize="14" 
+                                           TextColor="#0F172A" 
+                                           VerticalOptions="Center"/>
                                 </Border>
                             </VerticalStackLayout>
  
                             <!-- Current Job Checkbox -->
-                            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
-                                <CheckBox x:Name="ExpCurrentJobCheckBox" CheckedChanged="OnCurrentJobCheckedChanged" Color="{StaticResource Primary}"/>
-                                <Label Text="I am currently working in this role" VerticalOptions="Center" FontSize="13" TextColor="{StaticResource PrimaryDark}"/>
+                            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                                <CheckBox x:Name="ExpCurrentJobCheckBox" 
+                                          CheckedChanged="OnCurrentJobCheckedChanged" 
+                                          Color="#6C63FF"/>
+                                <Label Text="I am currently working in this role" 
+                                       FontFamily="Inter"
+                                       VerticalOptions="Center" 
+                                       FontSize="14" 
+                                       TextColor="#0F172A"/>
                             </HorizontalStackLayout>
                             
                             <!-- Dates -->
                             <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
-                                <VerticalStackLayout Grid.Column="0" Spacing="6">
-                                    <Label Text="Start Date" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                    <DatePicker x:Name="ExpStartDatePicker" Format="yyyy-MM-dd" FontSize="13" TextColor="{StaticResource PrimaryDark}" HeightRequest="48"/>
+                                <VerticalStackLayout Grid.Column="0" Spacing="8">
+                                    <Label Text="Start Date" 
+                                           FontFamily="Inter"
+                                           FontSize="13" 
+                                           FontAttributes="Bold" 
+                                           TextColor="#0F172A"/>
+                                    <DatePicker x:Name="ExpStartDatePicker" 
+                                                Format="yyyy-MM-dd" 
+                                                FontFamily="Inter"
+                                                FontSize="14" 
+                                                TextColor="#0F172A" 
+                                                HeightRequest="48"/>
                                 </VerticalStackLayout>
-                                <VerticalStackLayout x:Name="ExpEndDateLayout" Grid.Column="1" Spacing="6">
-                                    <Label Text="End Date" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                    <DatePicker x:Name="ExpEndDatePicker" Format="yyyy-MM-dd" FontSize="13" TextColor="{StaticResource PrimaryDark}" HeightRequest="48"/>
+                                <VerticalStackLayout x:Name="ExpEndDateLayout" 
+                                                     Grid.Column="1" 
+                                                     Spacing="8">
+                                    <Label Text="End Date" 
+                                           FontFamily="Inter"
+                                           FontSize="13" 
+                                           FontAttributes="Bold" 
+                                           TextColor="#0F172A"/>
+                                    <DatePicker x:Name="ExpEndDatePicker" 
+                                                Format="yyyy-MM-dd" 
+                                                FontFamily="Inter"
+                                                FontSize="14" 
+                                                TextColor="#0F172A" 
+                                                HeightRequest="48"/>
                                 </VerticalStackLayout>
                             </Grid>
                             
                             <!-- Description -->
-                            <VerticalStackLayout Spacing="6">
-                                <Label Text="Description" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" Padding="16,8">
-                                    <Editor x:Name="ExpDescEditor" Placeholder="Describe your role, responsibilities..." PlaceholderColor="{StaticResource Gray400}" HeightRequest="90" FontSize="13" TextColor="{StaticResource PrimaryDark}"/>
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Description" 
+                                       FontFamily="Inter"
+                                       FontSize="13" 
+                                       FontAttributes="Bold" 
+                                       TextColor="#0F172A"/>
+                                <Border StrokeShape="RoundRectangle 12" 
+                                        StrokeThickness="1" 
+                                        Stroke="#E2E8F0" 
+                                        Padding="14,10">
+                                    <Editor x:Name="ExpDescEditor" 
+                                            Placeholder="Describe your role, responsibilities..." 
+                                            PlaceholderColor="#94A3B8" 
+                                            HeightRequest="100" 
+                                            FontFamily="Inter"
+                                            FontSize="14" 
+                                            TextColor="#0F172A"/>
                                 </Border>
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                     </ScrollView>
                     
                     <Grid Grid.Row="2" ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,10,0,0">
-                        <Button Grid.Column="0" Text="Cancel" Clicked="OnCancelExpClicked" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource PrimaryDark}" CornerRadius="12" HeightRequest="56" FontAttributes="Bold"/>
-                        <Button Grid.Column="1" x:Name="SaveExpBtn" Text="Save" Clicked="OnSaveExpClicked" BackgroundColor="{StaticResource Primary}" TextColor="White" CornerRadius="12" HeightRequest="56" FontAttributes="Bold"/>
+                        <Button Grid.Column="0" 
+                                Text="Cancel" 
+                                FontFamily="Inter"
+                                Clicked="OnCancelExpClicked" 
+                                BackgroundColor="#F1F5F9" 
+                                TextColor="#0F172A" 
+                                CornerRadius="12" 
+                                HeightRequest="50" 
+                                FontAttributes="Bold"
+                                FontSize="15"/>
+                        <Button Grid.Column="1" 
+                                x:Name="SaveExpBtn" 
+                                Text="Save" 
+                                FontFamily="Inter"
+                                Clicked="OnSaveExpClicked" 
+                                BackgroundColor="#6C63FF" 
+                                TextColor="White" 
+                                CornerRadius="12" 
+                                HeightRequest="50" 
+                                FontAttributes="Bold"
+                                FontSize="15"/>
                     </Grid>
                 </Grid>
             </Border>

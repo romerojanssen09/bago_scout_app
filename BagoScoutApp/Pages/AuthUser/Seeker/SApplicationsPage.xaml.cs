@@ -25,8 +25,10 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
 
         private async Task LoadApplications()
         {
+            // Show loading, hide list
+            ApplicationsLoadingContainer.IsVisible = true;
             LoadingIndicator.IsRunning = true;
-            LoadingIndicator.IsVisible = true;
+            AppsCollectionView.IsVisible = false;
 
             try
             {
@@ -39,8 +41,10 @@ namespace BagoScoutApp.Pages.AuthUser.Seeker
             }
             finally
             {
+                // Hide loading, show list
+                ApplicationsLoadingContainer.IsVisible = false;
                 LoadingIndicator.IsRunning = false;
-                LoadingIndicator.IsVisible = false;
+                AppsCollectionView.IsVisible = true;
             }
         }
 

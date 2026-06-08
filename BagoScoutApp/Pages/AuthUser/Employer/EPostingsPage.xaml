@@ -6,7 +6,7 @@
              x:Class="BagoScoutApp.Pages.AuthUser.Employer.EPostingsPage"
              Title="Job Postings"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="{StaticResource Secondary}">
+             BackgroundColor="#F8FAFC">
     
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
@@ -17,46 +17,83 @@
         <!-- Main List Area -->
         <Grid Grid.Row="0">
             <ScrollView>
-                <VerticalStackLayout Padding="20" Spacing="16">
+                <VerticalStackLayout Padding="20,16,20,24" Spacing="18">
                 <!-- Title Header -->
                 <Label Text="Job Postings" 
-                       FontSize="24" 
+                       FontFamily="Inter"
                        FontAttributes="Bold"
-                       TextColor="{StaticResource PrimaryDark}"
-                       Margin="0,10,0,0"/>
+                       FontSize="28"
+                       TextColor="#0F172A"
+                       Margin="0,8,0,0"/>
                 
                 <Label Text="Manage and edit your active job recruitment postings" 
-                       FontSize="14" 
-                       TextColor="{StaticResource Gray500}"
-                       Margin="0,0,0,8"/>
+                       FontFamily="Inter"
+                       FontSize="15"
+                       TextColor="#64748B"
+                       Margin="0,0,0,6"/>
 
                 <!-- Loading Spinner -->
-                <ActivityIndicator x:Name="LoadingIndicator" IsRunning="True" Color="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40"/>
+                <ActivityIndicator x:Name="LoadingIndicator" 
+                                   IsRunning="True" 
+                                   Color="{StaticResource Primary}" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center" 
+                                   HeightRequest="50"
+                                   WidthRequest="50"/>
 
                 <!-- Empty View -->
-                <VerticalStackLayout x:Name="EmptyStateLayout" IsVisible="False" Padding="40" Spacing="12" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="&#xf0b1;" FontFamily="FASolid" FontSize="44" HorizontalTextAlignment="Center" TextColor="{StaticResource Gray400}"/>
-                    <Label Text="No job postings yet" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" HorizontalTextAlignment="Center"/>
-                    <Label Text="Click the + button below to create your first posting" FontSize="13" TextColor="{StaticResource Gray500}" HorizontalTextAlignment="Center"/>
+                <VerticalStackLayout x:Name="EmptyStateLayout" IsVisible="False" Padding="40,50" Spacing="14" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Border WidthRequest="72" 
+                            HeightRequest="72" 
+                            StrokeThickness="0" 
+                            BackgroundColor="#F1F5F9" 
+                            StrokeShape="RoundRectangle 20"
+                            HorizontalOptions="Center">
+                        <Label Text="&#xf0b1;" 
+                               FontFamily="FASolid" 
+                               FontSize="32" 
+                               TextColor="#94A3B8" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"/>
+                    </Border>
+                    <Label Text="No job postings yet" 
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="18" 
+                           TextColor="#0F172A" 
+                           HorizontalTextAlignment="Center"/>
+                    <Label Text="Click the + button below to create&#x0a;your first posting" 
+                           FontFamily="Inter"
+                           FontSize="14" 
+                           TextColor="#64748B" 
+                           HorizontalTextAlignment="Center"/>
                 </VerticalStackLayout>
 
                 <!-- Job Postings List -->
                 <VerticalStackLayout x:Name="PostingsLayout">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <Border StrokeShape="RoundRectangle 16" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Margin="0,0,0,12" Padding="16">
+                            <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Margin="0,0,0,14" Padding="18">
                                 <Border.Shadow>
-                                    <Shadow Brush="{StaticResource Gray300}" Offset="0,2" Radius="4" Opacity="0.5"/>
+                                    <Shadow Brush="#64748B" Offset="0,4" Radius="16" Opacity="0.06"/>
                                 </Border.Shadow>
-                                <Grid RowDefinitions="Auto, Auto, Auto" RowSpacing="10">
+                                <Grid RowDefinitions="Auto, Auto, Auto" RowSpacing="12">
                                     <!-- Header Row -->
-                                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto" ColumnSpacing="8">
-                                        <VerticalStackLayout Grid.Column="0" Spacing="2">
-                                            <Label Text="{Binding title}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                            <Label Text="{Binding company}" FontSize="13" TextColor="{StaticResource Primary}" FontAttributes="Bold"/>
+                                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                            <Label Text="{Binding title}" 
+                                                   FontFamily="Inter"
+                                                   FontAttributes="Bold"
+                                                   FontSize="17" 
+                                                   TextColor="#0F172A"/>
+                                            <Label Text="{Binding company}" 
+                                                   FontFamily="Inter"
+                                                   FontAttributes="Bold"
+                                                   FontSize="14" 
+                                                   TextColor="{StaticResource Primary}"/>
                                         </VerticalStackLayout>
                                         <!-- Active/Inactive Status Badge -->
-                                        <Border Grid.Column="1" Padding="8,4" StrokeThickness="0" StrokeShape="RoundRectangle 10" VerticalOptions="Start">
+                                        <Border Grid.Column="1" Padding="12,6" StrokeThickness="0" StrokeShape="RoundRectangle 12" VerticalOptions="Start">
                                             <Border.Triggers>
                                                 <DataTrigger TargetType="Border" Binding="{Binding isActive}" Value="True">
                                                     <Setter Property="BackgroundColor" Value="#D1FAE5"/>
@@ -66,7 +103,7 @@
                                                 </DataTrigger>
                                             </Border.Triggers>
                                             
-                                            <Label FontSize="11" FontAttributes="Bold">
+                                            <Label FontSize="12" FontAttributes="Bold">
                                                 <Label.Triggers>
                                                     <DataTrigger TargetType="Label" Binding="{Binding isActive}" Value="True">
                                                         <Setter Property="Text" Value="Active"/>
@@ -82,43 +119,65 @@
                                     </Grid>
 
                                     <!-- Details Row -->
-                                    <VerticalStackLayout Grid.Row="1" Spacing="4">
-                                        <HorizontalStackLayout Spacing="6">
-                                            <Label Text="&#xf3c5;" FontFamily="FASolid" FontSize="12" TextColor="{StaticResource Gray400}" VerticalOptions="Center"/>
-                                            <Label Text="{Binding address}" FontSize="12" TextColor="{StaticResource Gray500}" VerticalOptions="Center"/>
+                                    <VerticalStackLayout Grid.Row="1" Spacing="6">
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Label Text="&#xf3c5;" 
+                                                   FontFamily="FASolid" 
+                                                   FontSize="13" 
+                                                   TextColor="#94A3B8" 
+                                                   VerticalOptions="Center"/>
+                                            <Label Text="{Binding address}" 
+                                                   FontFamily="Inter"
+                                                   FontSize="13" 
+                                                   TextColor="#64748B" 
+                                                   VerticalOptions="Center"/>
                                         </HorizontalStackLayout>
-                                        <Grid ColumnDefinitions="Auto, Auto" ColumnSpacing="12" Margin="0,4,0,0">
-                                            <Label Grid.Column="0" Text="{Binding jobType}" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource Primary}"/>
-                                            <Label Grid.Column="1" Text="{Binding salaryRange}" FontSize="11" FontAttributes="Bold" TextColor="#065F46"/>
+                                        <Grid ColumnDefinitions="Auto, Auto" ColumnSpacing="14" Margin="0,4,0,0">
+                                            <Label Grid.Column="0" 
+                                                   Text="{Binding jobType}" 
+                                                   FontFamily="Inter"
+                                                   FontAttributes="Bold"
+                                                   FontSize="12" 
+                                                   TextColor="{StaticResource Primary}"/>
+                                            <Label Grid.Column="1" 
+                                                   Text="{Binding salaryRange}" 
+                                                   FontFamily="Inter"
+                                                   FontAttributes="Bold"
+                                                   FontSize="12" 
+                                                   TextColor="#059669"/>
                                         </Grid>
                                     </VerticalStackLayout>
 
                                     <!-- Actions Row -->
-                                    <Grid Grid.Row="2" ColumnDefinitions="*, Auto, Auto" ColumnSpacing="12">
+                                    <Grid Grid.Row="2" ColumnDefinitions="*, Auto, Auto" ColumnSpacing="12" Margin="0,4,0,0">
                                         <!-- Edit Action Button -->
                                         <Button Grid.Column="1"
                                                 Text="Edit"
+                                                FontFamily="Inter"
                                                 Clicked="OnEditJobClicked"
                                                 CommandParameter="{Binding .}"
-                                                BackgroundColor="{StaticResource Secondary}"
-                                                TextColor="{StaticResource Primary}"
-                                                CornerRadius="10"
-                                                HeightRequest="34"
-                                                WidthRequest="66"
-                                                FontSize="11"
+                                                BackgroundColor="#EEF2FF"
+                                                TextColor="#6366F1"
+                                                CornerRadius="12"
+                                                HeightRequest="42"
+                                                WidthRequest="80"
+                                                FontSize="13"
+                                                Padding="0"
                                                 FontAttributes="Bold"/>
 
                                         <!-- Delete Action Button -->
                                         <Button Grid.Column="2"
                                                 Text="Delete"
+                                                FontFamily="Inter"
                                                 Clicked="OnDeleteJobClicked"
                                                 CommandParameter="{Binding .}"
                                                 BackgroundColor="#FEE2E2"
-                                                TextColor="#991B1B"
-                                                CornerRadius="10"
-                                                HeightRequest="34"
-                                                WidthRequest="72"
-                                                FontSize="11"
+                                                TextColor="#DC2626"
+                                                CornerRadius="12"
+                                                HeightRequest="42"
+                                                WidthRequest="90"
+                                                FontSize="13"
+                                                Padding="0"
                                                 FontAttributes="Bold"/>
                                     </Grid>
                                 </Grid>
@@ -155,150 +214,280 @@
 
             <!-- Integrated overlay form modal (slide-up form) -->
             <Grid x:Name="JobFormOverlay" BackgroundColor="#80000000" IsVisible="False">
-                <Border StrokeShape="RoundRectangle 24"
+                <Border StrokeShape="RoundRectangle 24,24,0,0"
                         StrokeThickness="0"
                         BackgroundColor="White"
                         VerticalOptions="End"
                         HeightRequest="600"
-                        Margin="0,0,0,0"
+                        Margin="0"
                         Padding="24,20">
                     <Border.Shadow>
-                        <Shadow Brush="{StaticResource Gray400}" Offset="0,-4" Radius="12" Opacity="0.3"/>
+                        <Shadow Brush="#64748B" Offset="0,-6" Radius="20" Opacity="0.15"/>
                     </Border.Shadow>
-                    <Grid RowDefinitions="Auto, *, Auto" RowSpacing="16">
+                    <Grid RowDefinitions="Auto, *, Auto" RowSpacing="18">
                         <!-- Modal Title -->
                         <Grid Grid.Row="0" ColumnDefinitions="*, Auto">
-                            <Label x:Name="FormTitleLabel" Text="Create Job Posting" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
-                            <Button Grid.Column="1" Text="&#xf00d;" FontFamily="FASolid" Clicked="OnCancelClicked" BackgroundColor="Transparent" TextColor="{StaticResource Gray500}" FontSize="16" FontAttributes="Bold" WidthRequest="40" HeightRequest="40"/>
+                            <Label x:Name="FormTitleLabel" 
+                                   Text="Create Job Posting" 
+                                   FontFamily="Inter"
+                                   FontAttributes="Bold"
+                                   FontSize="20" 
+                                   TextColor="#0F172A" 
+                                   VerticalOptions="Center"/>
+                            <Button Grid.Column="1" 
+                                    Text="&#xf00d;" 
+                                    FontFamily="FASolid" 
+                                    Clicked="OnCancelClicked" 
+                                    BackgroundColor="Transparent" 
+                                    TextColor="#94A3B8" 
+                                    FontSize="18" 
+                                    FontAttributes="Bold" 
+                                    WidthRequest="44" 
+                                    HeightRequest="44"
+                                    Padding="0"/>
                         </Grid>
 
                         <!-- Modal Scrollable Fields -->
                         <ScrollView Grid.Row="1">
-                            <VerticalStackLayout Spacing="16">
+                            <VerticalStackLayout Spacing="18">
                                 <!-- Job Title -->
-                                <VerticalStackLayout Spacing="6">
-                                    <Label Text="Job Title *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                    <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,0" HeightRequest="44">
-                                        <Entry x:Name="JobTitleEntry" Placeholder="e.g. Frontend developer" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Text="Job Title *" 
+                                           FontFamily="Inter"
+                                           FontAttributes="Bold"
+                                           FontSize="13" 
+                                           TextColor="#0F172A"/>
+                                    <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,0" HeightRequest="48">
+                                        <Entry x:Name="JobTitleEntry" 
+                                               Placeholder="e.g. Frontend developer" 
+                                               FontFamily="Inter"
+                                               FontSize="14" 
+                                               TextColor="#0F172A" 
+                                               VerticalOptions="Center"/>
                                     </Border>
                                 </VerticalStackLayout>
 
                                 <!-- Company -->
-                                <VerticalStackLayout Spacing="6">
-                                    <Label Text="Company Name *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                    <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,0" HeightRequest="44">
-                                        <Entry x:Name="JobCompanyEntry" Placeholder="e.g. Acme Corp" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Text="Company Name *" 
+                                           FontFamily="Inter"
+                                           FontAttributes="Bold"
+                                           FontSize="13" 
+                                           TextColor="#0F172A"/>
+                                    <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,0" HeightRequest="48">
+                                        <Entry x:Name="JobCompanyEntry" 
+                                               Placeholder="e.g. Acme Corp" 
+                                               FontFamily="Inter"
+                                               FontSize="14" 
+                                               TextColor="#0F172A" 
+                                               VerticalOptions="Center"/>
                                     </Border>
                                 </VerticalStackLayout>
 
                                 <!-- Address -->
-                                <VerticalStackLayout Spacing="6">
-                                    <Label Text="Address / Location *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                    <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,0" HeightRequest="44">
-                                        <Entry x:Name="JobAddressEntry" Placeholder="e.g. City Center, Bago" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Text="Address / Location *" 
+                                           FontFamily="Inter"
+                                           FontAttributes="Bold"
+                                           FontSize="13" 
+                                           TextColor="#0F172A"/>
+                                    <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,0" HeightRequest="48">
+                                        <Entry x:Name="JobAddressEntry" 
+                                               Placeholder="e.g. City Center, Bago" 
+                                               FontFamily="Inter"
+                                               FontSize="14" 
+                                               TextColor="#0F172A" 
+                                               VerticalOptions="Center"/>
                                     </Border>
                                 </VerticalStackLayout>
 
                                 <!-- Location coordinates & Mapbox Map -->
-                                <VerticalStackLayout Spacing="6">
-                                    <Label Text="Job Location (Drag Marker to Position) *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Text="Job Location (Drag Marker to Position) *" 
+                                           FontFamily="Inter"
+                                           FontAttributes="Bold"
+                                           FontSize="13" 
+                                           TextColor="#0F172A"/>
                                     <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
-                                        <VerticalStackLayout Grid.Column="0" Spacing="2">
-                                            <Label Text="Latitude" FontSize="11" TextColor="{StaticResource Gray500}"/>
-                                            <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,0" HeightRequest="44">
-                                                <Entry x:Name="JobLatitudeEntry" Keyboard="Numeric" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center" IsReadOnly="True"/>
+                                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                            <Label Text="Latitude" 
+                                                   FontFamily="Inter"
+                                                   FontSize="12" 
+                                                   TextColor="#64748B"/>
+                                            <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,0" HeightRequest="48">
+                                                <Entry x:Name="JobLatitudeEntry" 
+                                                       Keyboard="Numeric" 
+                                                       FontFamily="Inter"
+                                                       FontSize="14" 
+                                                       TextColor="#0F172A" 
+                                                       VerticalOptions="Center" 
+                                                       IsReadOnly="True"/>
                                             </Border>
                                         </VerticalStackLayout>
-                                        <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                            <Label Text="Longitude" FontSize="11" TextColor="{StaticResource Gray500}"/>
-                                            <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,0" HeightRequest="44">
-                                                <Entry x:Name="JobLongitudeEntry" Keyboard="Numeric" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center" IsReadOnly="True"/>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                            <Label Text="Longitude" 
+                                                   FontFamily="Inter"
+                                                   FontSize="12" 
+                                                   TextColor="#64748B"/>
+                                            <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,0" HeightRequest="48">
+                                                <Entry x:Name="JobLongitudeEntry" 
+                                                       Keyboard="Numeric" 
+                                                       FontFamily="Inter"
+                                                       FontSize="14" 
+                                                       TextColor="#0F172A" 
+                                                       VerticalOptions="Center" 
+                                                       IsReadOnly="True"/>
                                             </Border>
                                         </VerticalStackLayout>
                                     </Grid>
-                                    <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" HeightRequest="250" Margin="0,8,0,0">
+                                    <Border StrokeShape="RoundRectangle 14" StrokeThickness="1" Stroke="{StaticResource Gray200}" HeightRequest="250" Margin="0,10,0,0">
                                         <WebView x:Name="MapWebView" Navigating="OnMapNavigating" HeightRequest="250"/>
                                     </Border>
                                 </VerticalStackLayout>
 
                                 <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
                                     <!-- Job Type -->
-                                    <VerticalStackLayout Grid.Column="0" Spacing="6">
-                                        <Label Text="Job Type *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                        <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,0" HeightRequest="44">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="8">
+                                        <Label Text="Job Type *" 
+                                               FontFamily="Inter"
+                                               FontAttributes="Bold"
+                                               FontSize="13" 
+                                               TextColor="#0F172A"/>
+                                        <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,0" HeightRequest="48">
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnJobTypePickerClicked"/>
+                                            </Border.GestureRecognizers>
                                             <Grid ColumnDefinitions="*, Auto">
-                                                <Picker Grid.Column="0" x:Name="JobTypePicker" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center">
-                                                    <Picker.ItemsSource>
-                                                        <x:Array Type="{x:Type x:String}">
-                                                            <x:String>Full-Time</x:String>
-                                                            <x:String>Part-Time</x:String>
-                                                            <x:String>Contract</x:String>
-                                                            <x:String>Internship</x:String>
-                                                        </x:Array>
-                                                    </Picker.ItemsSource>
-                                                </Picker>
-                                                <Label Grid.Column="1" Text="&#xf107;" FontFamily="FASolid" FontSize="14" TextColor="{StaticResource Gray500}" VerticalOptions="Center" InputTransparent="True"/>
+                                                <Label Grid.Column="0" 
+                                                       x:Name="JobTypeLabel" 
+                                                       Text="Full-Time"
+                                                       FontFamily="Inter"
+                                                       FontSize="14" 
+                                                       TextColor="#0F172A" 
+                                                       VerticalOptions="Center"/>
+                                                <Label Grid.Column="1" Text="&#xf107;" FontFamily="FASolid" FontSize="14" TextColor="{StaticResource Gray500}" VerticalOptions="Center"/>
                                             </Grid>
                                         </Border>
                                     </VerticalStackLayout>
 
                                     <!-- Salary Range -->
-                                    <VerticalStackLayout Grid.Column="1" Spacing="6">
-                                        <Label Text="Salary Range" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                        <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,0" HeightRequest="44">
-                                            <Entry x:Name="JobSalaryEntry" Placeholder="e.g. $500 - $800 / mo" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="8">
+                                        <Label Text="Salary Range" 
+                                               FontFamily="Inter"
+                                               FontAttributes="Bold"
+                                               FontSize="13" 
+                                               TextColor="#0F172A"/>
+                                        <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,0" HeightRequest="48">
+                                            <Entry x:Name="JobSalaryEntry" 
+                                                   Placeholder="e.g. $500 - $800 / mo" 
+                                                   FontFamily="Inter"
+                                                   FontSize="14" 
+                                                   TextColor="#0F172A" 
+                                                   VerticalOptions="Center"/>
                                         </Border>
                                     </VerticalStackLayout>
                                 </Grid>
 
                                  <!-- Experience Level & Status -->
                                  <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
-                                     <VerticalStackLayout Grid.Column="0" Spacing="6">
-                                         <Label Text="Experience Level" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                         <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,0" HeightRequest="44">
-                                             <Entry x:Name="JobExperienceEntry" Placeholder="e.g. 1-2 years experience" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center"/>
+                                     <VerticalStackLayout Grid.Column="0" Spacing="8">
+                                         <Label Text="Experience Level" 
+                                                FontFamily="Inter"
+                                                FontAttributes="Bold"
+                                                FontSize="13" 
+                                                TextColor="#0F172A"/>
+                                         <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,0" HeightRequest="48">
+                                             <Entry x:Name="JobExperienceEntry" 
+                                                    Placeholder="e.g. 1-2 years" 
+                                                    FontFamily="Inter"
+                                                    FontSize="14" 
+                                                    TextColor="#0F172A" 
+                                                    VerticalOptions="Center"/>
                                          </Border>
                                      </VerticalStackLayout>
-                                     <VerticalStackLayout Grid.Column="1" Spacing="6">
-                                         <Label Text="Status *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                         <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,0" HeightRequest="44">
+                                     <VerticalStackLayout Grid.Column="1" Spacing="8">
+                                         <Label Text="Status *" 
+                                                FontFamily="Inter"
+                                                FontAttributes="Bold"
+                                                FontSize="13" 
+                                                TextColor="#0F172A"/>
+                                         <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,0" HeightRequest="48">
+                                             <Border.GestureRecognizers>
+                                                 <TapGestureRecognizer Tapped="OnJobStatusPickerClicked"/>
+                                             </Border.GestureRecognizers>
                                              <Grid ColumnDefinitions="*, Auto">
-                                                 <Picker Grid.Column="0" x:Name="JobStatusPicker" FontSize="13" TextColor="{StaticResource PrimaryDark}" VerticalOptions="Center">
-                                                     <Picker.ItemsSource>
-                                                         <x:Array Type="{x:Type x:String}">
-                                                             <x:String>Active</x:String>
-                                                             <x:String>Inactive</x:String>
-                                                         </x:Array>
-                                                     </Picker.ItemsSource>
-                                                 </Picker>
-                                                 <Label Grid.Column="1" Text="&#xf107;" FontFamily="FASolid" FontSize="14" TextColor="{StaticResource Gray500}" VerticalOptions="Center" InputTransparent="True"/>
+                                                 <Label Grid.Column="0" 
+                                                        x:Name="JobStatusLabel" 
+                                                        Text="Active"
+                                                        FontFamily="Inter"
+                                                        FontSize="14" 
+                                                        TextColor="#0F172A" 
+                                                        VerticalOptions="Center"/>
+                                                 <Label Grid.Column="1" Text="&#xf107;" FontFamily="FASolid" FontSize="14" TextColor="{StaticResource Gray500}" VerticalOptions="Center"/>
                                              </Grid>
                                          </Border>
                                      </VerticalStackLayout>
                                  </Grid>
 
                                 <!-- Job Description -->
-                                <VerticalStackLayout Spacing="6">
-                                    <Label Text="Job Description *" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                    <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,4">
-                                        <Editor x:Name="JobDescEditor" Placeholder="Describe the role responsibilities..." HeightRequest="90" FontSize="13" TextColor="{StaticResource PrimaryDark}"/>
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Text="Job Description *" 
+                                           FontFamily="Inter"
+                                           FontAttributes="Bold"
+                                           FontSize="13" 
+                                           TextColor="#0F172A"/>
+                                    <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,8">
+                                        <Editor x:Name="JobDescEditor" 
+                                                Placeholder="Describe the role responsibilities..." 
+                                                HeightRequest="100" 
+                                                FontFamily="Inter"
+                                                FontSize="14" 
+                                                TextColor="#0F172A"/>
                                     </Border>
                                 </VerticalStackLayout>
 
                                 <!-- Requirements -->
-                                <VerticalStackLayout Spacing="6">
-                                    <Label Text="Requirements" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}"/>
-                                    <Border StrokeShape="RoundRectangle 10" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="12,4">
-                                        <Editor x:Name="JobReqEditor" Placeholder="List down candidate specifications..." HeightRequest="90" FontSize="13" TextColor="{StaticResource PrimaryDark}"/>
+                                <VerticalStackLayout Spacing="8">
+                                    <Label Text="Requirements" 
+                                           FontFamily="Inter"
+                                           FontAttributes="Bold"
+                                           FontSize="13" 
+                                           TextColor="#0F172A"/>
+                                    <Border StrokeShape="RoundRectangle 12" StrokeThickness="1" Stroke="{StaticResource Gray200}" BackgroundColor="White" Padding="14,8">
+                                        <Editor x:Name="JobReqEditor" 
+                                                Placeholder="List candidate specifications..." 
+                                                HeightRequest="100" 
+                                                FontFamily="Inter"
+                                                FontSize="14" 
+                                                TextColor="#0F172A"/>
                                     </Border>
                                 </VerticalStackLayout>
                             </VerticalStackLayout>
                         </ScrollView>
 
                         <!-- Modal Buttons -->
-                        <Grid Grid.Row="2" ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,10,0,10">
-                            <Button Grid.Column="0" Text="Cancel" Clicked="OnCancelClicked" BackgroundColor="{StaticResource Gray200}" TextColor="{StaticResource PrimaryDark}" CornerRadius="10" HeightRequest="46" FontAttributes="Bold"/>
-                            <Button Grid.Column="1" x:Name="SaveJobBtn" Text="Save Posting" Clicked="OnSaveJobClicked" BackgroundColor="{StaticResource Primary}" TextColor="White" CornerRadius="10" HeightRequest="46" FontAttributes="Bold"/>
+                        <Grid Grid.Row="2" ColumnDefinitions="*, *" ColumnSpacing="12" Margin="0,12,0,10">
+                            <Button Grid.Column="0" 
+                                    Text="Cancel" 
+                                    FontFamily="Inter"
+                                    Clicked="OnCancelClicked" 
+                                    BackgroundColor="#F1F5F9" 
+                                    TextColor="#0F172A" 
+                                    CornerRadius="12" 
+                                    HeightRequest="50" 
+                                    FontSize="15"
+                                    FontAttributes="Bold"/>
+                            <Button Grid.Column="1" 
+                                    x:Name="SaveJobBtn" 
+                                    Text="Save Posting" 
+                                    FontFamily="Inter"
+                                    Clicked="OnSaveJobClicked" 
+                                    BackgroundColor="{StaticResource Primary}" 
+                                    TextColor="White" 
+                                    CornerRadius="12" 
+                                    HeightRequest="50" 
+                                    FontSize="15"
+                                    FontAttributes="Bold"/>
                         </Grid>
                     </Grid>
                 </Border>

@@ -6,7 +6,7 @@
              x:Class="BagoScoutApp.Pages.AuthUser.Seeker.SApplicationsPage"
              Title="Applications"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="{StaticResource Secondary}">
+             BackgroundColor="#F8FAFC">
     
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
@@ -16,201 +16,254 @@
         
         <!-- Main Content -->
         <Grid Grid.Row="0">
-            <Grid RowDefinitions="Auto, Auto, *" Padding="20" RowSpacing="20">
-            <Label Grid.Row="0"
-                   Text="My Applications" 
-                   FontSize="22" 
-                   FontAttributes="Bold"
-                   TextColor="{StaticResource PrimaryDark}"
-                   Margin="0,5,0,0"/>
+            <Grid RowDefinitions="Auto, *" Padding="20,16,20,20" RowSpacing="20">
+                <!-- Header -->
+                <VerticalStackLayout Grid.Row="0" Spacing="8" Margin="0,8,0,0">
+                    <Label Text="My Applications" 
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="28"
+                           TextColor="#0F172A"/>
+                    <Label Text="Track your job applications and their status" 
+                           FontFamily="Inter"
+                           FontSize="15"
+                           TextColor="#64748B"/>
+                </VerticalStackLayout>
  
-            <!-- Loading Spinner -->
-            <ActivityIndicator Grid.Row="1"
-                               x:Name="LoadingIndicator" 
-                               IsRunning="True" 
-                               Color="{StaticResource Primary}" 
-                               HorizontalOptions="Center" 
-                               VerticalOptions="Center"
-                               HeightRequest="50"/>
- 
-            <!-- Applications CollectionView -->
-            <CollectionView Grid.Row="2" x:Name="AppsCollectionView" SelectionMode="None">
-                <CollectionView.EmptyView>
-                    <VerticalStackLayout Padding="40" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                        <Label Text="&#xf15c;" FontFamily="FASolid" FontSize="40" TextColor="{StaticResource Gray500}" HorizontalTextAlignment="Center"/>
-                        <Label Text="No applications submitted yet" 
+                <Grid Grid.Row="1">
+                    <!-- Loading Spinner - Only visible when loading -->
+                    <VerticalStackLayout x:Name="ApplicationsLoadingContainer" 
+                                         IsVisible="False" 
+                                         HorizontalOptions="Center" 
+                                         VerticalOptions="Center"
+                                         Spacing="14">
+                        <ActivityIndicator x:Name="LoadingIndicator" 
+                                           IsRunning="False"
+                                           Color="#6C63FF" 
+                                           HeightRequest="50"
+                                           WidthRequest="50"/>
+                        <Label Text="Loading applications..." 
+                               FontFamily="Inter"
+                               FontAttributes="Bold"
                                FontSize="15" 
-                               FontAttributes="Bold" 
-                               TextColor="{StaticResource PrimaryDark}" 
-                               HorizontalTextAlignment="Center"/>
-                        <Label Text="Browse jobs to start applying!" 
-                               FontSize="13" 
-                               TextColor="{StaticResource Gray500}" 
-                               HorizontalTextAlignment="Center"/>
+                               TextColor="#64748B"
+                               HorizontalOptions="Center"/>
                     </VerticalStackLayout>
-                </CollectionView.EmptyView>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border StrokeShape="RoundRectangle 16"
-                                StrokeThickness="1"
-                                Stroke="{StaticResource Gray200}"
-                                BackgroundColor="White"
-                                Margin="0,0,0,16"
-                                Padding="16">
-                            <Border.Shadow>
-                                <Shadow Offset="0,4" Radius="10" Brush="#0F172A" Opacity="0.05"/>
-                            </Border.Shadow>
-                            <VerticalStackLayout Spacing="12">
-                                <!-- Top Row (Info & Status Badge) -->
-                                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="12">
-                                    <VerticalStackLayout Grid.Column="0" Spacing="6">
-                                        <Label Text="{Binding jobTitle}" 
-                                               FontSize="16" 
-                                               FontAttributes="Bold" 
-                                               TextColor="{StaticResource PrimaryDark}"/>
-                                        <Label Text="{Binding company}" 
-                                               FontSize="13" 
-                                               TextColor="{StaticResource Primary}"
-                                               FontAttributes="Bold"/>
-                                        <Label Text="{Binding jobLocation}" 
-                                               FontSize="12" 
-                                               TextColor="{StaticResource Gray500}">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="&#xf3c5; " FontFamily="FASolid"/>
-                                                    <Span Text="{Binding jobLocation}"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <Label Text="{Binding appliedAt, StringFormat='Applied: {0:MMM dd, yyyy}'}" 
-                                               FontSize="11" 
-                                               TextColor="{StaticResource Gray500}"/>
-                                    </VerticalStackLayout>
-                                    
-                                    <!-- Badges Stack on Right -->
-                                    <VerticalStackLayout Grid.Column="1" Spacing="6" VerticalOptions="Start">
-                                        <!-- Status Badge -->
-                                        <Border Padding="12,6" 
-                                                StrokeShape="RoundRectangle 12" 
-                                                StrokeThickness="0"
-                                                BackgroundColor="#FEF3C7">
-                                            <Border.Triggers>
-                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Pending">
-                                                    <Setter Property="BackgroundColor" Value="#FEF3C7"/>
-                                                </DataTrigger>
-                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Accepted">
-                                                    <Setter Property="BackgroundColor" Value="#D1FAE5"/>
-                                                </DataTrigger>
-                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Rejected">
-                                                    <Setter Property="BackgroundColor" Value="#FEE2E2"/>
-                                                </DataTrigger>
-                                                <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Reviewed">
-                                                    <Setter Property="BackgroundColor" Value="#E0E7FF"/>
-                                                </DataTrigger>
-                                            </Border.Triggers>
-                                            
-                                            <Label Text="{Binding status}" 
-                                                    FontSize="11" 
-                                                    FontAttributes="Bold" 
-                                                    TextColor="#92400E">
-                                                <Label.Triggers>
-                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Pending">
-                                                        <Setter Property="TextColor" Value="#92400E"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Accepted">
-                                                        <Setter Property="TextColor" Value="#065F46"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Rejected">
-                                                        <Setter Property="TextColor" Value="#991B1B"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Reviewed">
-                                                        <Setter Property="TextColor" Value="#3730A3"/>
-                                                    </DataTrigger>
-                                                </Label.Triggers>
-                                            </Label>
-                                        </Border>
- 
-                                        <!-- Emailed Badge/Button -->
-                                        <Border Padding="10,5" 
-                                                StrokeShape="RoundRectangle 12" 
-                                                StrokeThickness="0"
-                                                BackgroundColor="{StaticResource Secondary}"
-                                                IsVisible="{Binding hasEmails}">
-                                            <Border.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="OnViewEmailsTapped" CommandParameter="{Binding .}"/>
-                                            </Border.GestureRecognizers>
-                                            <HorizontalStackLayout Spacing="4" HorizontalOptions="Center" VerticalOptions="Center">
-                                                <Label Text="&#xf0e0;" FontFamily="FASolid" FontSize="10" TextColor="{StaticResource Primary}" VerticalOptions="Center"/>
-                                                <Label Text="Emailed" FontSize="10" FontAttributes="Bold" TextColor="{StaticResource Primary}" VerticalOptions="Center"/>
-                                            </HorizontalStackLayout>
-                                        </Border>
-                                    </VerticalStackLayout>
-                                </Grid>
- 
-                                <!-- Divider -->
-                                <BoxView HeightRequest="1" Color="{StaticResource Gray200}" Margin="0,4"/>
- 
-                                <!-- Action Buttons Row -->
-                                <FlexLayout Wrap="Wrap" Direction="Row" AlignItems="Center" JustifyContent="Start">
-                                    <!-- View Job Button -->
-                                    <Button Text="View Job" 
-                                            Clicked="OnViewJobClicked" 
-                                            CommandParameter="{Binding .}"
-                                            BackgroundColor="{StaticResource PrimaryDark}" 
-                                            TextColor="White" 
-                                            HeightRequest="40" 
-                                            Padding="16,0" 
-                                            CornerRadius="12" 
-                                            FontSize="12" 
-                                            FontAttributes="Bold" 
-                                            Margin="0,0,8,6"/>
- 
-                                    <!-- View Company Button -->
-                                    <Button Text="View Company" 
-                                            Clicked="OnViewCompanyClicked" 
-                                            CommandParameter="{Binding .}"
-                                            BackgroundColor="{StaticResource Secondary}" 
-                                            TextColor="{StaticResource Primary}" 
-                                            HeightRequest="40" 
-                                            Padding="16,0" 
-                                            CornerRadius="12" 
-                                            FontSize="12" 
-                                            FontAttributes="Bold" 
-                                            Margin="0,0,8,6"/>
- 
-                                    <!-- Withdraw Button (Visible only if status is Pending) -->
-                                    <Button Text="Withdraw" 
-                                            Clicked="OnWithdrawClicked" 
-                                            CommandParameter="{Binding .}"
-                                            BackgroundColor="#EF4444" 
-                                            TextColor="White" 
-                                            HeightRequest="40" 
-                                            Padding="16,0" 
-                                            CornerRadius="12" 
-                                            FontSize="12" 
-                                            FontAttributes="Bold" 
-                                            Margin="0,0,8,6">
-                                        <Button.Triggers>
-                                            <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Pending">
-                                                <Setter Property="IsVisible" Value="True"/>
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Accepted">
-                                                <Setter Property="IsVisible" Value="False"/>
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Rejected">
-                                                <Setter Property="IsVisible" Value="False"/>
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Reviewed">
-                                                <Setter Property="IsVisible" Value="False"/>
-                                            </DataTrigger>
-                                        </Button.Triggers>
-                                    </Button>
-                                </FlexLayout>
+
+                    <!-- Applications CollectionView -->
+                    <CollectionView x:Name="AppsCollectionView" 
+                                    SelectionMode="None"
+                                    IsVisible="True">
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout Padding="40,50" Spacing="14" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Border WidthRequest="72" 
+                                        HeightRequest="72" 
+                                        StrokeThickness="0" 
+                                        BackgroundColor="#F1F5F9" 
+                                        StrokeShape="RoundRectangle 20"
+                                        HorizontalOptions="Center">
+                                    <Label Text="&#xf15c;" 
+                                           FontFamily="FASolid" 
+                                           FontSize="32" 
+                                           TextColor="#94A3B8" 
+                                           HorizontalOptions="Center" 
+                                           VerticalOptions="Center"/>
+                                </Border>
+                                <Label Text="No applications submitted yet" 
+                                       FontFamily="Inter"
+                                       FontAttributes="Bold"
+                                       FontSize="18" 
+                                       TextColor="#0F172A" 
+                                       HorizontalTextAlignment="Center"/>
+                                <Label Text="Browse jobs to start applying!" 
+                                       FontFamily="Inter"
+                                       FontSize="14" 
+                                       TextColor="#64748B" 
+                                       HorizontalTextAlignment="Center"/>
                             </VerticalStackLayout>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border StrokeShape="RoundRectangle 20"
+                                        StrokeThickness="0"
+                                        BackgroundColor="White"
+                                        Margin="0,0,0,14"
+                                        Padding="18">
+                                    <Border.Shadow>
+                                        <Shadow Brush="#64748B" Offset="0,4" Radius="16" Opacity="0.06"/>
+                                    </Border.Shadow>
+                                    <VerticalStackLayout Spacing="14">
+                                        <!-- Top Row (Info & Status Badge) -->
+                                        <Grid ColumnDefinitions="*, Auto" ColumnSpacing="14">
+                                            <VerticalStackLayout Grid.Column="0" Spacing="6">
+                                                <Label Text="{Binding jobTitle}" 
+                                                       FontFamily="Inter"
+                                                       FontAttributes="Bold"
+                                                       FontSize="16" 
+                                                       TextColor="#0F172A"
+                                                       LineHeight="1.2"/>
+                                                <Label Text="{Binding company}" 
+                                                       FontFamily="Inter"
+                                                       FontAttributes="Bold"
+                                                       FontSize="14" 
+                                                       TextColor="{StaticResource Primary}"/>
+                                                <HorizontalStackLayout Spacing="6" Margin="0,2,0,0">
+                                                    <Label Text="&#xf3c5;" 
+                                                           FontFamily="FASolid" 
+                                                           FontSize="11" 
+                                                           TextColor="#94A3B8"
+                                                           VerticalOptions="Center"/>
+                                                    <Label Text="{Binding jobLocation}" 
+                                                           FontFamily="Inter"
+                                                           FontSize="13" 
+                                                           TextColor="#64748B"/>
+                                                </HorizontalStackLayout>
+                                                <HorizontalStackLayout Spacing="6">
+                                                    <Label Text="&#xf017;" 
+                                                           FontFamily="FASolid" 
+                                                           FontSize="11" 
+                                                           TextColor="#94A3B8"
+                                                           VerticalOptions="Center"/>
+                                                    <Label Text="{Binding appliedAt, StringFormat='Applied {0:MMM dd, yyyy}'}" 
+                                                           FontFamily="Inter"
+                                                           FontSize="12" 
+                                                           TextColor="#94A3B8"/>
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+                                            
+                                            <!-- Badges Stack on Right -->
+                                            <VerticalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Start">
+                                                <!-- Status Badge -->
+                                                <Border Padding="12,6" 
+                                                        StrokeShape="RoundRectangle 12" 
+                                                        StrokeThickness="0"
+                                                        BackgroundColor="#FEF3C7">
+                                                    <Border.Triggers>
+                                                        <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Pending">
+                                                            <Setter Property="BackgroundColor" Value="#FEF3C7"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Accepted">
+                                                            <Setter Property="BackgroundColor" Value="#D1FAE5"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Rejected">
+                                                            <Setter Property="BackgroundColor" Value="#FEE2E2"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Border" Binding="{Binding status}" Value="Reviewed">
+                                                            <Setter Property="BackgroundColor" Value="#DBEAFE"/>
+                                                        </DataTrigger>
+                                                    </Border.Triggers>
+                                                    
+                                                    <Label Text="{Binding status}" 
+                                                           FontFamily="Inter"
+                                                           FontAttributes="Bold"
+                                                           FontSize="12" 
+                                                           TextColor="#92400E">
+                                                        <Label.Triggers>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Pending">
+                                                                <Setter Property="TextColor" Value="#92400E"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Accepted">
+                                                                <Setter Property="TextColor" Value="#065F46"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Rejected">
+                                                                <Setter Property="TextColor" Value="#991B1B"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding status}" Value="Reviewed">
+                                                                <Setter Property="TextColor" Value="#1E40AF"/>
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+                                                </Border>
+ 
+                                                <!-- Emailed Badge/Button -->
+                                                <Border Padding="10,5" 
+                                                        StrokeShape="RoundRectangle 12" 
+                                                        StrokeThickness="0"
+                                                        BackgroundColor="#F5F3FF"
+                                                        IsVisible="{Binding hasEmails}">
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="OnViewEmailsTapped" CommandParameter="{Binding .}"/>
+                                                    </Border.GestureRecognizers>
+                                                    <HorizontalStackLayout Spacing="5" HorizontalOptions="Center" VerticalOptions="Center">
+                                                        <Label Text="&#xf0e0;" 
+                                                               FontFamily="FASolid" 
+                                                               FontSize="11" 
+                                                               TextColor="{StaticResource Primary}" 
+                                                               VerticalOptions="Center"/>
+                                                        <Label Text="Emailed" 
+                                                               FontFamily="Inter"
+                                                               FontSize="11" 
+                                                               FontAttributes="Bold" 
+                                                               TextColor="{StaticResource Primary}" 
+                                                               VerticalOptions="Center"/>
+                                                    </HorizontalStackLayout>
+                                                </Border>
+                                            </VerticalStackLayout>
+                                        </Grid>
+ 
+                                        <!-- Action Buttons Row -->
+                                        <Grid ColumnDefinitions="*, *, *" ColumnSpacing="10">
+                                            <!-- View Job Button -->
+                                            <Button Grid.Column="0"
+                                                    Text="View Job" 
+                                                    Clicked="OnViewJobClicked" 
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="#EEF2FF" 
+                                                    TextColor="#4F46E5" 
+                                                    HeightRequest="40" 
+                                                    CornerRadius="10" 
+                                                    FontFamily="Inter"
+                                                    FontSize="13" 
+                                                    FontAttributes="Bold"/>
+ 
+                                            <!-- View Company Button -->
+                                            <Button Grid.Column="1"
+                                                    Text="Company" 
+                                                    Clicked="OnViewCompanyClicked" 
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="#F5F3FF" 
+                                                    TextColor="{StaticResource Primary}" 
+                                                    HeightRequest="40" 
+                                                    CornerRadius="10" 
+                                                    FontFamily="Inter"
+                                                    FontSize="13" 
+                                                    FontAttributes="Bold"/>
+ 
+                                            <!-- Withdraw Button (Visible only if status is Pending) -->
+                                            <Button Grid.Column="2"
+                                                    Text="Withdraw" 
+                                                    Clicked="OnWithdrawClicked" 
+                                                    CommandParameter="{Binding .}"
+                                                    BackgroundColor="#FEE2E2" 
+                                                    TextColor="#991B1B" 
+                                                    HeightRequest="40" 
+                                                    CornerRadius="10" 
+                                                    FontFamily="Inter"
+                                                    FontSize="13" 
+                                                    FontAttributes="Bold">
+                                                <Button.Triggers>
+                                                    <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Pending">
+                                                        <Setter Property="IsVisible" Value="True"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Accepted">
+                                                        <Setter Property="IsVisible" Value="False"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Rejected">
+                                                        <Setter Property="IsVisible" Value="False"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Button" Binding="{Binding status}" Value="Reviewed">
+                                                        <Setter Property="IsVisible" Value="False"/>
+                                                    </DataTrigger>
+                                                </Button.Triggers>
+                                            </Button>
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Grid>
         </Grid>
  
         <!-- Profile Details Overlay (Company Profile) -->
@@ -403,7 +456,6 @@
                             Clicked="OnCloseJobDetailsClicked"/>
                 </Grid>
             </Border>
-        </Grid>
         </Grid>
         
         <!-- Bottom Navigation -->

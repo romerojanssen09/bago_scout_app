@@ -5,7 +5,7 @@
              x:Class="BagoScoutApp.Pages.Register.RegisterIdPage"
              Title="Register: Verification"
              Shell.NavBarIsVisible="False"
-             BackgroundColor="White">
+             BackgroundColor="#F8FAFC">
     
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
@@ -14,308 +14,298 @@
         
         <!-- Content -->
         <ScrollView Grid.Row="0">
-            <VerticalStackLayout Padding="20,40,20,20" Spacing="32">
+            <VerticalStackLayout Padding="24,52,24,32" Spacing="0">
                 <!-- Close Button -->
-                <Label Text="&#x2715;" 
-                       FontSize="24" 
-                       TextColor="{StaticResource Gray500}"
+                <Label Text="&#xf00d;" 
+                       FontFamily="FASolid"
+                       FontSize="18" 
+                       TextColor="#94A3B8"
                        HorizontalOptions="End"
-                       VerticalOptions="Start">
+                       Margin="0,0,0,24">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnCloseTapped"/>
                     </Label.GestureRecognizers>
                 </Label>
                 
-                <!-- Title Section -->
-                <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,-20,0,0">
-                    <Label Text="Create Account" 
-                           FontSize="32" 
-                           FontAttributes="Bold" 
-                           TextColor="{StaticResource PrimaryDark}"
+                <!-- Brand -->
+                <VerticalStackLayout Spacing="6" HorizontalOptions="Center" Margin="0,0,0,32">
+                    <Label Text="BagoScout" 
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="28" 
+                           TextColor="#1C2B53"
                            HorizontalOptions="Center"/>
-                    <Label Text="Join BagoScout today" 
-                           FontSize="16" 
-                           TextColor="{StaticResource Gray500}"
+                    <Label Text="Document verification" 
+                           FontFamily="Inter"
+                           FontSize="15" 
+                           TextColor="#64748B"
                            HorizontalOptions="Center"/>
                 </VerticalStackLayout>
                 
-                <!-- Progress Steps -->
-                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
-                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
-                        <!-- Step 1 - Completed -->
-                        <Border WidthRequest="48" 
-                                HeightRequest="48" 
-                                StrokeShape="RoundRectangle 24"
-                                Stroke="Transparent"
-                                BackgroundColor="{StaticResource Primary}">
-                            <Label Text="&#x2713;" 
-                                   FontFamily="FASolid"
-                                   FontSize="20" 
-                                   FontAttributes="Bold"
-                                   TextColor="White"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                        </Border>
-                        
-                        <BoxView Color="{StaticResource Primary}" 
-                                 HeightRequest="2" 
-                                 WidthRequest="40"
-                                 VerticalOptions="Center"/>
-                        
-                        <!-- Step 2 - Completed -->
-                        <Border WidthRequest="48" 
-                                HeightRequest="48" 
-                                StrokeShape="RoundRectangle 24"
-                                Stroke="Transparent"
-                                BackgroundColor="{StaticResource Primary}">
-                            <Label Text="&#x2713;" 
-                                   FontFamily="FASolid"
-                                   FontSize="20" 
-                                   FontAttributes="Bold"
-                                   TextColor="White"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                        </Border>
-                        
-                        <BoxView Color="{StaticResource Primary}" 
-                                 HeightRequest="2" 
-                                 WidthRequest="40"
-                                 VerticalOptions="Center"/>
-                        
-                        <!-- Step 3 - Completed -->
-                        <Border WidthRequest="48" 
-                                HeightRequest="48" 
-                                StrokeShape="RoundRectangle 24"
-                                Stroke="Transparent"
-                                BackgroundColor="{StaticResource Primary}">
-                            <Label Text="&#x2713;" 
-                                   FontFamily="FASolid"
-                                   FontSize="20" 
-                                   FontAttributes="Bold"
-                                   TextColor="White"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                        </Border>
-                        
-                        <BoxView Color="{StaticResource Primary}" 
-                                 HeightRequest="2" 
-                                 WidthRequest="40"
-                                 VerticalOptions="Center"/>
-                        
-                        <!-- Step 4 - Active -->
-                        <Border WidthRequest="48" 
-                                HeightRequest="48" 
-                                StrokeShape="RoundRectangle 24"
-                                Stroke="Transparent"
-                                BackgroundColor="{StaticResource Primary}">
-                            <Label Text="4" 
-                                   FontSize="18" 
-                                   FontAttributes="Bold"
-                                   TextColor="White"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                        </Border>
-                        
-                        <BoxView Color="{StaticResource Gray200}" 
-                                 HeightRequest="2" 
-                                 WidthRequest="40"
-                                 VerticalOptions="Center"/>
-                        
-                        <!-- Step 5 -->
-                        <Border WidthRequest="48" 
-                                HeightRequest="48" 
-                                StrokeShape="RoundRectangle 24"
-                                Stroke="Transparent"
-                                BackgroundColor="{StaticResource Gray200}">
-                            <Label Text="5" 
-                                   FontSize="18" 
-                                   FontAttributes="Bold"
-                                   TextColor="{StaticResource Gray500}"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"/>
-                        </Border>
-                    </HorizontalStackLayout>
-                    
-                    <!-- Step Labels -->
-                    <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
-                        <Label Text="Type" 
-                               FontSize="12" 
-                               TextColor="{StaticResource Gray500}"
-                               WidthRequest="48"
-                               HorizontalTextAlignment="Center"/>
-                        <BoxView WidthRequest="40" Opacity="0"/>
-                        <Label Text="Account" 
-                               FontSize="12" 
-                               TextColor="{StaticResource Gray500}"
-                               WidthRequest="48"
-                               HorizontalTextAlignment="Center"/>
-                        <BoxView WidthRequest="40" Opacity="0"/>
-                        <Label Text="Verify" 
-                               FontSize="12" 
-                               TextColor="{StaticResource Gray500}"
-                               WidthRequest="48"
-                               HorizontalTextAlignment="Center"/>
-                        <BoxView WidthRequest="40" Opacity="0"/>
-                        <Label Text="ID" 
-                               FontSize="12" 
-                               TextColor="{StaticResource Primary}"
-                               FontAttributes="Bold"
-                               WidthRequest="48"
-                               HorizontalTextAlignment="Center"/>
-                        <BoxView WidthRequest="40" Opacity="0"/>
-                        <Label Text="Skills" 
-                               FontSize="12" 
-                               TextColor="{StaticResource Gray500}"
-                               WidthRequest="48"
-                               HorizontalTextAlignment="Center"/>
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
-                
-                <!-- Form Title -->
-                <Label Text="Verification Documents" 
-                       FontSize="24" 
-                       FontAttributes="Bold" 
-                       TextColor="{StaticResource PrimaryDark}"
-                       HorizontalOptions="Center"/>
-                
-                <!-- Two Column Layout for Selfie and ID -->
-                <Grid ColumnSpacing="16" RowSpacing="16">
+                <!-- Progress stepper -->
+                <Grid Margin="0,0,0,32" HorizontalOptions="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="28"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="28"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="28"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="28"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <!-- Left Column: Capture Selfie -->
-                    <VerticalStackLayout Grid.Column="0" Spacing="12">
-                        <Label Text="Capture Selfie" 
-                               FontSize="14" 
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource PrimaryDark}"/>
-                        
-                        <Border Stroke="{StaticResource Gray200}" 
-                                StrokeThickness="2"
-                                StrokeShape="RoundRectangle 12"
-                                BackgroundColor="White"
-                                Padding="20"
-                                HeightRequest="200">
-                            <Border.Shadow>
-                                <Shadow />
-                            </Border.Shadow>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnCaptureSelfie"/>
-                            </Border.GestureRecognizers>
-                            <VerticalStackLayout Spacing="12" 
-                                               VerticalOptions="Center" 
-                                               HorizontalOptions="Center">
-                                <Label Text="&#xf030;" 
-                                       FontFamily="FASolid" 
-                                       FontSize="40" 
-                                       TextColor="{StaticResource Primary}"
-                                       HorizontalOptions="Center"/>
-                                <Label Text="Start Camera" 
-                                       FontSize="14" 
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource PrimaryDark}"
-                                       HorizontalOptions="Center"
-                                       HorizontalTextAlignment="Center"/>
-                            </VerticalStackLayout>
-                        </Border>
-                        
-                        <Border x:Name="SelfiePreviewBorder"
-                                Stroke="{StaticResource Gray200}" 
-                                StrokeThickness="1"
-                                BackgroundColor="White"
-                                StrokeShape="RoundRectangle 12"
-                                HeightRequest="200"
-                                IsVisible="False">
-                            <Image x:Name="SelfiePreview" 
-                                   Aspect="AspectFill"/>
-                        </Border>
-                    </VerticalStackLayout>
-                    
-                    <!-- Right Column: Upload Valid ID -->
-                    <VerticalStackLayout Grid.Column="1" Spacing="12">
-                        <Label Text="Upload Valid ID" 
-                               FontSize="14" 
-                               FontAttributes="Bold"
-                               TextColor="{StaticResource PrimaryDark}"/>
-                        
-                        <Border Stroke="{StaticResource Gray200}" 
-                                StrokeThickness="2"
-                                StrokeShape="RoundRectangle 12"
-                                BackgroundColor="White"
-                                Padding="20"
-                                HeightRequest="200">
-                            <Border.Shadow>
-                                <Shadow />
-                            </Border.Shadow>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnPickId"/>
-                            </Border.GestureRecognizers>
-                            <VerticalStackLayout Spacing="12" 
-                                               VerticalOptions="Center" 
-                                               HorizontalOptions="Center">
-                                <Label Text="&#xf2c2;" 
-                                       FontFamily="FASolid" 
-                                       FontSize="40" 
-                                       TextColor="{StaticResource Primary}"
-                                       HorizontalOptions="Center"/>
-                                <Label Text="Click to upload" 
-                                       FontSize="14" 
-                                       FontAttributes="Bold"
-                                       TextColor="{StaticResource PrimaryDark}"
-                                       HorizontalOptions="Center"
-                                       HorizontalTextAlignment="Center"/>
-                            </VerticalStackLayout>
-                        </Border>
-                        
-                        <Border x:Name="IdPreviewBorder"
-                                Stroke="{StaticResource Gray200}" 
-                                StrokeThickness="1"
-                                BackgroundColor="White"
-                                StrokeShape="RoundRectangle 12"
-                                HeightRequest="200"
-                                IsVisible="False">
-                            <Image x:Name="IdPreview" 
-                                   Aspect="AspectFill"/>
-                        </Border>
-                    </VerticalStackLayout>
+
+                    <!-- Step dots -->
+                    <Border Grid.Column="0" WidthRequest="32" HeightRequest="32"
+                            StrokeShape="RoundRectangle 16" StrokeThickness="0" BackgroundColor="#10B981">
+                        <Label Text="&#x2713;" FontFamily="FASolid" FontSize="13"
+                               TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <BoxView Grid.Column="1" Color="#10B981" HeightRequest="2" VerticalOptions="Center"/>
+                    <Border Grid.Column="2" WidthRequest="32" HeightRequest="32"
+                            StrokeShape="RoundRectangle 16" StrokeThickness="0" BackgroundColor="#10B981">
+                        <Label Text="&#x2713;" FontFamily="FASolid" FontSize="13"
+                               TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <BoxView Grid.Column="3" Color="#10B981" HeightRequest="2" VerticalOptions="Center"/>
+                    <Border Grid.Column="4" WidthRequest="32" HeightRequest="32"
+                            StrokeShape="RoundRectangle 16" StrokeThickness="0" BackgroundColor="#10B981">
+                        <Label Text="&#x2713;" FontFamily="FASolid" FontSize="13"
+                               TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <BoxView Grid.Column="5" Color="#6C63FF" HeightRequest="2" VerticalOptions="Center"/>
+                    <Border Grid.Column="6" WidthRequest="32" HeightRequest="32"
+                            StrokeShape="RoundRectangle 16" StrokeThickness="0" BackgroundColor="#6C63FF">
+                        <Label Text="4" FontFamily="Inter" FontAttributes="Bold" FontSize="13"
+                               TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <BoxView Grid.Column="7" Color="#E2E8F0" HeightRequest="2" VerticalOptions="Center"/>
+                    <Border Grid.Column="8" WidthRequest="32" HeightRequest="32"
+                            StrokeShape="RoundRectangle 16" StrokeThickness="0" BackgroundColor="#E2E8F0">
+                        <Label Text="5" FontFamily="Inter" FontAttributes="Bold" FontSize="13"
+                               TextColor="#94A3B8" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
                 </Grid>
+
+                <!-- Step label -->
+                <Label Text="Step 4 of 5 — Document Verification"
+                       FontFamily="Inter"
+                       FontSize="12"
+                       TextColor="#94A3B8"
+                       HorizontalOptions="Center"
+                       Margin="0,0,0,28"/>
+
+                <!-- Card -->
+                <Border StrokeShape="RoundRectangle 20" StrokeThickness="0" BackgroundColor="White" Padding="24,28">
+                    <Border.Shadow>
+                        <Shadow Brush="#64748B" Offset="0,4" Radius="16" Opacity="0.06"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="24">
+
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Verify Your Identity"
+                                   FontFamily="Inter"
+                                   FontAttributes="Bold"
+                                   FontSize="20"
+                                   TextColor="#0F172A"/>
+                            <Label Text="Upload a selfie and a valid ID for verification"
+                                   FontFamily="Inter"
+                                   FontSize="13"
+                                   TextColor="#64748B"/>
+                        </VerticalStackLayout>
+
+                        <!-- Two Column Layout for Selfie and ID -->
+                        <Grid ColumnSpacing="14" RowSpacing="14">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <!-- Left Column: Capture Selfie -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="10">
+                                <Label Text="Capture Selfie" 
+                                       FontFamily="Inter"
+                                       FontSize="12" 
+                                       FontAttributes="Bold"
+                                       TextColor="#64748B"/>
+                                
+                                <Border Stroke="#E2E8F0" 
+                                        StrokeThickness="2"
+                                        StrokeShape="RoundRectangle 16"
+                                        StrokeDashArray="4,4"
+                                        BackgroundColor="#F8FAFC"
+                                        Padding="16"
+                                        HeightRequest="180">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnCaptureSelfie"/>
+                                    </Border.GestureRecognizers>
+                                    <VerticalStackLayout Spacing="10" 
+                                                       VerticalOptions="Center" 
+                                                       HorizontalOptions="Center">
+                                        <Border WidthRequest="48" HeightRequest="48"
+                                                StrokeShape="RoundRectangle 14"
+                                                StrokeThickness="0" BackgroundColor="#EEF2FF"
+                                                HorizontalOptions="Center">
+                                            <Label Text="&#xf030;" 
+                                                   FontFamily="FASolid" 
+                                                   FontSize="20" 
+                                                   TextColor="#6C63FF"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        <Label Text="Take Photo" 
+                                               FontFamily="Inter"
+                                               FontSize="13" 
+                                               FontAttributes="Bold"
+                                               TextColor="#0F172A"
+                                               HorizontalOptions="Center"/>
+                                        <Label Text="Tap to open camera" 
+                                               FontFamily="Inter"
+                                               FontSize="11" 
+                                               TextColor="#94A3B8"
+                                               HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                                
+                                <Border x:Name="SelfiePreviewBorder"
+                                        Stroke="#E2E8F0" 
+                                        StrokeThickness="2"
+                                        BackgroundColor="White"
+                                        StrokeShape="RoundRectangle 16"
+                                        HeightRequest="180"
+                                        IsVisible="False">
+                                    <Image x:Name="SelfiePreview" 
+                                           Aspect="AspectFill"/>
+                                </Border>
+                            </VerticalStackLayout>
+                            
+                            <!-- Right Column: Upload Valid ID -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="10">
+                                <Label Text="Upload Valid ID" 
+                                       FontFamily="Inter"
+                                       FontSize="12" 
+                                       FontAttributes="Bold"
+                                       TextColor="#64748B"/>
+                                
+                                <Border Stroke="#E2E8F0" 
+                                        StrokeThickness="2"
+                                        StrokeShape="RoundRectangle 16"
+                                        StrokeDashArray="4,4"
+                                        BackgroundColor="#F8FAFC"
+                                        Padding="16"
+                                        HeightRequest="180">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnPickId"/>
+                                    </Border.GestureRecognizers>
+                                    <VerticalStackLayout Spacing="10" 
+                                                       VerticalOptions="Center" 
+                                                       HorizontalOptions="Center">
+                                        <Border WidthRequest="48" HeightRequest="48"
+                                                StrokeShape="RoundRectangle 14"
+                                                StrokeThickness="0" BackgroundColor="#EEF2FF"
+                                                HorizontalOptions="Center">
+                                            <Label Text="&#xf2c2;" 
+                                                   FontFamily="FASolid" 
+                                                   FontSize="20" 
+                                                   TextColor="#6C63FF"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Border>
+                                        <Label Text="Choose File" 
+                                               FontFamily="Inter"
+                                               FontSize="13" 
+                                               FontAttributes="Bold"
+                                               TextColor="#0F172A"
+                                               HorizontalOptions="Center"/>
+                                        <Label Text="Tap to browse" 
+                                               FontFamily="Inter"
+                                               FontSize="11" 
+                                               TextColor="#94A3B8"
+                                               HorizontalOptions="Center"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                                
+                                <Border x:Name="IdPreviewBorder"
+                                        Stroke="#E2E8F0" 
+                                        StrokeThickness="2"
+                                        BackgroundColor="White"
+                                        StrokeShape="RoundRectangle 16"
+                                        HeightRequest="180"
+                                        IsVisible="False">
+                                    <Image x:Name="IdPreview" 
+                                           Aspect="AspectFill"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <!-- Info note -->
+                        <Border StrokeShape="RoundRectangle 12" 
+                                StrokeThickness="0" 
+                                BackgroundColor="#EFF6FF" 
+                                Padding="14">
+                            <HorizontalStackLayout Spacing="10">
+                                <Label Text="&#xf05a;" 
+                                       FontFamily="FASolid" 
+                                       FontSize="16" 
+                                       TextColor="#3B82F6"
+                                       VerticalOptions="Start"
+                                       Margin="0,2,0,0"/>
+                                <Label FontFamily="Inter" FontSize="12" TextColor="#1E40AF" LineHeight="1.4">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Accepted ID types: " FontAttributes="Bold"/>
+                                            <Span Text="Driver's License, Passport, National ID, SSS, UMID, or any government-issued ID"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </HorizontalStackLayout>
+                        </Border>
+                    </VerticalStackLayout>
+                </Border>
                 
                 <!-- Buttons -->
-                <Grid ColumnSpacing="12" Margin="0,16,0,0" ColumnDefinitions="*,2">
+                <Grid ColumnSpacing="14" Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
                     
                     <Button Grid.Column="0" 
                             Text="Back" 
                             Clicked="OnBackTapped"
                             BackgroundColor="White" 
-                            TextColor="{StaticResource PrimaryDark}" 
-                            BorderColor="{StaticResource Gray200}"
-                            BorderWidth="1"
+                            TextColor="#1C2B53" 
+                            BorderColor="#E2E8F0"
+                            BorderWidth="2"
+                            FontFamily="Inter"
                             FontSize="16"
                             FontAttributes="Bold"
                             CornerRadius="12" 
-                            HeightRequest="56"/>
+                            HeightRequest="54"/>
                     
                     <Button Grid.Column="1" 
-                            Text="Next" 
+                            Text="Continue" 
                             Clicked="OnUpload"
-                            BackgroundColor="{StaticResource Primary}" 
+                            BackgroundColor="#1C2B53" 
                             TextColor="White" 
+                            FontFamily="Inter"
                             FontSize="16"
                             FontAttributes="Bold"
                             CornerRadius="12" 
-                            HeightRequest="56"/>
+                            HeightRequest="54"/>
                 </Grid>
                 
                 <!-- Login Link -->
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4">
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="4" Margin="0,16,0,0">
                     <Label Text="Already have an account?" 
+                           FontFamily="Inter"
                            FontSize="14" 
-                           TextColor="{StaticResource Gray500}"/>
-                    <Label Text="Log in" 
+                           TextColor="#64748B"/>
+                    <Label Text="Sign in" 
+                           FontFamily="Inter"
                            FontSize="14" 
-                           TextColor="{StaticResource Primary}"
+                           TextColor="#6C63FF"
                            FontAttributes="Bold">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnLoginTapped"/>

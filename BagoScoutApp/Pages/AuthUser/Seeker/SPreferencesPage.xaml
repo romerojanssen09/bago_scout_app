@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<base:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:base="clr-namespace:BagoScoutApp.Pages.Components"
+             x:Class="BagoScoutApp.Pages.AuthUser.Seeker.SPreferencesPage"
+             Title="Job Preferences"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            
+            <!-- Header -->
+            <VerticalStackLayout Spacing="8" Margin="0,10,0,0">
+                <HorizontalStackLayout Spacing="12">
+                    <Label Text="←"
+                           FontFamily="Inter"
+                           FontSize="24"
+                           TextColor="#0F172A"
+                           VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnBackTapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    
+                    <Label Text="Job Preferences"
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="24"
+                           TextColor="#0F172A"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                
+                <Label Text="Customize your job recommendations"
+                       FontFamily="Inter"
+                       FontSize="13"
+                       TextColor="#64748B"
+                       Margin="36,0,0,0"/>
+            </VerticalStackLayout>
+
+            <!-- Job Type -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Job Type"
+                       FontFamily="Inter"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       TextColor="#0F172A"/>
+                <Border BackgroundColor="White"
+                        StrokeThickness="1"
+                        Stroke="#E2E8F0"
+                        Padding="14,12"
+                        HorizontalOptions="Fill">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnJobTypePickerTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label x:Name="JobTypeLabel"
+                               Grid.Column="0"
+                               Text="Select job type"
+                               FontFamily="Inter"
+                               FontSize="14"
+                               TextColor="#64748B"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="▼"
+                               FontSize="12"
+                               TextColor="#94A3B8"
+                               VerticalOptions="Center"
+                               Margin="8,0,0,0"/>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Job Titles -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Preferred Job Titles"
+                       FontFamily="Inter"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       TextColor="#0F172A"/>
+                <Border BackgroundColor="White"
+                        StrokeThickness="1"
+                        Stroke="#E2E8F0"
+                        Padding="14,0"
+                        HorizontalOptions="Fill">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Entry x:Name="JobTitlesEntry"
+                           Placeholder="e.g., Developer, Engineer, Designer"
+                           FontFamily="Inter"
+                           FontSize="14"
+                           TextColor="#0F172A"
+                           PlaceholderColor="#94A3B8"
+                           BackgroundColor="Transparent"
+                           HorizontalOptions="Fill"/>
+                </Border>
+                <Label Text="Separate multiple titles with commas"
+                       FontFamily="Inter"
+                       FontSize="11"
+                       TextColor="#94A3B8"
+                       Margin="4,0,0,0"/>
+            </VerticalStackLayout>
+
+            <!-- Experience Level -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Experience Level"
+                       FontFamily="Inter"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       TextColor="#0F172A"/>
+                <Border BackgroundColor="White"
+                        StrokeThickness="1"
+                        Stroke="#E2E8F0"
+                        Padding="14,12"
+                        HorizontalOptions="Fill">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnExperiencePickerTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label x:Name="ExperienceLabel"
+                               Grid.Column="0"
+                               Text="Select experience level"
+                               FontFamily="Inter"
+                               FontSize="14"
+                               TextColor="#64748B"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="▼"
+                               FontSize="12"
+                               TextColor="#94A3B8"
+                               VerticalOptions="Center"
+                               Margin="8,0,0,0"/>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Salary Range -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Salary Range"
+                       FontFamily="Inter"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       TextColor="#0F172A"/>
+                <Grid ColumnDefinitions="*,12,*" ColumnSpacing="0">
+                    <Border Grid.Column="0"
+                            BackgroundColor="White"
+                            StrokeThickness="1"
+                            Stroke="#E2E8F0"
+                            Padding="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <HorizontalStackLayout Spacing="4" Margin="14,0">
+                            <Label Text="₱"
+                                   FontFamily="Inter"
+                                   FontSize="14"
+                                   TextColor="#64748B"
+                                   VerticalOptions="Center"/>
+                            <Entry x:Name="MinSalaryEntry"
+                                   Placeholder="Min"
+                                   Keyboard="Numeric"
+                                   FontFamily="Inter"
+                                   FontSize="14"
+                                   TextColor="#0F172A"
+                                   PlaceholderColor="#94A3B8"
+                                   BackgroundColor="Transparent"
+                                   HorizontalOptions="Fill"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                    
+                    <Label Grid.Column="1"
+                           Text="—"
+                           FontSize="14"
+                           TextColor="#94A3B8"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    
+                    <Border Grid.Column="2"
+                            BackgroundColor="White"
+                            StrokeThickness="1"
+                            Stroke="#E2E8F0"
+                            Padding="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <HorizontalStackLayout Spacing="4" Margin="14,0">
+                            <Label Text="₱"
+                                   FontFamily="Inter"
+                                   FontSize="14"
+                                   TextColor="#64748B"
+                                   VerticalOptions="Center"/>
+                            <Entry x:Name="MaxSalaryEntry"
+                                   Placeholder="Max"
+                                   Keyboard="Numeric"
+                                   FontFamily="Inter"
+                                   FontSize="14"
+                                   TextColor="#0F172A"
+                                   PlaceholderColor="#94A3B8"
+                                   BackgroundColor="Transparent"
+                                   HorizontalOptions="Fill"/>
+                        </HorizontalStackLayout>
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- Preferred Location -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Preferred Location"
+                       FontFamily="Inter"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       TextColor="#0F172A"/>
+                <Border BackgroundColor="White"
+                        StrokeThickness="1"
+                        Stroke="#E2E8F0"
+                        Padding="14,12"
+                        HorizontalOptions="Fill">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnLocationPickerTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label x:Name="LocationLabel"
+                               Grid.Column="0"
+                               Text="Tap to select on map"
+                               FontFamily="Inter"
+                               FontSize="14"
+                               TextColor="#64748B"
+                               VerticalOptions="Center"
+                               LineBreakMode="TailTruncation"/>
+                        <Label Grid.Column="1"
+                               Text="&#xf3c5;"
+                               FontFamily="FASolid"
+                               FontSize="14"
+                               TextColor="#6C63FF"
+                               VerticalOptions="Center"
+                               Margin="8,0,0,0"/>
+                    </Grid>
+                </Border>
+                <Label Text="Tap to mark your preferred location on map"
+                       FontFamily="Inter"
+                       FontSize="11"
+                       TextColor="#94A3B8"
+                       Margin="4,0,0,0"/>
+            </VerticalStackLayout>
+
+            <!-- Max Distance -->
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Maximum Distance"
+                       FontFamily="Inter"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       TextColor="#0F172A"/>
+                <Border BackgroundColor="White"
+                        StrokeThickness="1"
+                        Stroke="#E2E8F0"
+                        Padding="14,12"
+                        HorizontalOptions="Fill">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnDistancePickerTapped"/>
+                    </Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label x:Name="DistanceLabel"
+                               Grid.Column="0"
+                               Text="Select maximum distance"
+                               FontFamily="Inter"
+                               FontSize="14"
+                               TextColor="#64748B"
+                               VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="▼"
+                               FontSize="12"
+                               TextColor="#94A3B8"
+                               VerticalOptions="Center"
+                               Margin="8,0,0,0"/>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Save Button -->
+            <Border BackgroundColor="#6C63FF"
+                    StrokeThickness="0"
+                    Padding="16"
+                    Margin="0,10,0,20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSavePreferencesTapped"/>
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
+                    <ActivityIndicator x:Name="SaveIndicator"
+                                     IsRunning="False"
+                                     IsVisible="False"
+                                     Color="White"
+                                     WidthRequest="18"
+                                     HeightRequest="18"/>
+                    <Label x:Name="SaveButtonLabel"
+                           Text="Save Preferences"
+                           FontFamily="Inter"
+                           FontAttributes="Bold"
+                           FontSize="15"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</base:BasePage>

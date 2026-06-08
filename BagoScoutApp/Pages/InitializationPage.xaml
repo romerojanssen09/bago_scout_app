@@ -2,28 +2,76 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BagoScoutApp.Pages.InitializationPage"
-             BackgroundColor="{StaticResource PrimaryDark}"
+             BackgroundColor="#0F172A"
              NavigationPage.HasNavigationBar="False"
              Shell.NavBarIsVisible="False"
              Shell.PresentationMode="NotAnimated">
 
     <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="24">
-            <!-- Icon/Logo -->
-            <Border StrokeThickness="0" BackgroundColor="White" WidthRequest="90" HeightRequest="90" StrokeShape="RoundRectangle 24" HorizontalOptions="Center">
-                <Label Text="&#xf002;" FontFamily="FASolid" FontSize="36" TextColor="{StaticResource Primary}" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <!-- Background gradient effect -->
+        <Border BackgroundColor="#1C2B53" 
+                Opacity="0.5" 
+                StrokeThickness="0"/>
+        
+        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="32">
+            <!-- App Icon/Logo -->
+            <Border StrokeThickness="0" 
+                    BackgroundColor="White" 
+                    WidthRequest="100" 
+                    HeightRequest="100" 
+                    StrokeShape="RoundRectangle 28" 
+                    HorizontalOptions="Center">
+                <Border.Shadow>
+                    <Shadow Brush="#6C63FF" Offset="0,8" Radius="24" Opacity="0.4"/>
+                </Border.Shadow>
+                <Label Text="&#xf002;" 
+                       FontFamily="FASolid" 
+                       FontSize="42" 
+                       TextColor="#6C63FF" 
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center"/>
             </Border>
 
-            <!-- App Title -->
-            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Label Text="BagoScout" FontSize="32" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
-                <Label Text="Scout opportunities, build your future" FontSize="14" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+            <!-- App Title & Tagline -->
+            <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Label Text="BagoScout" 
+                       FontFamily="Inter"
+                       FontSize="36" 
+                       FontAttributes="Bold" 
+                       TextColor="White" 
+                       HorizontalOptions="Center"/>
+                <Label Text="Scout opportunities, build your future" 
+                       FontFamily="Inter"
+                       FontSize="15" 
+                       TextColor="#94A3B8" 
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"/>
             </VerticalStackLayout>
 
-            <!-- Loader -->
-            <ActivityIndicator IsRunning="True" Color="{StaticResource Primary}" HeightRequest="40" WidthRequest="40" HorizontalOptions="Center"/>
-            
-            <Label x:Name="StatusLabel" Text="Initializing application..." FontSize="13" TextColor="{StaticResource Secondary}" HorizontalOptions="Center"/>
+            <!-- Loading Indicator -->
+            <VerticalStackLayout Spacing="16" HorizontalOptions="Center">
+                <ActivityIndicator IsRunning="True" 
+                                 Color="#6C63FF" 
+                                 HeightRequest="42" 
+                                 WidthRequest="42" 
+                                 HorizontalOptions="Center"/>
+                
+                <Label x:Name="StatusLabel" 
+                       Text="Initializing application..." 
+                       FontFamily="Inter"
+                       FontSize="14" 
+                       TextColor="#64748B" 
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
         </VerticalStackLayout>
+        
+        <!-- Footer -->
+        <Label Text="Version 1.0.0" 
+               FontFamily="Inter"
+               FontSize="12" 
+               TextColor="#475569" 
+               HorizontalOptions="Center"
+               VerticalOptions="End"
+               Margin="0,0,0,32"/>
     </Grid>
 </ContentPage>
