@@ -54,6 +54,7 @@ namespace BagoScoutApp.Pages.Register
                     RegistrationState.SelfiePath = path;
                     SelfiePreview.Source = ImageSource.FromFile(path);
                     SelfiePreviewBorder.IsVisible = true;
+                    SelfieErrorLabel.IsVisible = false;
                 }
             }
             catch (Exception ex)
@@ -84,6 +85,7 @@ namespace BagoScoutApp.Pages.Register
                     RegistrationState.SelfiePath = path;
                     SelfiePreview.Source = ImageSource.FromFile(path);
                     SelfiePreviewBorder.IsVisible = true;
+                    SelfieErrorLabel.IsVisible = false;
                 }
             }
             catch (Exception ex)
@@ -120,6 +122,7 @@ namespace BagoScoutApp.Pages.Register
                     RegistrationState.IdPath = path;
                     IdPreview.Source = ImageSource.FromFile(path);
                     IdPreviewBorder.IsVisible = true;
+                    IdErrorLabel.IsVisible = false;
                 }
             }
             catch (Exception ex)
@@ -150,6 +153,7 @@ namespace BagoScoutApp.Pages.Register
                     RegistrationState.IdPath = path;
                     IdPreview.Source = ImageSource.FromFile(path);
                     IdPreviewBorder.IsVisible = true;
+                    IdErrorLabel.IsVisible = false;
                 }
             }
             catch (Exception ex)
@@ -161,14 +165,38 @@ namespace BagoScoutApp.Pages.Register
 
         async void OnUpload(object sender, EventArgs e)
         {
-            var resp = await _api.UploadPhotosAsync(RegistrationState.UserId, RegistrationState.SelfiePath, RegistrationState.IdPath);
-            if (resp.IsSuccessStatusCode)
+            // Validate both photos are provided
+            bool hasSelfie = !string.IsNullOrEmpty(RegistrationState.SelfiePath) && File.Exists(RegistrationState.SelfiePath);
+            bool hasId = !string.IsNullOrEmpty(RegistrationState.IdPath) && File.Exists(RegistrationState.IdPath);
+
+            SelfieErrorLabel.IsVisible = !hasSelfie;
+            IdErrorLabel.IsVisible = !hasId;
+
+            if (!hasSelfie || !hasId)
+                return;
+
+            try
             {
-                await Shell.Current.GoToAsync(nameof(RegisterSkillsPage), false);
+                var resp = await _api.UploadPhotosAsync(
+                    RegistrationState.UserId,
+                    RegistrationState.SelfiePath,
+                    RegistrationState.IdPath);
+
+                if (resp.IsSuccessStatusCode)
+                {
+                    await Shell.Current.GoToAsync(nameof(RegisterSkillsPage), false);
+                }
+                else
+                {
+                    var body = await resp.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine($"Upload failed: {(int)resp.StatusCode} {body}");
+                    await ShowAlertAsync("Upload Failed", "Could not upload photos. Please try again.", "OK");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await ShowAlertAsync("Error", "Upload failed.", "OK");
+                System.Diagnostics.Debug.WriteLine($"Upload exception: {ex.Message}");
+                await ShowAlertAsync("Error", "Could not connect to server. Please check your connection and try again.", "OK");
             }
         }
     }

@@ -124,7 +124,7 @@
                             
                             <!-- Left Column: Capture Selfie -->
                             <VerticalStackLayout Grid.Column="0" Spacing="10">
-                                <Label Text="Capture Selfie" 
+                                <Label Text="Capture Selfie *" 
                                        FontFamily="Inter"
                                        FontSize="12" 
                                        FontAttributes="Bold"
@@ -178,11 +178,17 @@
                                     <Image x:Name="SelfiePreview" 
                                            Aspect="AspectFill"/>
                                 </Border>
+                                <Label x:Name="SelfieErrorLabel"
+                                       Text="Selfie is required"
+                                       FontFamily="Inter"
+                                       FontSize="11"
+                                       TextColor="#EF4444"
+                                       IsVisible="False"/>
                             </VerticalStackLayout>
                             
                             <!-- Right Column: Upload Valid ID -->
                             <VerticalStackLayout Grid.Column="1" Spacing="10">
-                                <Label Text="Upload Valid ID" 
+                                <Label Text="Upload Valid ID *" 
                                        FontFamily="Inter"
                                        FontSize="12" 
                                        FontAttributes="Bold"
@@ -236,6 +242,12 @@
                                     <Image x:Name="IdPreview" 
                                            Aspect="AspectFill"/>
                                 </Border>
+                                <Label x:Name="IdErrorLabel"
+                                       Text="Valid ID is required"
+                                       FontFamily="Inter"
+                                       FontSize="11"
+                                       TextColor="#EF4444"
+                                       IsVisible="False"/>
                             </VerticalStackLayout>
                         </Grid>
 
@@ -248,14 +260,13 @@
                                 <Label Text="&#xf05a;" 
                                        FontFamily="FASolid" 
                                        FontSize="16" 
-                                       TextColor="#3B82F6"
                                        VerticalOptions="Start"
                                        Margin="0,2,0,0"/>
-                                <Label FontFamily="Inter" FontSize="12" TextColor="#1E40AF" LineHeight="1.4">
+                                <Label FontFamily="Inter" FontSize="12" LineHeight="1.4">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="Accepted ID types: " FontAttributes="Bold"/>
-                                            <Span Text="Driver's License, Passport, National ID, SSS, UMID, or any government-issued ID"/>
+                                            <Span Text="Accepted ID types: " FontAttributes="Bold" TextColor="#3B82F6"/>
+                                            <Span Text="Driver's License, Passport, National ID, SSS, UMID, or any government-issued ID" TextColor="#3B82F6"/>
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
