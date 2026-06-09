@@ -29,8 +29,21 @@ namespace BagoScoutApp.Pages.Register
 
         async void OnCaptureSelfie(object sender, EventArgs e)
         {
-            if (MediaPicker.Default.IsCaptureSupported)
+            try
             {
+                var cameraStatus = await Permissions.RequestAsync<Permissions.Camera>();
+                if (cameraStatus != PermissionStatus.Granted)
+                {
+                    await ShowAlertAsync("Permission Required", "Camera permission is needed to take a photo.", "OK");
+                    return;
+                }
+
+                if (!MediaPicker.Default.IsCaptureSupported)
+                {
+                    await ShowAlertAsync("Not Supported", "Camera capture is not supported on this device.", "OK");
+                    return;
+                }
+
                 var photo = await MediaPicker.Default.CapturePhotoAsync();
                 if (photo != null)
                 {
@@ -43,12 +56,24 @@ namespace BagoScoutApp.Pages.Register
                     SelfiePreviewBorder.IsVisible = true;
                 }
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error capturing selfie: {ex.Message}");
+                await ShowAlertAsync("Error", "Could not capture photo. Please try picking from gallery instead.", "OK");
+            }
         }
 
         async void OnPickSelfie(object sender, EventArgs e)
         {
             try
             {
+                var status = await Permissions.RequestAsync<Permissions.Photos>();
+                if (status != PermissionStatus.Granted)
+                {
+                    await ShowAlertAsync("Permission Required", "Photo library permission is needed to pick a photo.", "OK");
+                    return;
+                }
+
                 var photo = await MediaPicker.Default.PickPhotoAsync();
                 if (photo != null)
                 {
@@ -64,13 +89,27 @@ namespace BagoScoutApp.Pages.Register
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error picking selfie: {ex.Message}");
+                await ShowAlertAsync("Error", "Could not pick photo. Please try again.", "OK");
             }
         }
 
         async void OnCaptureId(object sender, EventArgs e)
         {
-            if (MediaPicker.Default.IsCaptureSupported)
+            try
             {
+                var cameraStatus = await Permissions.RequestAsync<Permissions.Camera>();
+                if (cameraStatus != PermissionStatus.Granted)
+                {
+                    await ShowAlertAsync("Permission Required", "Camera permission is needed to take a photo.", "OK");
+                    return;
+                }
+
+                if (!MediaPicker.Default.IsCaptureSupported)
+                {
+                    await ShowAlertAsync("Not Supported", "Camera capture is not supported on this device.", "OK");
+                    return;
+                }
+
                 var photo = await MediaPicker.Default.CapturePhotoAsync();
                 if (photo != null)
                 {
@@ -83,12 +122,24 @@ namespace BagoScoutApp.Pages.Register
                     IdPreviewBorder.IsVisible = true;
                 }
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error capturing ID: {ex.Message}");
+                await ShowAlertAsync("Error", "Could not capture photo. Please try picking from gallery instead.", "OK");
+            }
         }
 
         async void OnPickId(object sender, EventArgs e)
         {
             try
             {
+                var status = await Permissions.RequestAsync<Permissions.Photos>();
+                if (status != PermissionStatus.Granted)
+                {
+                    await ShowAlertAsync("Permission Required", "Photo library permission is needed to pick a photo.", "OK");
+                    return;
+                }
+
                 var photo = await MediaPicker.Default.PickPhotoAsync();
                 if (photo != null)
                 {
@@ -104,6 +155,7 @@ namespace BagoScoutApp.Pages.Register
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error picking ID: {ex.Message}");
+                await ShowAlertAsync("Error", "Could not pick photo. Please try again.", "OK");
             }
         }
 
