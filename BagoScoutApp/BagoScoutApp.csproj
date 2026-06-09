@@ -41,7 +41,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Release' AND '$(TargetFramework)' == 'net8.0-android'">
-		<AndroidKeyStore>False</AndroidKeyStore>
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidSigningKeyStore>$(MSBuildThisFileDirectory)..\release.keystore</AndroidSigningKeyStore>
+		<AndroidSigningKeyAlias>bago_scout_alias</AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass>BagoScout</AndroidSigningKeyPass>
+		<AndroidSigningStorePass>BagoScout</AndroidSigningStorePass>
 	</PropertyGroup>
 
 	<ItemGroup>
