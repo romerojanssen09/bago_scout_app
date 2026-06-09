@@ -6,7 +6,6 @@ namespace BagoScoutApp.Pages.Register
 {
     public partial class RegisterIdPage : BasePage
     {
-        readonly ApiClient _api = new();
         public RegisterIdPage()
         {
             InitializeComponent();
@@ -175,29 +174,8 @@ namespace BagoScoutApp.Pages.Register
             if (!hasSelfie || !hasId)
                 return;
 
-            try
-            {
-                var resp = await _api.UploadPhotosAsync(
-                    RegistrationState.UserId,
-                    RegistrationState.SelfiePath,
-                    RegistrationState.IdPath);
-
-                if (resp.IsSuccessStatusCode)
-                {
-                    await Shell.Current.GoToAsync(nameof(RegisterSkillsPage), false);
-                }
-                else
-                {
-                    var body = await resp.Content.ReadAsStringAsync();
-                    System.Diagnostics.Debug.WriteLine($"Upload failed: {(int)resp.StatusCode} {body}");
-                    await ShowAlertAsync("Upload Failed", "Could not upload photos. Please try again.", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Upload exception: {ex.Message}");
-                await ShowAlertAsync("Error", "Could not connect to server. Please check your connection and try again.", "OK");
-            }
+            // Photos are stored in RegistrationState — actual upload happens in RegisterSkillsPage after account creation
+            await Shell.Current.GoToAsync(nameof(RegisterSkillsPage), false);
         }
     }
 }
